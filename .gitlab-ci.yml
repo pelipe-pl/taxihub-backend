@@ -47,7 +47,7 @@ pages:
   image: busybox:latest
   stage: deploy
   script:
-    - mv target/staging public
+    - mvn package
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/taxihub-backend.git
     - git push heroku master
 
