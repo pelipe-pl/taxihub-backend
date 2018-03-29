@@ -1,4 +1,4 @@
-package com.herokuapp.taXXXX.backend;
+package com.herokuapp.backend;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
