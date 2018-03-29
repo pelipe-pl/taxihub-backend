@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @Configuration
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -17,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and()
             .formLogin().loginPage("/login").permitAll().failureForwardUrl("/login") .and().logout().permitAll() .and().csrf().disable(); }
+        
 
 }
 
