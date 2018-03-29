@@ -1,6 +1,6 @@
-package com.herokuapp.taXXXX.backend;
+package com.herokuapp.backend;
 
-import com.herokuapp.taXXXX.config.SecurityConfig;
+import com.herokuapp.backend.config.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;

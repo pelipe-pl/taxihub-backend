@@ -1,4 +1,4 @@
-package com.herokuapp.taXXXX.config;
+package com.herokuapp.backend.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
