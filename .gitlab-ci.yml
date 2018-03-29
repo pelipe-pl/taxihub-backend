@@ -48,6 +48,9 @@ pages:
   stage: deploy
   script:
     - mv target/staging public
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/taxihub-backend.git
+    - git push heroku master
+
   dependencies:
     - deploy:jdk8
   artifacts:
