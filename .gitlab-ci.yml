@@ -1,57 +1,25 @@
+image: maven:latest
 
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+stages:
+- init
+- deploy
 
-cache:
-  paths:
-    - .m2/repository
+init:
+  stage: init
 
-.validate: &validate
-  stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS test-compile'
+  - 'mvn clean package'
 
-.verify: &verify
-  stage: test
-  script:
-    - 'mvn $MAVEN_CLI_OPTS verify site site:stage'
-  except:
-    - master
-
-
-validate:jdk8:
-  <<: *validate
-  image: maven:3.3.9-jdk-8
-
-
-
-verify:jdk8:
-  <<: *verify
-  image: maven:3.3.9-jdk-8
-
-
-deploy:jdk8:
-  stage: test
-  script:
-    - 'mvn $MAVEN_CLI_OPTS deploy site site:stage'
   only:
-    - master
-  artifacts:
-    paths:
-    - target/staging
-  image: maven:3.3.9-jdk-8
+  - master
 
+deploy_production:
 
-pages:
-  image: busybox:latest
   stage: deploy
+
   script:
-    - mv target/staging public
-  dependencies:
-    - deploy:jdk8
-  artifacts:
-    paths:
-    - public
+      - 'git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/taxihub-backend.git'
+      - 'git push heroku master'
+
   only:
     - master
