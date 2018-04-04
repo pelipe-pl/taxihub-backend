@@ -1,17 +1,18 @@
 package com.herokuapp.backend.client;
 
+import com.herokuapp.backend.order.OrderDto;
 import com.herokuapp.backend.order.OrderRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    //private final OrderRepository orderRepository;
 
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, OrderRepository orderRepository) {
         this.clientRepository = clientRepository;
-        //this.orderRepository = orderRepository;
     }
 
     private ClientEntity toEntity(ClientDto clientDto) {

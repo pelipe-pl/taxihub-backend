@@ -8,21 +8,20 @@ public class OrderDto {
     private Long driver_id;
     private Long client_id;
     private String status;
-    private String from;
+    private String fromm;
     private String to;
     private LocalDateTime start_date;
     private LocalDateTime end_time;
 
-    public OrderDto(Long id, Long driver_id, Long client_id,
-                       String status, String from, String to, LocalDateTime start_date, LocalDateTime end_time) {
-        this.id = id;
+    public OrderDto(Long driver_id, Long client_id,
+                       String status, String fromm, String to) {
         this.driver_id = driver_id;
         this.client_id = client_id;
         this.status = status;
-        this.from = from;
+        this.fromm = fromm;
         this.to = to;
-        this.start_date = start_date;
-        this.end_time = end_time;
+//        this.start_date = start_date;
+
     }
 
     public OrderDto() {
@@ -60,12 +59,12 @@ public class OrderDto {
         this.status = status;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromm() {
+        return fromm;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFrom(String fromm) {
+        this.fromm = fromm;
     }
 
     public String getTo() {
