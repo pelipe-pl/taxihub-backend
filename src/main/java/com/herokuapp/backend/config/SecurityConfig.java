@@ -1,6 +1,6 @@
 package com.herokuapp.backend.config;
 
-//import com.herokuapp.backend.auth.CurrentUserDetails;
+import com.herokuapp.backend.auth.CurrentUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers( "/").permitAll()
             .anyRequest().permitAll()
             .and().csrf().disable(); }
+
 
 }
 
