@@ -80,7 +80,7 @@ public class WebExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public List<Error> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        return Collections.singletonList(new Error(ERROR_400_BAD_REQUEST));
+        return Collections.singletonList(new Error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH));
     }
 
 
