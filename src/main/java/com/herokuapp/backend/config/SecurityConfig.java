@@ -16,10 +16,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { http.authorizeRequests()
+    protected void configure(HttpSecurity http) throws Exception {
+        http.exceptionHandling()
+                .and().authorizeRequests()
             .antMatchers( "/").permitAll()
             .anyRequest().authenticated()
-            .and().csrf().disable(); }
+            //TODO Permit all anyRequest because there is no other possibility to login
+
+                .and().csrf().disable(); }
 
 
 }
