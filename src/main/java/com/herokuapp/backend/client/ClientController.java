@@ -1,18 +1,22 @@
 package com.herokuapp.backend.client;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.herokuapp.backend.order.OrderDto;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("client")
 @RestController
 public class ClientController {
 
-    private final ClientService clientService;
+//    private final ClientService clientService;
+//
+//    public ClientController(ClientService clientService) {
+//        this.clientService = clientService;
+//    }
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
+    @PostMapping("neworder")
+    public void newOrder (@RequestBody OrderDto orderDto){
+        //TODO
+        //metoda z order do zapisu
     }
 
 }
