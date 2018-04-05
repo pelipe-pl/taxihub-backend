@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Integer> {
 
-    boolean existsByEmail (String email);
+    boolean existsByEmail(String email);
 
 }
