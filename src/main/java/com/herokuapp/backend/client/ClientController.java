@@ -11,33 +11,26 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
-    private final ClientRepository clientRepository;
+    //private final ClientRepository clientRepository;
 
     public ClientController(ClientService clientService, ClientRepository clientRepository) {
         this.clientService = clientService;
-        this.clientRepository = clientRepository;
+        //this.clientRepository = clientRepository;
     }
 
-    @GetMapping("")
-    public OrderDto findAll() {
-        return new OrderDto(
-                12L,
-                20L,
-                "OPEN",
-                "56.1254432, 16.1251521",
-                "56.1554432, 16.1291521");
+    @GetMapping("{id}")
+    public OrderDto myOrders(@PathVariable Long id) {
+        return clientService.findAll(id);
     }
 
-    @PostMapping("neworder")
+//odkomentować, jeśli będzie już order panel i wtedy usunąć powyższą metodę
+//    @GetMapping("{id}")
+//    public List<OrderDto> myOrders(@PathVariable Long id) {
+//        return clientService.findAllById(id);
+//    }
+
+    @PostMapping("order")
     public OrderDto newOrder(@RequestBody OrderDto orderDto) {
-        //TODO
-        //tu bedzie trzeba zmienic na takie, jak przyjdą w zrobionym orderze
-        return new OrderDto(
-                12L,
-                20L,
-                "OPEN",
-                "56.1254432, 16.1251521",
-                "56.1554432, 16.1291521");
-        //LocalDateTime.now());
+        return clientService.newOrder(orderDto);
     }
 }
