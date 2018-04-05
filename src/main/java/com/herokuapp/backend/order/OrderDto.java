@@ -1,30 +1,48 @@
 package com.herokuapp.backend.order;
 
+
 import java.time.LocalDateTime;
+
 
 public class OrderDto {
 
     private Long id;
-    private Long driver_id;
-    private Long client_id;
-    private String status;
-    private String fromm;
-    private String to;
-    private LocalDateTime start_date;
-    private LocalDateTime end_time;
-
-    public OrderDto(Long driver_id, Long client_id,
-                       String status, String fromm, String to) {
-        this.driver_id = driver_id;
-        this.client_id = client_id;
-        this.status = status;
-        this.fromm = fromm;
-        this.to = to;
-//        this.start_date = start_date;
-
-    }
+    private Long driverId;
+    private Long clientId;
+    private OrderStatus status;
+    private double fromLatitude;
+    private double fromLongitude;
+    private double toLatitude;
+    private double toLongitude;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     public OrderDto() {
+    }
+
+    public OrderDto(Long id, Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.driverId = driverId;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public OrderDto(Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime startTime, LocalDateTime endTime) {
+        this.driverId = driverId;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public Long getId() {
@@ -35,59 +53,91 @@ public class OrderDto {
         this.id = id;
     }
 
-    public Long getDriver_id() {
-        return driver_id;
+    public Long getDriverId() {
+        return driverId;
     }
 
-    public void setDriver_id(Long driver_id) {
-        this.driver_id = driver_id;
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
     }
 
-    public Long getClient_id() {
-        return client_id;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClient_id(Long client_id) {
-        this.client_id = client_id;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
-    public String getFromm() {
-        return fromm;
+    public double getFromLatitude() {
+        return fromLatitude;
     }
 
-    public void setFrom(String fromm) {
-        this.fromm = fromm;
+    public void setFromLatitude(double fromLatitude) {
+        this.fromLatitude = fromLatitude;
     }
 
-    public String getTo() {
-        return to;
+    public double getFromLongitude() {
+        return fromLongitude;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setFromLongitude(double fromLongitude) {
+        this.fromLongitude = fromLongitude;
     }
 
-    public LocalDateTime getStart_date() {
-        return start_date;
+    public double getToLatitude() {
+        return toLatitude;
     }
 
-    public void setStart_date(LocalDateTime start_date) {
-        this.start_date = start_date;
+    public void setToLatitude(double toLatitude) {
+        this.toLatitude = toLatitude;
     }
 
-    public LocalDateTime getEnd_time() {
-        return end_time;
+    public double getToLongitude() {
+        return toLongitude;
     }
 
-    public void setEnd_time(LocalDateTime end_time) {
-        this.end_time = end_time;
+    public void setToLongitude(double toLongitude) {
+        this.toLongitude = toLongitude;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "id=" + id +
+                ", driverId=" + driverId +
+                ", clientId=" + clientId +
+                ", status=" + status +
+                ", fromLatitude=" + fromLatitude +
+                ", fromLongitude=" + fromLongitude +
+                ", toLatitude=" + toLatitude +
+                ", toLongitude=" + toLongitude +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }
