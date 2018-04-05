@@ -18,7 +18,7 @@ public class OrderController {
 
 
     @GetMapping("{id}")
-    public OrderDto one(@PathVariable Integer id) {
+    public OrderDto one(@PathVariable Long id) {
         return orderService.findById(id);
     }
 
