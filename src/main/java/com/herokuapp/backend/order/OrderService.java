@@ -17,6 +17,13 @@ public class OrderService {
         return toDto(orderRepository.getById(id));
     }
 
+    public List<OrderDto> findByClientId(Long id){
+        return orderRepository.getAllByClientId(id)
+                .stream()
+                .map(orderEntity -> toDto(orderEntity))
+                .collect(Collectors.toList());
+    }
+
     public List<OrderDto> findAll() {
         return orderRepository.findAll()
                 .stream()
