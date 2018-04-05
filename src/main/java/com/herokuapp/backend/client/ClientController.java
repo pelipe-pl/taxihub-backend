@@ -1,6 +1,7 @@
 package com.herokuapp.backend.client;
 
 import com.herokuapp.backend.order.OrderDto;
+import com.herokuapp.backend.order.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -10,27 +11,19 @@ import java.util.List;
 @RestController
 public class ClientController {
 
-    private final ClientService clientService;
-    //private final ClientRepository clientRepository;
+    private final OrderService orderService;
 
-    public ClientController(ClientService clientService, ClientRepository clientRepository) {
-        this.clientService = clientService;
-        //this.clientRepository = clientRepository;
+    public ClientController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @GetMapping("{id}")
-    public OrderDto myOrders(@PathVariable Long id) {
-        return clientService.findAll(id);
+    public List<OrderDto> myOrders(@PathVariable Long id) {
+        return orderService.findByClientId(id);
     }
 
-//odkomentować, jeśli będzie już order panel i wtedy usunąć powyższą metodę
-//    @GetMapping("{id}")
-//    public List<OrderDto> myOrders(@PathVariable Long id) {
-//        return clientService.findAllById(id);
-//    }
-
     @PostMapping("order")
-    public OrderDto newOrder(@RequestBody OrderDto orderDto) {
-        return clientService.newOrder(orderDto);
+    public void newOrder(@RequestBody OrderDto orderDto) {
+        orderService.add(orderDto);
     }
 }
