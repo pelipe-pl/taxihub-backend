@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/", "/denied").permitAll()
                 .anyRequest().permitAll()
+                //TODO change anyRequest to authentificated afte the tests are done
                 .antMatchers(OPTIONS).permitAll()
 
                 .and().csrf().disable()
