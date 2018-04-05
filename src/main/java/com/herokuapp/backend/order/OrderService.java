@@ -24,6 +24,13 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderDto> findByDriverId(Long id){
+        return orderRepository.getAllByDriverId(id)
+                .stream()
+                .map(orderEntity -> toDto(orderEntity))
+                .collect(Collectors.toList());
+    }
+
     public List<OrderDto> findAll() {
         return orderRepository.findAll()
                 .stream()
