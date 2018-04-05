@@ -87,6 +87,7 @@ public class WebExceptionHandler {
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public List<Error> handleInternalServerError(Exception ex) {
+        ex.printStackTrace();
         return Collections.singletonList(new Error(ERROR_500_INTERNAL_SERVER_ERROR));
     }
 

@@ -13,8 +13,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderDto findById(Integer id) {
-        return toDto(orderRepository.getOne(id));
+    public OrderDto findById(Long id) {
+        return toDto(orderRepository.getById(id));
+    }
+
+    public List<OrderDto> findByClientId(Long id){
+        return orderRepository.getAllByClientId(id)
+                .stream()
+                .map(orderEntity -> toDto(orderEntity))
+                .collect(Collectors.toList());
     }
 
     public List<OrderDto> findAll() {
