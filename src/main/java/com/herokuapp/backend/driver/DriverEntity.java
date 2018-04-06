@@ -1,6 +1,4 @@
 package com.herokuapp.backend.driver;
-//import com.herokuapp.backend.car.CarDto;
-//import com.herokuapp.backend.car.CarEntity;
 
 import javax.persistence.*;
 
@@ -23,9 +21,6 @@ public class DriverEntity {
 
     @Column(name = "corporationId")
     private Long corporationId;
-
-    @OneToOne
-//    private CarEntity car;
 
     public Long getId() {
         return id;
@@ -67,11 +62,4 @@ public class DriverEntity {
         this.corporationId = corporationId;
     }
 
-//    public CarEntity getCar() {
-//        return car;
-//    }
-//
-//    public void setCar(CarEntity car) {
-//        this.car = car;
-//    }
 }

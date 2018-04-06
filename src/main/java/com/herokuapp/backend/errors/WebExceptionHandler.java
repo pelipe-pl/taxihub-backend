@@ -39,7 +39,7 @@ public class WebExceptionHandler {
 
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
-    public List<Error> handleNoSuchElement() {
+    public List<Error> handleNoSuchElement(NoSuchElementException ex) {
         return Collections.singletonList(new Error(ERROR_404_NOT_FOUND));
 
     }
