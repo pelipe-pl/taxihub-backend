@@ -10,19 +10,6 @@ import java.util.List;
 @RestController
 public class ClientController {
 
-    private final OrderService orderService;
+//TODO
 
-    public ClientController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    @GetMapping("{id}")
-    public List<OrderDto> myOrders(@PathVariable Long id) {
-        return orderService.findByClientId(id);
-    }
-
-    @PostMapping("order")
-    public void newOrder(@RequestBody OrderDto orderDto) {
-        orderService.add(orderDto);
-    }
 }
