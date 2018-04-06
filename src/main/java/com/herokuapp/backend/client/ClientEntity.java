@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 @Entity
-@Table(name="client", catalog = "taxihub")
+@Table(name="client")
 public class ClientEntity {
 
     @Id

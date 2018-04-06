@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.herokuapp.backend.order.OrderStatus.OPEN;
+
 @RestController
 @RequestMapping("orders")
 public class OrderController {
@@ -22,6 +24,11 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> all() {
         return orderService.findAll();
+    }
+
+    @GetMapping("open")
+    public List<OrderDto> allOpen() {
+        return orderService.findAllByStatus(OPEN);
     }
 
     @PostMapping
