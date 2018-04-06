@@ -1,9 +1,13 @@
 package com.herokuapp.backend.order;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@JsonInclude(NON_NULL)
 public class OrderDto {
 
     private Long id;
@@ -14,11 +18,11 @@ public class OrderDto {
     private double fromLongitude;
     private double toLatitude;
     private double toLongitude;
+    private LocalDateTime openTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    public OrderDto() {
-    }
+    public OrderDto() {}
 
     public OrderDto(Long id, Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
@@ -29,6 +33,20 @@ public class OrderDto {
         this.fromLongitude = fromLongitude;
         this.toLatitude = toLatitude;
         this.toLongitude = toLongitude;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public OrderDto(Long id, Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime openTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.driverId = driverId;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.openTime = openTime;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -125,6 +143,15 @@ public class OrderDto {
         this.endTime = endTime;
     }
 
+
+    public LocalDateTime getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(LocalDateTime openTime) {
+        this.openTime = openTime;
+    }
+
     @Override
     public String toString() {
         return "OrderDto{" +
@@ -136,6 +163,7 @@ public class OrderDto {
                 ", fromLongitude=" + fromLongitude +
                 ", toLatitude=" + toLatitude +
                 ", toLongitude=" + toLongitude +
+                ", openTime=" + openTime +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';

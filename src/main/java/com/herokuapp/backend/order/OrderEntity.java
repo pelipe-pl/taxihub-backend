@@ -13,19 +13,33 @@ public class OrderEntity {
     private Long clientId;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.OPEN;
 
     private double fromLatitude;
     private double fromLongitude;
     private double toLatitude;
     private double toLongitude;
 
-
-    private LocalDateTime startTime = LocalDateTime.now();
+    private LocalDateTime openTime = LocalDateTime.now();
+    private LocalDateTime startTime;
     private LocalDateTime endTime;
 
 
     public OrderEntity() {
+    }
+
+
+    public OrderEntity(Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime openTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.driverId = driverId;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.openTime = openTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public OrderEntity(Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime endTime) {
@@ -38,6 +52,15 @@ public class OrderEntity {
         this.toLongitude = toLongitude;
         this.endTime = endTime;
     }
+
+    public OrderEntity(Long clientId, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude) {
+        this.clientId = clientId;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+    }
+
 
     public OrderEntity(Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime startTime, LocalDateTime endTime) {
         this.driverId = driverId;
@@ -72,6 +95,14 @@ public class OrderEntity {
         this.toLongitude = toLongitude;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public LocalDateTime getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(LocalDateTime openTime) {
+        this.openTime = openTime;
     }
 
     public Long getId() {
@@ -165,6 +196,7 @@ public class OrderEntity {
                 ", fromLongitude=" + fromLongitude +
                 ", toLatitude=" + toLatitude +
                 ", toLongitude=" + toLongitude +
+                ", openTime=" + openTime +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';

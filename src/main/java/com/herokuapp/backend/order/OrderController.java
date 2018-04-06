@@ -9,13 +9,11 @@ import java.util.List;
 @RequestMapping("orders")
 public class OrderController {
 
-
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-
 
     @GetMapping("{id}")
     public OrderDto one(@PathVariable Long id) {
@@ -28,11 +26,8 @@ public class OrderController {
     }
 
     @PostMapping()
-    public void add(@RequestBody OrderDto orderDto){
+    public void add(@RequestBody OrderDto orderDto) {
         orderService.add(orderDto);
     }
-
-
-
 
 }

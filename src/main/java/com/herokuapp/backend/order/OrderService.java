@@ -1,6 +1,8 @@
 package com.herokuapp.backend.order;
 
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,14 +19,14 @@ public class OrderService {
         return toDto(orderRepository.getById(id));
     }
 
-    public List<OrderDto> findByClientId(Long id){
+    public List<OrderDto> findByClientId(Long id) {
         return orderRepository.getAllByClientId(id)
                 .stream()
                 .map(orderEntity -> toDto(orderEntity))
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> findByDriverId(Long id){
+    public List<OrderDto> findByDriverId(Long id) {
         return orderRepository.getAllByDriverId(id)
                 .stream()
                 .map(orderEntity -> toDto(orderEntity))
@@ -39,17 +41,33 @@ public class OrderService {
     }
 
     public void add(OrderDto orderDto) {
-        orderRepository.save(toEntity(orderDto));
+
+        orderRepository.save(new OrderEntity(
+                orderDto.getClientId(),
+                orderDto.getFromLatitude(),
+                orderDto.getFromLongitude(),
+                orderDto.getToLatitude(),
+                orderDto.getToLongitude()
+        ));
     }
 
 
-    //TODO
-    public void cancel(){}
+    public void setCanceled(Long id) {
+        OrderEntity orderEntity = orderRepository.getById(id);
+        orderEntity.setStatus(OrderStatus.CANCELED);
+        orderEntity.setEndTime(LocalDateTime.now());
+    }
 
+    public void setTaken(Long id) {
+        OrderEntity orderEntity = orderRepository.getById(id);
+        orderEntity.setStatus(OrderStatus.TAKEN);
+        orderEntity.setStartTime(LocalDateTime.now());
+    }
 
-
-    public void remove(Integer id) {
-        orderRepository.deleteById(id);
+    public void setClosed(Long id) {
+        OrderEntity orderEntity = orderRepository.getById(id);
+        orderEntity.setStatus(OrderStatus.CLOSED);
+        orderEntity.setEndTime(LocalDateTime.now());
     }
 
 
@@ -63,6 +81,7 @@ public class OrderService {
                 orderEntity.getFromLongitude(),
                 orderEntity.getToLatitude(),
                 orderEntity.getToLongitude(),
+                orderEntity.getOpenTime(),
                 orderEntity.getStartTime(),
                 orderEntity.getEndTime());
     }
@@ -92,8 +111,6 @@ public class OrderService {
                     orderDto.getToLongitude(),
                     orderDto.getStartTime(),
                     orderDto.getEndTime());
-
-
     }
 }
 
