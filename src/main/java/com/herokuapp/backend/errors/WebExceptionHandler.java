@@ -1,5 +1,7 @@
 package com.herokuapp.backend.errors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -22,6 +24,8 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 @RestController
 public class WebExceptionHandler {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(AuthenticationException.class)
@@ -54,14 +58,14 @@ public class WebExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public List<Error> handleBind(BindException ex) {
-        ex.printStackTrace();
+        log.error(ex.getMessage(), ex);
         return toErrorList(ex);
     }
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<Error> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        ex.printStackTrace();
+        log.error("Method argument not valid", ex);
         return toErrorList(ex.getBindingResult());
     }
 
@@ -69,14 +73,14 @@ public class WebExceptionHandler {
     @ResponseStatus(METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public List<Error> handleRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-        ex.printStackTrace();
+        log.error(ERROR_405_METHOD_NOT_ALLOWED, ex);
         return Collections.singletonList(new Error(ERROR_405_METHOD_NOT_ALLOWED));
     }
 
     @ResponseStatus(NOT_ACCEPTABLE)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public List<Error> handleMessageNotReadable(HttpMessageNotReadableException ex) {
-        ex.printStackTrace();
+        log.error(ERROR_406_NOT_ACCEPTABLE, ex);
         return Collections.singletonList(new Error(ERROR_406_NOT_ACCEPTABLE));
     }
 
@@ -84,7 +88,7 @@ public class WebExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public List<Error> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        ex.printStackTrace();
+        log.error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH, ex);
         return Collections.singletonList(new Error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH));
     }
 
@@ -92,7 +96,7 @@ public class WebExceptionHandler {
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public List<Error> handleInternalServerError(Exception ex) {
-        ex.printStackTrace();
+        log.error(ERROR_500_INTERNAL_SERVER_ERROR, ex);
         return Collections.singletonList(new Error(ERROR_500_INTERNAL_SERVER_ERROR));
     }
 
