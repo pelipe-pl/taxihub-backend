@@ -1,6 +1,7 @@
 package com.herokuapp.backend.client;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name="client", catalog = "taxihub")
@@ -10,7 +11,9 @@ public class ClientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
     private String email;
+
     private String name;
     private String surname;
 
@@ -29,8 +32,6 @@ public class ClientEntity {
         this.name = name;
         this.surname = surname;
     }
-
-
 
     public Long getId() {
         return id;
