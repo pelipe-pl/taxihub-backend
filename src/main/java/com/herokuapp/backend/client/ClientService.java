@@ -16,18 +16,12 @@ public class ClientService {
     }
 
     private ClientEntity toEntity(ClientDto clientDto) {
-        if (!clientRepository.existsByEmail(clientDto.getEmail())) {
-            return new ClientEntity(
-                    clientDto.getEmail(),
-                    clientDto.getName(),
-                    clientDto.getSurname());
-        } else {
-            return new ClientEntity(
-                    clientDto.getId(),
-                    clientDto.getEmail(),
-                    clientDto.getName(),
-                    clientDto.getSurname());
-        }
+        return new ClientEntity(
+                clientDto.getId(),
+                clientDto.getEmail(),
+                clientDto.getName(),
+                clientDto.getSurname());
+
     }
 
     private ClientDto toDto(ClientEntity clientEntity) {

@@ -20,14 +20,13 @@ public class OrderController {
         return orderService.findById(id);
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<OrderDto> all() {
         return orderService.findAll();
     }
 
-    @PostMapping()
+    @PostMapping
     public void add(@RequestBody OrderDto orderDto) {
         orderService.add(orderDto);
     }
-
 }

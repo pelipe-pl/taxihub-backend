@@ -1,10 +1,10 @@
 package com.herokuapp.backend.order;
 
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import static com.herokuapp.backend.order.OrderStatus.*;
 
 @Service
 public class OrderService {
@@ -22,21 +22,21 @@ public class OrderService {
     public List<OrderDto> findByClientId(Long id) {
         return orderRepository.getAllByClientId(id)
                 .stream()
-                .map(orderEntity -> toDto(orderEntity))
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     public List<OrderDto> findByDriverId(Long id) {
         return orderRepository.getAllByDriverId(id)
                 .stream()
-                .map(orderEntity -> toDto(orderEntity))
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     public List<OrderDto> findAll() {
         return orderRepository.findAll()
                 .stream()
-                .map(orderEntity -> toDto(orderEntity))
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -51,25 +51,27 @@ public class OrderService {
         ));
     }
 
-
     public void setCanceled(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
-        orderEntity.setStatus(OrderStatus.CANCELED);
         orderEntity.setEndTime(LocalDateTime.now());
+        setStatus(orderEntity, CANCELED);
     }
 
     public void setTaken(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
-        orderEntity.setStatus(OrderStatus.TAKEN);
         orderEntity.setStartTime(LocalDateTime.now());
+        setStatus(orderEntity, TAKEN);
     }
 
     public void setClosed(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
-        orderEntity.setStatus(OrderStatus.CLOSED);
         orderEntity.setEndTime(LocalDateTime.now());
+        setStatus(orderEntity, CLOSED);
     }
 
+    private void setStatus(OrderEntity orderEntity, OrderStatus status) {
+        orderEntity.setStatus(status);
+    }
 
     private OrderDto toDto(OrderEntity orderEntity) {
         return new OrderDto(
@@ -87,30 +89,17 @@ public class OrderService {
     }
 
     private OrderEntity toEntity(OrderDto orderDto) {
-
-        if (!orderRepository.existsById(orderDto.getId().intValue())) {
-            return new OrderEntity(
-                    orderDto.getDriverId(),
-                    orderDto.getClientId(),
-                    orderDto.getStatus(),
-                    orderDto.getFromLatitude(),
-                    orderDto.getFromLongitude(),
-                    orderDto.getToLatitude(),
-                    orderDto.getToLongitude(),
-                    orderDto.getStartTime(),
-                    orderDto.getEndTime());
-        } else
-            return new OrderEntity(
-                    orderDto.getId(),
-                    orderDto.getDriverId(),
-                    orderDto.getClientId(),
-                    orderDto.getStatus(),
-                    orderDto.getFromLatitude(),
-                    orderDto.getFromLongitude(),
-                    orderDto.getToLatitude(),
-                    orderDto.getToLongitude(),
-                    orderDto.getStartTime(),
-                    orderDto.getEndTime());
+        return new OrderEntity(
+                orderDto.getId(),
+                orderDto.getDriverId(),
+                orderDto.getClientId(),
+                orderDto.getStatus(),
+                orderDto.getFromLatitude(),
+                orderDto.getFromLongitude(),
+                orderDto.getToLatitude(),
+                orderDto.getToLongitude(),
+                orderDto.getStartTime(),
+                orderDto.getEndTime());
     }
 }
 

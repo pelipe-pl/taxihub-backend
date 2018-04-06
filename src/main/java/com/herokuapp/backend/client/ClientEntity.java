@@ -13,7 +13,6 @@ public class ClientEntity {
 
     @Email
     private String email;
-
     private String name;
     private String surname;
 
