@@ -1,6 +1,5 @@
 package com.herokuapp.backend.order;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;

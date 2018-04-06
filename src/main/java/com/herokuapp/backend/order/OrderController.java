@@ -1,6 +1,5 @@
 package com.herokuapp.backend.order;
 
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,5 +27,30 @@ public class OrderController {
     @PostMapping
     public void add(@RequestBody OrderDto orderDto) {
         orderService.add(orderDto);
+    }
+
+    @GetMapping("driver/{driverId}")
+    public List<OrderDto> byDriverId(@PathVariable Long driverId) {
+        return orderService.findByDriverId(driverId);
+    }
+
+    @GetMapping("client/{clientId}")
+    public List<OrderDto> byClientId(@PathVariable Long clientId) {
+        return orderService.findByClientId(clientId);
+    }
+
+    @PostMapping("status/taken/{id}/{driverId}")
+    public void setTaken(@PathVariable Long id, @PathVariable Long driverId) {
+        orderService.setTaken(id, driverId);
+    }
+
+    @PostMapping("status/canceled/{id}")
+    public void setCanceled(@PathVariable Long id) {
+        orderService.setCanceled(id);
+    }
+
+    @PostMapping("status/closed/{id}")
+    public void setClosed(@PathVariable Long id) {
+        orderService.setClosed(id);
     }
 }

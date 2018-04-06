@@ -15,33 +15,32 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderDto findById(Long id) {
+    OrderDto findById(Long id) {
         return toDto(orderRepository.getById(id));
     }
 
-    public List<OrderDto> findByClientId(Long id) {
+    List<OrderDto> findByClientId(Long id) {
         return orderRepository.getAllByClientId(id)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> findByDriverId(Long id) {
+    List<OrderDto> findByDriverId(Long id) {
         return orderRepository.getAllByDriverId(id)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> findAll() {
+    List<OrderDto> findAll() {
         return orderRepository.findAll()
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    public void add(OrderDto orderDto) {
-
+    void add(OrderDto orderDto) {
         orderRepository.save(new OrderEntity(
                 orderDto.getClientId(),
                 orderDto.getFromLatitude(),
@@ -51,26 +50,31 @@ public class OrderService {
         ));
     }
 
-    public void setCanceled(Long id) {
+    void setCanceled(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
         orderEntity.setEndTime(LocalDateTime.now());
         setStatus(orderEntity, CANCELED);
+        orderRepository.save(orderEntity);
     }
 
-    public void setTaken(Long id) {
+    void setTaken(Long id, Long driverId) {
         OrderEntity orderEntity = orderRepository.getById(id);
         orderEntity.setStartTime(LocalDateTime.now());
+        orderEntity.setDriverId(driverId);
         setStatus(orderEntity, TAKEN);
+        orderRepository.save(orderEntity);
     }
 
-    public void setClosed(Long id) {
+    void setClosed(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
         orderEntity.setEndTime(LocalDateTime.now());
         setStatus(orderEntity, CLOSED);
+        orderRepository.save(orderEntity);
     }
 
     private void setStatus(OrderEntity orderEntity, OrderStatus status) {
         orderEntity.setStatus(status);
+
     }
 
     private OrderDto toDto(OrderEntity orderEntity) {
@@ -87,20 +91,4 @@ public class OrderService {
                 orderEntity.getStartTime(),
                 orderEntity.getEndTime());
     }
-
-    private OrderEntity toEntity(OrderDto orderDto) {
-        return new OrderEntity(
-                orderDto.getId(),
-                orderDto.getDriverId(),
-                orderDto.getClientId(),
-                orderDto.getStatus(),
-                orderDto.getFromLatitude(),
-                orderDto.getFromLongitude(),
-                orderDto.getToLatitude(),
-                orderDto.getToLongitude(),
-                orderDto.getStartTime(),
-                orderDto.getEndTime());
-    }
 }
-
-
