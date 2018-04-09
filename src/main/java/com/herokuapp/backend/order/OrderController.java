@@ -1,9 +1,7 @@
 package com.herokuapp.backend.order;
 
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import static com.herokuapp.backend.order.OrderStatus.OPEN;
 
 @RestController

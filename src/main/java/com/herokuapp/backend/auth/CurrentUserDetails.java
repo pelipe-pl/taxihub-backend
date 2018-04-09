@@ -1,10 +1,10 @@
 package com.herokuapp.backend.auth;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 
 public class CurrentUserDetails implements UserDetails {
     private String email;
@@ -17,7 +17,6 @@ public class CurrentUserDetails implements UserDetails {
         this.password = password;
         this.role = role;
     }
-
 
 
     @Override
