@@ -13,13 +13,15 @@ public class ClientService {
     }
 
     public void add(ClientDto clientDto) {
+        String hashPassword = PasswordUtil.hashPassword(clientDto.getPassword());
+        clientDto.setPassword(hashPassword);
         clientRepository.save(toEntity(clientDto));
     }
 
     public void edit(ClientDto clientDto) {
         clientRepository.save(toEntity(clientDto));
     }
-//PasswordUtil.hashPassword(clientDto.getPassword()
+
     private ClientEntity toEntity(ClientDto clientDto) {
         return new ClientEntity(
                 clientDto.getId(),
