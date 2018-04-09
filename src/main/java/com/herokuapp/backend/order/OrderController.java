@@ -19,11 +19,6 @@ public class OrderController {
         return orderService.findById(id);
     }
 
-    @GetMapping
-    public List<OrderDto> all() {
-        return orderService.findAll();
-    }
-
     @GetMapping("open")
     public List<OrderDto> allOpen() {
         return orderService.findAllByStatus(OPEN);
@@ -44,17 +39,17 @@ public class OrderController {
         return orderService.findByClientId(clientId);
     }
 
-    @PostMapping("status/taken/{id}/{driverId}")
+    @PostMapping("{id}/taken/{driverId}")
     public void setTaken(@PathVariable Long id, @PathVariable Long driverId) {
         orderService.setTaken(id, driverId);
     }
 
-    @PostMapping("status/canceled/{id}")
+    @PostMapping("{id}/canceled")
     public void setCanceled(@PathVariable Long id) {
         orderService.setCanceled(id);
     }
 
-    @PostMapping("status/closed/{id}")
+    @PostMapping("{id}/closed")
     public void setClosed(@PathVariable Long id) {
         orderService.setClosed(id);
     }
