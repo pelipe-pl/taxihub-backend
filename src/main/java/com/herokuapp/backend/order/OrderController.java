@@ -1,9 +1,7 @@
 package com.herokuapp.backend.order;
 
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import static com.herokuapp.backend.order.OrderStatus.OPEN;
 
 @RestController
@@ -19,11 +17,6 @@ public class OrderController {
     @GetMapping("{id}")
     public OrderDto one(@PathVariable Long id) {
         return orderService.findById(id);
-    }
-
-    @GetMapping
-    public List<OrderDto> all() {
-        return orderService.findAll();
     }
 
     @GetMapping("open")
@@ -46,17 +39,17 @@ public class OrderController {
         return orderService.findByClientId(clientId);
     }
 
-    @PostMapping("status/taken/{id}/{driverId}")
+    @PostMapping("{id}/taken/{driverId}")
     public void setTaken(@PathVariable Long id, @PathVariable Long driverId) {
         orderService.setTaken(id, driverId);
     }
 
-    @PostMapping("status/canceled/{id}")
+    @PostMapping("{id}/canceled")
     public void setCanceled(@PathVariable Long id) {
         orderService.setCanceled(id);
     }
 
-    @PostMapping("status/closed/{id}")
+    @PostMapping("{id}/closed")
     public void setClosed(@PathVariable Long id) {
         orderService.setClosed(id);
     }
