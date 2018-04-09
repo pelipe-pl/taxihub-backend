@@ -1,5 +1,6 @@
 package com.herokuapp.backend.client;
 
+import com.herokuapp.backend.util.PasswordUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,17 +12,21 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public void saveClient(ClientDto clientDto) {
+    public void add(ClientDto clientDto) {
         clientRepository.save(toEntity(clientDto));
     }
 
+    public void edit(ClientDto clientDto) {
+        clientRepository.save(toEntity(clientDto));
+    }
+//PasswordUtil.hashPassword(clientDto.getPassword()
     private ClientEntity toEntity(ClientDto clientDto) {
         return new ClientEntity(
                 clientDto.getId(),
                 clientDto.getEmail(),
                 clientDto.getName(),
-                clientDto.getSurname());
-
+                clientDto.getSurname(),
+                clientDto.getPassword());
     }
 
     private ClientDto toDto(ClientEntity clientEntity) {
@@ -29,6 +34,7 @@ public class ClientService {
                 clientEntity.getId(),
                 clientEntity.getEmail(),
                 clientEntity.getName(),
-                clientEntity.getSurname());
+                clientEntity.getSurname(),
+                clientEntity.getPassword());
     }
 }

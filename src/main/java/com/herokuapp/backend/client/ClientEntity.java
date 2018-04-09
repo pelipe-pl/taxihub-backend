@@ -15,21 +15,24 @@ public class ClientEntity {
     private String email;
     private String name;
     private String surname;
+    private String password;
 
     public ClientEntity() {
     }
 
-    public ClientEntity(String email, String name, String surname) {
+    public ClientEntity(String email, String name, String surname, String password) {
         this.email = email;
         this.name = name;
         this.surname = surname;
+        this.password = password;
     }
 
-    public ClientEntity(Long id, String email, String name, String surname) {
+    public ClientEntity(Long id, String email, String name, String surname, String password) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.surname = surname;
+        this.password = password;
     }
 
     public Long getId() {
@@ -62,5 +65,13 @@ public class ClientEntity {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
