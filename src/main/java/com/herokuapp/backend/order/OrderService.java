@@ -3,6 +3,7 @@ package com.herokuapp.backend.order;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,22 +22,15 @@ public class OrderService {
         return toDto(orderRepository.getById(id));
     }
 
-    List<OrderDto> findByClientId(Long id) {
-        return orderRepository.getAllByClientIdOrderById(id)
+    List<OrderDto> findClientHistory(Long clientId) {
+        return orderRepository.findAllByClientIdAndStatusIn(clientId, Arrays.asList(CANCELED, CLOSED))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findByDriverId(Long id) {
-        return orderRepository.getAllByDriverIdOrderById(id)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    List<OrderDto> findAll() {
-        return orderRepository.findAll()
+    List<OrderDto> findDriverHistory(Long driverId) {
+        return orderRepository.findAllByDriverIdAndStatusIn(driverId, Arrays.asList(CANCELED, CLOSED))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
