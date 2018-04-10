@@ -16,11 +16,6 @@ public class CorporationEntity {
     @Column(name = "email")
     private String email;
 
-    public CorporationEntity(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
-
     public CorporationEntity() {
     }
 

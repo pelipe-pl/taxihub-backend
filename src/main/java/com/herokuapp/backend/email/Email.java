@@ -5,16 +5,14 @@ public class Email {
     private String to;
     private String subject;
     private String content;
-    private String provider;
 
     public Email() {
     }
 
-    public Email(String to, String subject, String content, String provider) {
+    public Email(String to, String subject, String content) {
         this.to = to;
         this.subject = subject;
         this.content = content;
-        this.provider = provider;
     }
 
     public String getTo() {
@@ -41,11 +39,4 @@ public class Email {
         this.content = content;
     }
 
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
 }
