@@ -24,6 +24,13 @@ public class ClientDto {
         this.password = password;
     }
 
+    public ClientDto(Long id, String email, String name, String surname) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+    }
+
     public Long getId() {
         return id;
     }

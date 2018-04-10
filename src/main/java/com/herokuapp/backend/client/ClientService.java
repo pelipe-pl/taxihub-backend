@@ -24,8 +24,7 @@ public class ClientService {
                 clientDto.getId(),
                 clientDto.getEmail(),
                 clientDto.getName(),
-                clientDto.getSurname(),
-                clientDto.getPassword());
+                clientDto.getSurname());
     }
 
     private ClientDto toDto(ClientEntity clientEntity) {
@@ -33,7 +32,6 @@ public class ClientService {
                 clientEntity.getId(),
                 clientEntity.getEmail(),
                 clientEntity.getName(),
-                clientEntity.getSurname(),
-                clientEntity.getPassword());
+                clientEntity.getSurname());
     }
 }
