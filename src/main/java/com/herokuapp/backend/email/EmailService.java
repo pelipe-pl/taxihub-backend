@@ -16,10 +16,7 @@ public class EmailService {
         this.environment = environment;
     }
 
-
     public void send(Email email) {
         restTemplate.postForObject(environment.getRequiredProperty(EMAIL_URL), email, Object.class);
     }
-
-
 }

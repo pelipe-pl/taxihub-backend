@@ -22,6 +22,9 @@ public class DriverEntity {
     @Column(name = "corporationId")
     private Long corporationId;
 
+    @Column(name = "token")
+    private String token;
+
     public Long getId() {
         return id;
     }
@@ -62,4 +65,11 @@ public class DriverEntity {
         this.corporationId = corporationId;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
