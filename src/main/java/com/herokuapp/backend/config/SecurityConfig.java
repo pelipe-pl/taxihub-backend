@@ -28,13 +28,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 //TODO change anyRequest to authentificated afte the tests are done
                 .antMatchers(OPTIONS).permitAll()
-                .and().csrf().disable();
+                .and().csrf().disable().cors();
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+        corsConfiguration.addAllowedMethod(OPTIONS);
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
 }
