@@ -11,19 +11,19 @@ public class DriverDto {
     private String surname;
     private String email;
     private Long corporationId;
+    private String token;
 
 
-    public DriverDto(Long id, String name, String surname, String email, Long corporationId) {
+    public DriverDto(Long id, String name, String surname, String email, Long corporationId, String token) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.corporationId = corporationId;
-
+        this.token = token;
     }
 
     public DriverDto() {
-
     }
 
     public Long getId() {
@@ -64,5 +64,17 @@ public class DriverDto {
 
     public void setCorporationId(Long corporationId) {
         this.corporationId = corporationId;
+    }
+
+    public Long getCorporationId() {
+        return corporationId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
