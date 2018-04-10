@@ -36,8 +36,8 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findAllByStatus(OrderStatus status) {
-        return orderRepository.findAllByStatusEquals(status)
+    List<OrderDto> findAllOpen() {
+        return orderRepository.findAllByStatusEquals(OrderStatus.OPEN)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
