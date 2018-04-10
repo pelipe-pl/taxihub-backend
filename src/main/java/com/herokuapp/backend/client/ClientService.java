@@ -11,7 +11,11 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public void saveClient(ClientDto clientDto) {
+    public void add(ClientDto clientDto) {
+        clientRepository.save(toEntity(clientDto));
+    }
+
+    public void edit(ClientDto clientDto) {
         clientRepository.save(toEntity(clientDto));
     }
 
@@ -21,7 +25,6 @@ public class ClientService {
                 clientDto.getEmail(),
                 clientDto.getName(),
                 clientDto.getSurname());
-
     }
 
     private ClientDto toDto(ClientEntity clientEntity) {

@@ -11,8 +11,17 @@ public class ClientDto {
     private String email;
     private String name;
     private String surname;
+    private String password;
 
     public ClientDto() {
+    }
+
+    public ClientDto(Long id, String email, String name, String surname, String password) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
     }
 
     public ClientDto(Long id, String email, String name, String surname) {
@@ -52,5 +61,13 @@ public class ClientDto {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
