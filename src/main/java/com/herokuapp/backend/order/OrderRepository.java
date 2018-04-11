@@ -16,4 +16,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
     List<OrderEntity> findAllByClientIdAndStatusIn(Long clientId, Collection<OrderStatus> status);
 
     List<OrderEntity> findAllByDriverIdAndStatusIn(Long driverId, Collection<OrderStatus> status);
+
+    OrderEntity getFirstByClientIdAndStatus(Long clientId, OrderStatus status);
+
+    OrderEntity getFirstByDriverIdAndStatus(Long driverId, OrderStatus status);
 }
