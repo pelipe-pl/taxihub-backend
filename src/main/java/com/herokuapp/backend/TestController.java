@@ -23,7 +23,7 @@ public class TestController {
 
 
     @GetMapping("test")
-    @PreAuthorize("hasAnyRole('CLIENT','DRIVER','CORPORATION')")
+    @PreAuthorize("hasAnyAuthority('CLIENT','DRIVER','CORPORATION')")
     public String display() {
         return "Hello World test!";
     }
@@ -34,7 +34,6 @@ public class TestController {
         email.setTo("friptu.marcela@gmail.com");
         email.setSubject("Test Email");
         email.setContent("Test Email - the email service works");
-        email.setProvider("Provider");
         emailService.send(email);
         return "Email was sent";
     }
