@@ -36,11 +36,19 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findAllByStatus(OrderStatus status) {
-        return orderRepository.findAllByStatusEquals(status)
+    List<OrderDto> findAllOpen() {
+        return orderRepository.findAllByStatusEquals(OrderStatus.OPEN)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
+    }
+
+    OrderDto getOpenByClient(Long clientId) {
+        return toDto(orderRepository.getFirstByClientIdAndStatus(clientId, OrderStatus.OPEN));
+    }
+
+    OrderDto getOpenByDriver(Long driverId) {
+        return toDto(orderRepository.getFirstByDriverIdAndStatus(driverId, OrderStatus.OPEN));
     }
 
     void add(OrderDto orderDto) {
