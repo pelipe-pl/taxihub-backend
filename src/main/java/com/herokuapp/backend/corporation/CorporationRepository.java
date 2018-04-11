@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CorporationRepository extends JpaRepository<CorporationEntity, Integer> {
     List<DriverEntity> findAllByCorporationId(Long corporationId);
+    DriverEntity findByEmail(String email);
 }

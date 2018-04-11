@@ -25,7 +25,6 @@ public class TestController {
     @GetMapping("test")
     @PreAuthorize("hasAnyRole('CLIENT','DRIVER','CORPORATION')")
     public String display() {
-  //      String rand = RandomStringUtils.randomAlphabetic(10);
         return "Hello World test!";
     }
 
