@@ -4,24 +4,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.stream.Stream;
 
-public class CurrentUserDetails implements UserDetails {
+import static java.util.stream.Collectors.toList;
+
+public class User implements UserDetails {
     private String email;
-    private String password;
     private Role role;
 
-
-    public CurrentUserDetails(String email, Role role) {
+    public User(String email, Role role) {
         this.email = email;
-        this.password = password;
         this.role = role;
     }
 
-
     @Override
     public Collection<? extends SimpleGrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
+        return Stream.of(Role.values()).map(r -> new SimpleGrantedAuthority(r.name())).collect(toList());
     }
 
     @Override
@@ -34,24 +32,20 @@ public class CurrentUserDetails implements UserDetails {
         return email;
     }
 
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
 
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
 
     @Override
     public boolean isEnabled() {
