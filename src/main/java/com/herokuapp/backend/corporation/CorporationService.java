@@ -2,16 +2,13 @@ package com.herokuapp.backend.corporation;
 
 import com.herokuapp.backend.driver.DriverDto;
 import com.herokuapp.backend.driver.DriverEntity;
-import com.herokuapp.backend.driver.DriverRepository;
 import com.herokuapp.backend.email.Email;
 import com.herokuapp.backend.email.EmailService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
@@ -20,13 +17,11 @@ import static com.herokuapp.backend.config.Keys.FRONT_URL;
 public class CorporationService {
 
     public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click the link below: \n";
-    private final DriverRepository repository;
     private final CorporationRepository corpRepository;
     private final EmailService emailService;
     private Environment environment;
 
-    public CorporationService(DriverRepository repository, CorporationRepository corpRepository, EmailService emailService, Environment environment) {
-        this.repository = repository;
+    public CorporationService( CorporationRepository corpRepository, EmailService emailService, Environment environment) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
         this.environment = environment;
@@ -59,7 +54,7 @@ public class CorporationService {
 
     public List<DriverDto> findAllByCorporationId(Long corporationId) {
         return corpRepository.findAllByCorporationId(corporationId)
-                .stream().map(d -> new DriverDto(d))
+                .stream().map(DriverDto::new)
                 .collect(Collectors.toList());
     }
 }
