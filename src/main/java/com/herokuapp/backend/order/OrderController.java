@@ -29,11 +29,6 @@ public class OrderController {
         return orderService.findAllOpen();
     }
 
-    @GetMapping("history/client/{clientId}")
-    public List<OrderDto> clientHistory(@PathVariable Long clientId) {
-        return orderService.findClientHistory(clientId);
-    }
-
     @GetMapping("open/client/{clientId}")
     public OrderDto openByClientId(@PathVariable Long clientId) {
         return orderService.getOpenByClient(clientId);
@@ -44,9 +39,24 @@ public class OrderController {
         return orderService.getOpenByDriver(driverId);
     }
 
+    @GetMapping("open/corporation/{corporationId}")
+    public List<OrderDto> openByCorporationId(@PathVariable Integer corporationId){
+        return orderService.findCorporationHistory(corporationId);
+    }
+
+    @GetMapping("history/client/{clientId}")
+    public List<OrderDto> clientHistory(@PathVariable Long clientId) {
+        return orderService.findClientHistory(clientId);
+    }
+
     @GetMapping("history/driver/{driverId}")
     public List<OrderDto> driverHistory(@PathVariable Long driverId) {
         return orderService.findDriverHistory(driverId);
+    }
+
+    @GetMapping("history/corporation/{corporationId")
+    public List<OrderDto> corporationHistory(@PathVariable Integer corporationId){
+        return orderService.findCorporationHistory(corporationId);
     }
 
     @PostMapping("{id}/taken/{driverId}")

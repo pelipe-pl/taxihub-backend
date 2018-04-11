@@ -3,7 +3,7 @@ package com.herokuapp.backend.corporation;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "corporation", catalog = "taxihub")
+@Table(name = "corporation")
 public class CorporationEntity {
 
     @Id

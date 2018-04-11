@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,8 +43,22 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    List<OrderDto> findCorporationHistory(Integer corporationId){
+        return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Arrays.asList(CANCELED, CLOSED))
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     List<OrderDto> findAllOpen() {
         return orderRepository.findAllByStatusEquals(OrderStatus.OPEN)
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    List<OrderDto> findAllOpenByCorporation(Integer corporationId){
+        return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Collections.singletonList(OPEN))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());

@@ -1,9 +1,11 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.corporation.CorporationEntity;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "driver", catalog = "postgres")
+@Table(name = "driver")
 public class DriverEntity {
 
     @Id
@@ -19,18 +21,14 @@ public class DriverEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "corporationId")
-    private Long corporationId;
+    @Column(name = "corporation")
+    private CorporationEntity corporation;
 
     @Column(name = "token")
     private String token;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -57,12 +55,12 @@ public class DriverEntity {
         this.email = email;
     }
 
-    public Long getCorporationId() {
-        return corporationId;
+    public CorporationEntity getCorporation() {
+        return corporation;
     }
 
-    public void setCorporationId(Long corporationId) {
-        this.corporationId = corporationId;
+    public void setCorporation(CorporationEntity corporation) {
+        this.corporation = corporation;
     }
 
     public String getToken() {

@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CorporationRepository extends JpaRepository<CorporationEntity, Integer> {
-    DriverEntity findByEmail(String email);
+
+    CorporationEntity getById(Long id);
 }

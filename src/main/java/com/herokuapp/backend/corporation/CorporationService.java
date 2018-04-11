@@ -33,7 +33,7 @@ public class CorporationService {
         entity.setName(driver.getName());
         entity.setSurname(driver.getSurname());
         entity.setEmail(driver.getEmail());
-        entity.setCorporationId(corporationId);
+        entity.setCorporation(corpRepository.getById(corporationId));
         entity.setToken(RandomStringUtils.randomAlphabetic(20));
         sendConfirmationEmail(driver.getEmail(), entity.getToken());
         return driver;
