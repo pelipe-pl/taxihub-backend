@@ -2,6 +2,7 @@ package com.herokuapp.backend;
 
 import com.herokuapp.backend.email.Email;
 import com.herokuapp.backend.email.EmailService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,6 @@ public class TestController {
         email.setTo("friptu.marcela@gmail.com");
         email.setSubject("Test Email");
         email.setContent("Test Email - the email service works");
-        email.setProvider("Provider");
         emailService.send(email);
         return "Email was sent";
     }

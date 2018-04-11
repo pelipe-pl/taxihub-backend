@@ -19,12 +19,6 @@ public class ClientEntity {
     public ClientEntity() {
     }
 
-    public ClientEntity(String email, String name, String surname) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-    }
-
     public ClientEntity(Long id, String email, String name, String surname) {
         this.id = id;
         this.email = email;

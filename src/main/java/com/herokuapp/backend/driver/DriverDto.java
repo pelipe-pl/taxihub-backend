@@ -12,20 +12,6 @@ public class DriverDto {
     private String email;
     private Long corporationId;
 
-
-    public DriverDto(Long id, String name, String surname, String email, Long corporationId) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.corporationId = corporationId;
-
-    }
-
-    public DriverDto() {
-
-    }
-
     public Long getId() {
         return id;
     }
@@ -64,5 +50,9 @@ public class DriverDto {
 
     public void setCorporationId(Long corporationId) {
         this.corporationId = corporationId;
+    }
+
+    public Long getCorporationId() {
+        return corporationId;
     }
 }
