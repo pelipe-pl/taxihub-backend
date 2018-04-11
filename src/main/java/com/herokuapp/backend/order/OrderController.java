@@ -1,7 +1,9 @@
 package com.herokuapp.backend.order;
 
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 import static com.herokuapp.backend.order.OrderStatus.OPEN;
 
 @RestController
@@ -29,14 +31,14 @@ public class OrderController {
         orderService.add(orderDto);
     }
 
-    @GetMapping("driver/{driverId}")
-    public List<OrderDto> byDriverId(@PathVariable Long driverId) {
-        return orderService.findByDriverId(driverId);
+    @GetMapping("history/client/{clientId}")
+    public List<OrderDto> clientHistory(@PathVariable Long clientId) {
+        return orderService.findClientHistory(clientId);
     }
 
-    @GetMapping("client/{clientId}")
-    public List<OrderDto> byClientId(@PathVariable Long clientId) {
-        return orderService.findByClientId(clientId);
+    @GetMapping("history/driver/{driverId}")
+    public List<OrderDto> driverHistory(@PathVariable Long driverId) {
+        return orderService.findDriverHistory(driverId);
     }
 
     @PostMapping("{id}/taken/{driverId}")

@@ -34,7 +34,6 @@ public class TestController {
         email.setTo("friptu.marcela@gmail.com");
         email.setSubject("Test Email");
         email.setContent("Test Email - the email service works");
-        email.setProvider("Provider");
         emailService.send(email);
         return "Email was sent";
     }
