@@ -12,6 +12,14 @@ public class DriverDto {
     private String email;
     private Long corporationId;
 
+    public DriverDto(DriverEntity d) {
+        this.id = d.getId();
+        this.name = d.getName();
+        this.surname = d.getSurname();
+        this.email = d.getEmail();
+        this.corporationId = d.getCorporationId();
+    }
+
     public Long getId() {
         return id;
     }
