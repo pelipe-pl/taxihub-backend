@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface DriverRepository extends JpaRepository<DriverEntity, Integer> {
-    List<DriverEntity> findAllByCorporationId(Long corporationId);
+
 }

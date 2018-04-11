@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
 
@@ -54,5 +55,11 @@ public class CorporationService {
         entity.setEmail(corporation.getEmail());
         corpRepository.save(entity);
         return corporation;
+    }
+
+    public List<DriverDto> findAllByCorporationId(Long corporationId) {
+        return corpRepository.findAllByCorporationId(corporationId)
+                .stream().map(d -> new DriverDto(d))
+                .collect(Collectors.toList());
     }
 }
