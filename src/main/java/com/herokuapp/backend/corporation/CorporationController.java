@@ -24,9 +24,4 @@ public class CorporationController {
     public CorporationDto saveCorpo(@RequestBody CorporationDto corporation) {
         return service.createCorporation(corporation);
     }
-
-    @GetMapping("/{corpId}/drivers")
-    public List<DriverDto> showDrivers(@PathVariable Long corpId){
-        return service.findAllByCorporationId(corpId);
-    }
 }
