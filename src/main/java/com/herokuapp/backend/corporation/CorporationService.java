@@ -1,5 +1,6 @@
 package com.herokuapp.backend.corporation;
 
+import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import com.herokuapp.backend.driver.DriverDto;
 import com.herokuapp.backend.driver.DriverEntity;
 import com.herokuapp.backend.email.Email;
@@ -19,11 +20,13 @@ public class CorporationService {
     public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click the link below: \n";
     private final CorporationRepository corpRepository;
     private final EmailService emailService;
+    private final FirebaseRegistrationService firebaseRegistrationService;
     private Environment environment;
 
-    public CorporationService( CorporationRepository corpRepository, EmailService emailService, Environment environment) {
+    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, Environment environment) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
+        this.firebaseRegistrationService = firebaseRegistrationService;
         this.environment = environment;
     }
 
@@ -49,6 +52,7 @@ public class CorporationService {
         entity.setName(corporation.getName());
         entity.setEmail(corporation.getEmail());
         corpRepository.save(entity);
+        firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
         return corporation;
     }
 }
