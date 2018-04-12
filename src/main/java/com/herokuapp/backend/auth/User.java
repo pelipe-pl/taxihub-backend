@@ -11,10 +11,18 @@ import static java.util.stream.Collectors.toList;
 public class User implements UserDetails {
     private String email;
     private Role role;
+    private String name;
+    private String surname;
+    private Long driverId;
+    private Long corporationId;
+    private Long userId;
 
     public User(String email, Role role) {
         this.email = email;
         this.role = role;
+    }
+
+    public User() {
     }
 
     @Override

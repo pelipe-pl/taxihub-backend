@@ -18,6 +18,7 @@ public class CorporationService {
 
     public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click the link below: \n";
     private final CorporationRepository corpRepository;
+
     private final EmailService emailService;
     private Environment environment;
 

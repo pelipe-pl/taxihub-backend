@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @GetMapping("denied")
-    public void forbidenError() {
-       throw new AccessDeniedException("Access forbiden");
+    public void forbiddenError() {
+       throw new AccessDeniedException("Access forbidden");
     }
 
 }
