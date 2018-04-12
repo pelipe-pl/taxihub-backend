@@ -1,5 +1,8 @@
 package com.herokuapp.backend.auth;
 
+import com.herokuapp.backend.client.ClientRepository;
+import com.herokuapp.backend.corporation.CorporationRepository;
+import com.herokuapp.backend.driver.DriverRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,9 +31,10 @@ public class AuthFilter extends OncePerRequestFilter {
         final String tokenAuth = request.getHeader(TOKEN_HEADER);
         if (tokenAuth == null) {
             filterChain.doFilter(request, response);
+            return;
         }
-            Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(null, tokenAuth));
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            filterChain.doFilter(request, response);
+        Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(null, tokenAuth));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        filterChain.doFilter(request, response);
     }
 }

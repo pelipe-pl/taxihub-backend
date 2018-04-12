@@ -51,14 +51,10 @@
     </appender>
 
     <!-- Send logs to both console and file audit -->
-    <logger name="com.herokuapp.backend" level="debug" additivity="false">
-        <appender-ref ref="FILE-AUDIT" />
-        <appender-ref ref="STDOUT" />
-    </logger>
-
     <root level="info">
         <appender-ref ref="FILE-AUDIT" />
         <appender-ref ref="FILE-ERROR" />
+        <appender-ref ref="STDOUT" />
     </root>
 
 </configuration>
