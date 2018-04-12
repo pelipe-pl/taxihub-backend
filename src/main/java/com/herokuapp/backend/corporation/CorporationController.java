@@ -4,6 +4,7 @@ import com.herokuapp.backend.driver.DriverDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 @RestController
@@ -21,12 +22,7 @@ public class CorporationController {
     }
 
     @PostMapping
-    public CorporationDto saveCorpo(@RequestBody CorporationDto corporation) {
+    public CorporationDto saveCorpo(@RequestBody CorporationDto corporation) throws ExecutionException, InterruptedException {
         return service.createCorporation(corporation);
-    }
-
-    @GetMapping("/{corpId}/drivers")
-    public List<DriverDto> showDrivers(@PathVariable Long corpId){
-        return service.findAllByCorporationId(corpId);
     }
 }

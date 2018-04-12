@@ -3,12 +3,12 @@ package com.herokuapp.backend.corporation;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "corporation", catalog = "taxihub")
+@Table(name = "corporation")
 public class CorporationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -19,11 +19,11 @@ public class CorporationEntity {
     public CorporationEntity() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

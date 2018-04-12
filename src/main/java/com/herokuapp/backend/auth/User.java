@@ -11,18 +11,10 @@ import static java.util.stream.Collectors.toList;
 public class User implements UserDetails {
     private String email;
     private Role role;
-    private String name;
-    private String surname;
-    private Long driverId;
-    private Integer corporationId;
-    private Long clientId;
 
     public User(String email, Role role) {
         this.email = email;
         this.role = role;
-    }
-
-    public User() {
     }
 
     @Override
@@ -32,7 +24,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "na";
+        return null;
     }
 
     @Override
@@ -58,61 +50,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public Long getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
-    }
-
-    public Integer getCorporationId() {
-        return corporationId;
-    }
-
-    public void setCorporationId(Integer corporationId) {
-        this.corporationId = corporationId;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long userId) {
-        this.clientId = userId;
     }
 }

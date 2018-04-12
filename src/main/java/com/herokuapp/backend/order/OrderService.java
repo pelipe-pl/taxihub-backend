@@ -1,9 +1,12 @@
 package com.herokuapp.backend.order;
 
+import com.herokuapp.backend.client.ClientServiceFacade;
+import com.herokuapp.backend.driver.DriverServiceFacade;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,9 +16,13 @@ import static com.herokuapp.backend.order.OrderStatus.*;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final ClientServiceFacade clientService;
+    private final DriverServiceFacade driverService;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, ClientServiceFacade clientService1, DriverServiceFacade driverService) {
         this.orderRepository = orderRepository;
+        this.clientService = clientService1;
+        this.driverService = driverService;
     }
 
     OrderDto findById(Long id) {
@@ -36,8 +43,22 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    List<OrderDto> findCorporationHistory(Long corporationId){
+        return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Arrays.asList(CANCELED, CLOSED))
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     List<OrderDto> findAllOpen() {
         return orderRepository.findAllByStatusEquals(OrderStatus.OPEN)
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    List<OrderDto> findAllOpenByCorporation(Long corporationId){
+        return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Collections.singletonList(OPEN))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -53,7 +74,7 @@ public class OrderService {
 
     void add(OrderDto orderDto) {
         orderRepository.save(new OrderEntity(
-                orderDto.getClientId(),
+                clientService.getById(orderDto.getClientId()),
                 orderDto.getFromLatitude(),
                 orderDto.getFromLongitude(),
                 orderDto.getToLatitude(),
@@ -71,7 +92,7 @@ public class OrderService {
     void setTaken(Long id, Long driverId) {
         OrderEntity orderEntity = orderRepository.getById(id);
         orderEntity.setStartTime(LocalDateTime.now());
-        orderEntity.setDriverId(driverId);
+        driverService.getById(driverId);
         setStatus(orderEntity, TAKEN);
         orderRepository.save(orderEntity);
     }
@@ -90,8 +111,8 @@ public class OrderService {
     private OrderDto toDto(OrderEntity orderEntity) {
         return new OrderDto(
                 orderEntity.getId(),
-                orderEntity.getDriverId(),
-                orderEntity.getClientId(),
+                orderEntity.getDriver().getId(),
+                orderEntity.getClient().getId(),
                 orderEntity.getStatus(),
                 orderEntity.getFromLatitude(),
                 orderEntity.getFromLongitude(),
