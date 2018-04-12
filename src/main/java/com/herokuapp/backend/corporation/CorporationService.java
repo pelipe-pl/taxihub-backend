@@ -51,10 +51,4 @@ public class CorporationService {
         corpRepository.save(entity);
         return corporation;
     }
-
-    public List<DriverDto> findAllByCorporationId(Long corporationId) {
-        return corpRepository.findAllByCorporationId(corporationId)
-                .stream().map(DriverDto::new)
-                .collect(Collectors.toList());
-    }
 }
