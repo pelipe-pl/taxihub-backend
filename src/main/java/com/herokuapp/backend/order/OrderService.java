@@ -1,5 +1,6 @@
 package com.herokuapp.backend.order;
 
+import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,9 +14,11 @@ import static com.herokuapp.backend.order.OrderStatus.*;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final FirebaseRegistrationService firebaseRegistrationService;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, FirebaseRegistrationService firebaseRegistrationService) {
         this.orderRepository = orderRepository;
+        this.firebaseRegistrationService = firebaseRegistrationService;
     }
 
     OrderDto findById(Long id) {
