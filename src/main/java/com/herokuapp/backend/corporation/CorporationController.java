@@ -1,14 +1,10 @@
 package com.herokuapp.backend.corporation;
 
 import com.herokuapp.backend.driver.DriverDto;
-import org.apache.catalina.User;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 @RestController
@@ -26,7 +22,7 @@ public class CorporationController {
     }
 
     @PostMapping
-    public CorporationDto saveCorpo(@RequestBody CorporationDto corporation) {
+    public CorporationDto saveCorpo(@RequestBody CorporationDto corporation) throws ExecutionException, InterruptedException {
         return service.createCorporation(corporation);
     }
 }

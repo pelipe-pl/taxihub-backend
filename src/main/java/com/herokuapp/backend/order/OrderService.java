@@ -43,7 +43,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findCorporationHistory(Integer corporationId){
+    List<OrderDto> findCorporationHistory(Long corporationId){
         return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Arrays.asList(CANCELED, CLOSED))
                 .stream()
                 .map(this::toDto)
@@ -57,7 +57,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findAllOpenByCorporation(Integer corporationId){
+    List<OrderDto> findAllOpenByCorporation(Long corporationId){
         return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Collections.singletonList(OPEN))
                 .stream()
                 .map(this::toDto)

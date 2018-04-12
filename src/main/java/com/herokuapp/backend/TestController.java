@@ -23,7 +23,7 @@ public class TestController {
 
 
     @GetMapping("test")
-    @PreAuthorize("hasAnyRole('CLIENT','DRIVER','CORPORATION')")
+    @PreAuthorize("hasAnyAuthority('CLIENT','DRIVER','CORPORATION')")
     public String display() {
         return "Hello World test!";
     }

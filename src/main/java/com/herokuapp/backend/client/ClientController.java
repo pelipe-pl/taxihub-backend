@@ -2,6 +2,8 @@ package com.herokuapp.backend.client;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping("client")
 public class ClientController {
@@ -13,7 +15,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public void add (@RequestBody ClientDto clientDto){
+    public void add (@RequestBody ClientDto clientDto) throws ExecutionException, InterruptedException {
         clientService.add(clientDto);
     }
 
