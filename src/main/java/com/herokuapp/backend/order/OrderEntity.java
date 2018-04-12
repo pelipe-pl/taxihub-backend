@@ -13,7 +13,12 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driver_id")
     private DriverEntity driver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
     private ClientEntity client;
 
     @Enumerated(EnumType.STRING)

@@ -41,7 +41,7 @@ public class OrderController {
 
     @GetMapping("open/corporation/{corporationId}")
     public List<OrderDto> openByCorporationId(@PathVariable Integer corporationId){
-        return orderService.findCorporationHistory(corporationId);
+        return orderService.findAllOpenByCorporation(corporationId);
     }
 
     @GetMapping("history/client/{clientId}")
@@ -54,7 +54,7 @@ public class OrderController {
         return orderService.findDriverHistory(driverId);
     }
 
-    @GetMapping("history/corporation/{corporationId")
+    @GetMapping("history/corporation/{corporationId}")
     public List<OrderDto> corporationHistory(@PathVariable Integer corporationId){
         return orderService.findCorporationHistory(corporationId);
     }

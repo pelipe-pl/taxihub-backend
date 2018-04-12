@@ -21,7 +21,8 @@ public class DriverEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "corporation")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "corporation_id")
     private CorporationEntity corporation;
 
     @Column(name = "token")
