@@ -28,6 +28,7 @@ public class AuthFilter extends OncePerRequestFilter {
         final String tokenAuth = request.getHeader(TOKEN_HEADER);
         if (tokenAuth == null) {
             filterChain.doFilter(request, response);
+            return;
         }
             Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(null, tokenAuth));
             SecurityContextHolder.getContext().setAuthentication(auth);
