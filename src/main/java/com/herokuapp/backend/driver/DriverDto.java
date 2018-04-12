@@ -17,7 +17,7 @@ public class DriverDto {
         this.name = d.getName();
         this.surname = d.getSurname();
         this.email = d.getEmail();
-        this.corporationId = d.getCorporationId();
+        this.corporationId = d.getId();
     }
 
     public Long getId() {
