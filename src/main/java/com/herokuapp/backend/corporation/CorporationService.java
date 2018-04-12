@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
@@ -47,7 +48,7 @@ public class CorporationService {
         emailService.send(email);
     }
 
-    public CorporationDto createCorporation(CorporationDto corporation) {
+    public CorporationDto createCorporation(CorporationDto corporation) throws ExecutionException, InterruptedException {
         final CorporationEntity entity = new CorporationEntity();
         entity.setName(corporation.getName());
         entity.setEmail(corporation.getEmail());

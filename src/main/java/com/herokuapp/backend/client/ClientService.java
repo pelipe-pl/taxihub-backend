@@ -3,6 +3,8 @@ package com.herokuapp.backend.client;
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ExecutionException;
+
 @Service
 public class ClientService {
 
@@ -14,7 +16,7 @@ public class ClientService {
         this.firebaseRegistrationService = firebaseRegistrationService;
     }
 
-    public void add(ClientDto clientDto) {
+    public void add(ClientDto clientDto) throws ExecutionException, InterruptedException {
         clientRepository.save(toEntity(clientDto));
         firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
     }
