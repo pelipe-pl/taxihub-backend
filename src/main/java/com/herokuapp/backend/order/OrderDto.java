@@ -62,6 +62,19 @@ public class OrderDto {
         this.endTime = endTime;
     }
 
+    public OrderDto(Long id, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime openTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.openTime = openTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public Long getId() {
         return id;
     }
