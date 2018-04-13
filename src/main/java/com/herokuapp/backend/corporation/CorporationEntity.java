@@ -13,7 +13,7 @@ public class CorporationEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     public CorporationEntity() {

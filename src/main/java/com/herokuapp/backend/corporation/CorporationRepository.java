@@ -8,7 +8,9 @@ import java.util.List;
 
 @Repository
 public interface CorporationRepository extends JpaRepository<CorporationEntity, Integer> {
+    CorporationEntity findByEmail(String email);
 
     CorporationEntity getById(Long id);
 
+    Boolean existsByEmail(String email);
 }

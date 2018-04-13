@@ -114,18 +114,33 @@ public class OrderService {
     }
 
     private OrderDto toDto(OrderEntity orderEntity) {
-        return new OrderDto(
-                orderEntity.getId(),
-                orderEntity.getDriver().getId(),
-                orderEntity.getClient().getId(),
-                orderEntity.getStatus(),
-                orderEntity.getFromLatitude(),
-                orderEntity.getFromLongitude(),
-                orderEntity.getToLatitude(),
-                orderEntity.getToLongitude(),
-                orderEntity.getOpenTime(),
-                orderEntity.getStartTime(),
-                orderEntity.getEndTime());
+
+        if (orderEntity.getDriver() != null) {
+
+            return new OrderDto(
+                    orderEntity.getId(),
+                    orderEntity.getDriver().getId(),
+                    orderEntity.getClient().getId(),
+                    orderEntity.getStatus(),
+                    orderEntity.getFromLatitude(),
+                    orderEntity.getFromLongitude(),
+                    orderEntity.getToLatitude(),
+                    orderEntity.getToLongitude(),
+                    orderEntity.getOpenTime(),
+                    orderEntity.getStartTime(),
+                    orderEntity.getEndTime());
+        } else
+            return new OrderDto(
+                    orderEntity.getId(),
+                    orderEntity.getClient().getId(),
+                    orderEntity.getStatus(),
+                    orderEntity.getFromLatitude(),
+                    orderEntity.getFromLongitude(),
+                    orderEntity.getToLatitude(),
+                    orderEntity.getToLongitude(),
+                    orderEntity.getOpenTime(),
+                    orderEntity.getStartTime(),
+                    orderEntity.getEndTime());
     }
 
     private void closeOrder(OrderEntity order) {
