@@ -2,6 +2,8 @@ package com.herokuapp.backend.order;
 
 import com.herokuapp.backend.client.ClientServiceFacade;
 import com.herokuapp.backend.driver.DriverServiceFacade;
+import com.herokuapp.backend.email.Email;
+import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,11 +20,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ClientServiceFacade clientService;
     private final DriverServiceFacade driverService;
+    private final EmailService emailService;
 
-    public OrderService(OrderRepository orderRepository, ClientServiceFacade clientService1, DriverServiceFacade driverService) {
+    public OrderService(OrderRepository orderRepository, ClientServiceFacade clientService1, DriverServiceFacade driverService, EmailService emailService) {
         this.orderRepository = orderRepository;
         this.clientService = clientService1;
         this.driverService = driverService;
+        this.emailService = emailService;
     }
 
     OrderDto findById(Long id) {
@@ -102,6 +106,7 @@ public class OrderService {
         orderEntity.setEndTime(LocalDateTime.now());
         setStatus(orderEntity, CLOSED);
         orderRepository.save(orderEntity);
+        closeOrder(orderEntity);
     }
 
     private void setStatus(OrderEntity orderEntity, OrderStatus status) {
@@ -136,5 +141,19 @@ public class OrderService {
                     orderEntity.getOpenTime(),
                     orderEntity.getStartTime(),
                     orderEntity.getEndTime());
+    }
+
+    private void closeOrder(OrderEntity order) {
+        StringBuilder content = new StringBuilder();
+        content.append("Hello, thank you for the ride! Your trip is finished! See you next time! :)")
+                .append("Your ride started at: ")
+                .append(order.getStartTime())
+                .append(" and finished at: ")
+                .append(order.getEndTime());
+        Email email = new Email();
+        email.setTo(order.getClient().getEmail());
+        email.setSubject("Thank you");
+        email.setContent(content.toString());
+        emailService.send(email);
     }
 }
