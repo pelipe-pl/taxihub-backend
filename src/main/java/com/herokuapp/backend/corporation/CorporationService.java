@@ -20,7 +20,6 @@ public class CorporationService {
 
     public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click the link below: \n";
     private final CorporationRepository corpRepository;
-
     private final EmailService emailService;
     private final FirebaseRegistrationService firebaseRegistrationService;
     private Environment environment;
@@ -33,14 +32,16 @@ public class CorporationService {
     }
 
     public DriverDto createDriver(DriverDto driver, Long corporationId) {
-        final DriverEntity entity = new DriverEntity();
-        entity.setName(driver.getName());
-        entity.setSurname(driver.getSurname());
-        entity.setEmail(driver.getEmail());
-        entity.setCorporation(corpRepository.getById(corporationId));
-        entity.setToken(RandomStringUtils.randomAlphabetic(20));
-        sendConfirmationEmail(driver.getEmail(), entity.getToken());
-        return driver;
+        if (corpRepository.existsByEmail(driver.getEmail())) {
+            final DriverEntity entity = new DriverEntity();
+            entity.setName(driver.getName());
+            entity.setSurname(driver.getSurname());
+            entity.setEmail(driver.getEmail());
+            entity.setCorporation(corpRepository.getById(corporationId));
+            entity.setToken(RandomStringUtils.randomAlphabetic(20));
+            sendConfirmationEmail(driver.getEmail(), entity.getToken());
+            return driver;
+        } else throw new IllegalArgumentException("Driver with this e-mail already exists");
     }
 
     private void sendConfirmationEmail(String address, String token) {
@@ -50,11 +51,13 @@ public class CorporationService {
     }
 
     public CorporationDto createCorporation(CorporationDto corporation) throws ExecutionException, InterruptedException {
-        final CorporationEntity entity = new CorporationEntity();
-        entity.setName(corporation.getName());
-        entity.setEmail(corporation.getEmail());
-        corpRepository.save(entity);
-        firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
-        return corporation;
+        if (corpRepository.existsByEmail(corporation.getEmail())) {
+            final CorporationEntity entity = new CorporationEntity();
+            entity.setName(corporation.getName());
+            entity.setEmail(corporation.getEmail());
+            corpRepository.save(entity);
+            firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
+            return corporation;
+        } else throw new IllegalArgumentException("Corporation with this e-mail already exists");
     }
 }

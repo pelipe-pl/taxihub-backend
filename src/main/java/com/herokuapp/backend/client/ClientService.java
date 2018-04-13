@@ -17,8 +17,10 @@ public class ClientService {
     }
 
     public void add(ClientDto clientDto) throws ExecutionException, InterruptedException {
-        clientRepository.save(toEntity(clientDto));
-        firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
+        if (clientRepository.existsByEmail(clientDto.getEmail())) {
+            clientRepository.save(toEntity(clientDto));
+            firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
+        } else throw new IllegalArgumentException("Client with this e-mail already exists");
     }
 
     public void edit(ClientDto clientDto) {

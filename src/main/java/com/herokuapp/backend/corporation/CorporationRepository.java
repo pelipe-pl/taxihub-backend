@@ -9,4 +9,5 @@ public interface CorporationRepository extends JpaRepository<CorporationEntity, 
 
     CorporationEntity getById(Long id);
 
+    Boolean existsByEmail(String email);
 }
