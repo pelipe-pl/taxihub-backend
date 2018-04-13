@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private AuthFilter authenticationTokenFilterBean() throws Exception{
-        return new AuthFilter(authenticationManager(), driverRepository, corporationRepository, clientRepository);
+        return new AuthFilter(authenticationManager());
     }
 
     //TODO - move to file

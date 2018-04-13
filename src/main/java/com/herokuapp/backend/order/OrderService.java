@@ -43,7 +43,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findCorporationHistory(Long corporationId){
+    List<OrderDto> findCorporationHistory(Long corporationId) {
         return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Arrays.asList(CANCELED, CLOSED))
                 .stream()
                 .map(this::toDto)
@@ -57,7 +57,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    List<OrderDto> findAllOpenByCorporation(Long corporationId){
+    List<OrderDto> findAllOpenByCorporation(Long corporationId) {
         return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Collections.singletonList(OPEN))
                 .stream()
                 .map(this::toDto)
@@ -109,17 +109,32 @@ public class OrderService {
     }
 
     private OrderDto toDto(OrderEntity orderEntity) {
-        return new OrderDto(
-                orderEntity.getId(),
-                orderEntity.getDriver().getId(),
-                orderEntity.getClient().getId(),
-                orderEntity.getStatus(),
-                orderEntity.getFromLatitude(),
-                orderEntity.getFromLongitude(),
-                orderEntity.getToLatitude(),
-                orderEntity.getToLongitude(),
-                orderEntity.getOpenTime(),
-                orderEntity.getStartTime(),
-                orderEntity.getEndTime());
+
+        if (orderEntity.getDriver() != null) {
+
+            return new OrderDto(
+                    orderEntity.getId(),
+                    orderEntity.getDriver().getId(),
+                    orderEntity.getClient().getId(),
+                    orderEntity.getStatus(),
+                    orderEntity.getFromLatitude(),
+                    orderEntity.getFromLongitude(),
+                    orderEntity.getToLatitude(),
+                    orderEntity.getToLongitude(),
+                    orderEntity.getOpenTime(),
+                    orderEntity.getStartTime(),
+                    orderEntity.getEndTime());
+        } else
+            return new OrderDto(
+                    orderEntity.getId(),
+                    orderEntity.getClient().getId(),
+                    orderEntity.getStatus(),
+                    orderEntity.getFromLatitude(),
+                    orderEntity.getFromLongitude(),
+                    orderEntity.getToLatitude(),
+                    orderEntity.getToLongitude(),
+                    orderEntity.getOpenTime(),
+                    orderEntity.getStartTime(),
+                    orderEntity.getEndTime());
     }
 }
