@@ -32,7 +32,7 @@ public class CorporationService {
     }
 
     public DriverDto createDriver(DriverDto driver, Long corporationId) {
-        if (corpRepository.existsByEmail(driver.getEmail())) {
+        if (!corpRepository.existsByEmail(driver.getEmail())) {
             final DriverEntity entity = new DriverEntity();
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
@@ -51,7 +51,7 @@ public class CorporationService {
     }
 
     public CorporationDto createCorporation(CorporationDto corporation) throws ExecutionException, InterruptedException {
-        if (corpRepository.existsByEmail(corporation.getEmail())) {
+        if (!corpRepository.existsByEmail(corporation.getEmail())) {
             final CorporationEntity entity = new CorporationEntity();
             entity.setName(corporation.getName());
             entity.setEmail(corporation.getEmail());
