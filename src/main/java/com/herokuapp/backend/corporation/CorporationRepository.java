@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CorporationRepository extends JpaRepository<CorporationEntity, Integer> {
-    List<DriverEntity> findAllByCorporationId(Long corporationId);
     CorporationEntity findByEmail(String email);
 
     CorporationEntity getById(Long id);

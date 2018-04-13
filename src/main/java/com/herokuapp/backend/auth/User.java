@@ -11,6 +11,9 @@ import static java.util.stream.Collectors.toList;
 public class User implements UserDetails {
     private String email;
     private Role role;
+    private Long driverId;
+    private Long corporationId;
+    private Long clientId;
 
     public User(String email, Role role) {
         this.email = email;
@@ -50,5 +53,29 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
+    }
+
+    public Long getCorporationId() {
+        return corporationId;
+    }
+
+    public void setCorporationId(Long corporationId) {
+        this.corporationId = corporationId;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 }
