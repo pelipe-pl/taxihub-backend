@@ -31,13 +31,13 @@ public class CorporationService {
         this.environment = environment;
     }
 
-    public DriverDto createDriver(DriverDto driver, Long corporationId) {
+    public DriverDto createDriver(DriverDto driver) {
         if (!corpRepository.existsByEmail(driver.getEmail())) {
             final DriverEntity entity = new DriverEntity();
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
             entity.setEmail(driver.getEmail());
-            entity.setCorporation(corpRepository.getById(corporationId));
+            entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
             entity.setToken(RandomStringUtils.randomAlphabetic(20));
             sendConfirmationEmail(driver.getEmail(), entity.getToken());
             return driver;
