@@ -1,6 +1,5 @@
 package com.herokuapp.backend.email;
 
-
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
