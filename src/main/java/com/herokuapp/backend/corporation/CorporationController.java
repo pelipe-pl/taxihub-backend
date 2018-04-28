@@ -15,9 +15,9 @@ public class CorporationController {
         this.service = service;
     }
 
-    @PostMapping("/{id}/driver")
-    public DriverDto saveDriver(@RequestBody DriverDto driver, @PathVariable Long id) {
-        return service.createDriver(driver, id);
+    @PostMapping("/driver")
+    public DriverDto saveDriver(@RequestBody DriverDto driver) {
+        return service.createDriver(driver);
     }
 
     @PostMapping
