@@ -20,7 +20,7 @@ public class DriverDto {
         this.name = d.getName();
         this.surname = d.getSurname();
         this.email = d.getEmail();
-        this.corporationId = d.getId();
+        this.corporationId = d.getCorporation().getId();
     }
 
     public Long getId() {
@@ -53,10 +53,6 @@ public class DriverDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getCorporationIdid() {
-        return corporationId;
     }
 
     public void setCorporationId(Long corporationId) {
