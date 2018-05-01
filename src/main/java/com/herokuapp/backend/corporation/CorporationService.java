@@ -25,7 +25,7 @@ public class CorporationService {
     private final DriverServiceFacade driverService;
     private Environment environment;
 
-    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, DriverServiceFacade driverService1, Environment environment) {
+    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, Environment environment) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
         this.firebaseRegistrationService = firebaseRegistrationService;
