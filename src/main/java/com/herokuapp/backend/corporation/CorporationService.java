@@ -3,6 +3,7 @@ package com.herokuapp.backend.corporation;
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import com.herokuapp.backend.driver.DriverDto;
 import com.herokuapp.backend.driver.DriverEntity;
+import com.herokuapp.backend.driver.DriverServiceFacade;
 import com.herokuapp.backend.email.Email;
 import com.herokuapp.backend.email.EmailService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
 
@@ -22,17 +22,23 @@ public class CorporationService {
     private final CorporationRepository corpRepository;
     private final EmailService emailService;
     private final FirebaseRegistrationService firebaseRegistrationService;
+    private final DriverServiceFacade driverService;
     private Environment environment;
 
-    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, Environment environment) {
+    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, Environment environment) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
         this.firebaseRegistrationService = firebaseRegistrationService;
+        this.driverService = driverService;
         this.environment = environment;
     }
 
+    public List<DriverDto> findDrivers(Long corporationId) {
+        return driverService.findByCorporation(corporationId);
+    }
+
     public DriverDto createDriver(DriverDto driver) {
-        if (!corpRepository.existsByEmail(driver.getEmail())) {
+        if (!driverService.existByEmail(driver.getEmail())) {
             final DriverEntity entity = new DriverEntity();
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
