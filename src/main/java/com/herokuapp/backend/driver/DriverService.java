@@ -2,6 +2,8 @@ package com.herokuapp.backend.driver;
 
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class DriverService {
 
@@ -12,6 +14,8 @@ public class DriverService {
     }
 
     public DriverDto getById(Long id) {
-        return new DriverDto(driverRepository.getById(id));
+        if (driverRepository.existsById(id)) {
+            return new DriverDto(driverRepository.getById(id));
+        } else throw new NoSuchElementException("There is no driver with this id");
     }
 }
