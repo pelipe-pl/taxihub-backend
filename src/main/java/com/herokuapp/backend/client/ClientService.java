@@ -3,6 +3,7 @@ package com.herokuapp.backend.client;
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -21,6 +22,12 @@ public class ClientService {
             clientRepository.save(toEntity(clientDto));
             firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
         } else throw new IllegalArgumentException("Client with this e-mail already exists");
+    }
+
+    public ClientDto getById(Long id) {
+        if (clientRepository.existsById(id)) {
+            return toDto(clientRepository.getById(id));
+        } else throw new NoSuchElementException("There is no client with this id");
     }
 
     public void edit(ClientDto clientDto) {
