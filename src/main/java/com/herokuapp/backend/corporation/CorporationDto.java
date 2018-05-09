@@ -7,16 +7,25 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @JsonInclude(NON_NULL)
 public class CorporationDto {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String password;
 
-    public Integer getId() {
+    public CorporationDto() {
+    }
+
+    public CorporationDto(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

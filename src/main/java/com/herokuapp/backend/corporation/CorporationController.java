@@ -26,6 +26,11 @@ public class CorporationController {
         return service.createCorporation(corporation);
     }
 
+    @GetMapping("/profile/{id}")
+    public CorporationDto getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
     @GetMapping("{id}/drivers")
     public List<DriverDto> findDrivers(@PathVariable Long id) {
         return service.findDrivers(id);

@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
@@ -65,5 +66,18 @@ public class CorporationService {
             firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
             return corporation;
         } else throw new IllegalArgumentException("Corporation with this e-mail already exists");
+    }
+
+    public CorporationDto getById(Long id) {
+        if (corpRepository.existsById(id)) {
+            return toDto(corpRepository.getById(id));
+        } else throw new NoSuchElementException("There is no company with this id");
+    }
+
+    private CorporationDto toDto(CorporationEntity corporationEntity) {
+        return new CorporationDto(
+                corporationEntity.getId(),
+                corporationEntity.getName(),
+                corporationEntity.getEmail());
     }
 }
