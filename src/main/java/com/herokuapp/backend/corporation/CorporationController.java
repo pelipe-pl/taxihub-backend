@@ -31,6 +31,11 @@ public class CorporationController {
         return service.getById(id);
     }
 
+    @GetMapping("getname/{id}")
+    public String getName(@PathVariable Long id) {
+        return service.getName(id);
+    }
+
     @GetMapping("{id}/drivers")
     public List<DriverDto> findDrivers(@PathVariable Long id) {
         return service.findDrivers(id);
