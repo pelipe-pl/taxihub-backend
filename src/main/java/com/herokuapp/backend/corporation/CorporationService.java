@@ -74,6 +74,12 @@ public class CorporationService {
         } else throw new NoSuchElementException("There is no company with this id");
     }
 
+    public String getName(Long id) {
+        if (corpRepository.existsById(id)) {
+            return corpRepository.getById(id).getName();
+        } else throw new NoSuchElementException("There is no company with this id");
+    }
+
     private CorporationDto toDto(CorporationEntity corporationEntity) {
         return new CorporationDto(
                 corporationEntity.getId(),
