@@ -47,6 +47,7 @@ public class CorporationService {
             entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
             entity.setToken(RandomStringUtils.randomAlphabetic(20));
             sendConfirmationEmail(driver.getEmail(), entity.getToken());
+            driverService.save(entity);
             return driver;
         } else throw new IllegalArgumentException("Driver with this e-mail already exists");
     }
