@@ -28,4 +28,8 @@ public class DriverServiceFacade {
                 .map(DriverDto::new)
                 .collect(Collectors.toList());
     }
+
+    public void save(DriverEntity driverEntity) {
+        driverRepository.save(driverEntity);
+    }
 }
