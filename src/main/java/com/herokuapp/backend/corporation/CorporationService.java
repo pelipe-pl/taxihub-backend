@@ -39,7 +39,8 @@ public class CorporationService {
     }
 
     public DriverDto createDriver(DriverDto driver) {
-        if (!driverService.existByEmail(driver.getEmail())) {
+        if (!driverService.existByEmail(driver.getEmail())
+                && corpRepository.existsById(driver.getCorporationId())) {
             final DriverEntity entity = new DriverEntity();
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
@@ -49,7 +50,10 @@ public class CorporationService {
             sendConfirmationEmail(driver.getEmail(), entity.getToken());
             driverService.save(entity);
             return driver;
-        } else throw new IllegalArgumentException("Driver with this e-mail already exists");
+        }
+        if (!corpRepository.existsById(driver.getCorporationId()))
+            throw new IllegalArgumentException("There is no corporation with this Id.");
+        else throw new IllegalArgumentException("The driver with this e-mail already exists.");
     }
 
     private void sendConfirmationEmail(String address, String token) {
