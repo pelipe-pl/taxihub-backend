@@ -31,7 +31,7 @@ public class TestController {
     @GetMapping("email")
     public String emailSent() {
         Email email = new Email();
-        email.setTo("friptu.marcela@gmail.com");
+        email.setTo("filipandersen80@outlook.com");
         email.setSubject("Test Email");
         email.setContent("Test Email - the email service works");
         emailService.send(email);
