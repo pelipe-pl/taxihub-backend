@@ -73,6 +73,18 @@ public class CorporationService {
         } else throw new IllegalArgumentException("Corporation with this e-mail already exists");
     }
 
+    public void update(CorporationDto corporationDto) {
+        if (corpRepository.existsById(corporationDto.getId())) {
+            if (corporationDto.getName() == null)
+                throw new IllegalArgumentException("The name for corporation is required");
+            else {
+                CorporationEntity entity = corpRepository.getById(corporationDto.getId());
+                entity.setName(corporationDto.getName());
+                corpRepository.save(entity);
+            }
+        } else throw new IllegalArgumentException("There is now corporation with this id");
+    }
+
     public CorporationDto getById(Long id) {
         if (corpRepository.existsById(id)) {
             return toDto(corpRepository.getById(id));
