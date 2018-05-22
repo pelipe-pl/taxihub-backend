@@ -39,7 +39,8 @@ public class CorporationService {
     }
 
     public DriverDto createDriver(DriverDto driver) {
-        if (!driverService.existByEmail(driver.getEmail())) {
+        if (!driverService.existByEmail(driver.getEmail())
+                && corpRepository.existsById(driver.getCorporationId())) {
             final DriverEntity entity = new DriverEntity();
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
@@ -49,7 +50,10 @@ public class CorporationService {
             sendConfirmationEmail(driver.getEmail(), entity.getToken());
             driverService.save(entity);
             return driver;
-        } else throw new IllegalArgumentException("Driver with this e-mail already exists");
+        }
+        if (!corpRepository.existsById(driver.getCorporationId()))
+            throw new IllegalArgumentException("There is no corporation with this Id.");
+        else throw new IllegalArgumentException("The driver with this e-mail already exists.");
     }
 
     private void sendConfirmationEmail(String address, String token) {
@@ -67,6 +71,18 @@ public class CorporationService {
             firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
             return corporation;
         } else throw new IllegalArgumentException("Corporation with this e-mail already exists");
+    }
+
+    public void update(CorporationDto corporationDto) {
+        if (corpRepository.existsById(corporationDto.getId())) {
+            if (corporationDto.getName() == null)
+                throw new IllegalArgumentException("The name for corporation is required");
+            else {
+                CorporationEntity entity = corpRepository.getById(corporationDto.getId());
+                entity.setName(corporationDto.getName());
+                corpRepository.save(entity);
+            }
+        } else throw new IllegalArgumentException("There is now corporation with this id");
     }
 
     public CorporationDto getById(Long id) {
