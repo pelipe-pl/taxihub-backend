@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @EnableWebSecurity
@@ -35,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/denied").permitAll()
                 .anyRequest().permitAll()
                 //TODO change anyRequest to authentificated afte the tests are done
-                .antMatchers(OPTIONS).permitAll().and().cors()
+                .antMatchers(OPTIONS).permitAll().antMatchers(PUT).permitAll().and().cors()
                 .and().csrf().disable().sessionManagement().sessionCreationPolicy(STATELESS);
         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
@@ -45,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
         corsConfiguration.addAllowedMethod(OPTIONS);
+        corsConfiguration.addAllowedMethod(PUT);
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
