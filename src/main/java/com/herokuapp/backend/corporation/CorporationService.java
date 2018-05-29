@@ -59,6 +59,8 @@ public class CorporationService {
     private void sendConfirmationEmail(String address, String token) {
         String content = CONFIRMATION_CONTENT + environment.getRequiredProperty(FRONT_URL) + token;
         Email email = new Email(address, "Registration Confirmation", content);
+        System.out.println("TEST: CorporationService sendConfirmationEmail()");
+        System.out.println(email);
         emailService.send(email);
     }
 
