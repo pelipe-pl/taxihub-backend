@@ -2,6 +2,7 @@ package com.herokuapp.backend.client;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "client")
@@ -14,7 +15,11 @@ public class ClientEntity {
     @Email
     @Column(unique = true)
     private String email;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String surname;
 
     public ClientEntity() {

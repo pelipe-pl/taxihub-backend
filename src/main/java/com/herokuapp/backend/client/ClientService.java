@@ -30,8 +30,15 @@ public class ClientService {
         } else throw new NoSuchElementException("There is no client with this id");
     }
 
-    public void edit(ClientDto clientDto) {
-        clientRepository.save(toEntity(clientDto));
+    public void update(ClientDto clientDto) {
+        if (clientRepository.existsById(clientDto.getId())) {
+            if (clientDto.getName() != null && clientDto.getSurname() != null) {
+                ClientEntity entity = clientRepository.getById(clientDto.getId());
+                entity.setName(clientDto.getName());
+                entity.setSurname(clientDto.getSurname());
+                clientRepository.save(entity);
+            } else throw new IllegalArgumentException("The name and surname are required!");
+        } else throw new IllegalArgumentException("There is no client with this id!");
     }
 
     private ClientEntity toEntity(ClientDto clientDto) {
