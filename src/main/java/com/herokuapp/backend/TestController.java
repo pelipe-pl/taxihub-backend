@@ -15,7 +15,6 @@ public class TestController {
     @Autowired
     private EmailService emailService;
 
-
     @GetMapping()
     public String helloWorld() {
         return "Hello World! This is TaxiHub :)";

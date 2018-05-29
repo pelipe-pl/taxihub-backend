@@ -16,9 +16,6 @@ public class EmailService {
     }
 
     public void send(Email email) {
-        System.out.println("TEST: EmailService send()");
-        System.out.println(environment.getRequiredProperty(EMAIL_URL));
-        System.out.println(email);
         restTemplate.postForObject(environment.getRequiredProperty(EMAIL_URL), email, Object.class);
     }
 }
