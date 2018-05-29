@@ -39,4 +39,12 @@ public class Email {
         this.content = content;
     }
 
+    @Override
+    public String toString() {
+        return "Email{" +
+                "to='" + to + '\'' +
+                ", subject='" + subject + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

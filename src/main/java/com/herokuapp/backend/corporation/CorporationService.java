@@ -19,7 +19,7 @@ import static com.herokuapp.backend.config.Keys.FRONT_URL;
 @Service
 public class CorporationService {
 
-    public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click the link below: \n";
+    public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click: \n";
     private final CorporationRepository corpRepository;
     private final EmailService emailService;
     private final FirebaseRegistrationService firebaseRegistrationService;
@@ -57,7 +57,7 @@ public class CorporationService {
     }
 
     private void sendConfirmationEmail(String address, String token) {
-        String content = CONFIRMATION_CONTENT + environment.getRequiredProperty(FRONT_URL) + token;
+        String content = CONFIRMATION_CONTENT + "<a href='" + environment.getRequiredProperty(FRONT_URL) + token + "'>here</a>";
         Email email = new Email(address, "Registration Confirmation", content);
         emailService.send(email);
     }
