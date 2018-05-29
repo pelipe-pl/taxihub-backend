@@ -19,10 +19,9 @@ public class ClientController {
         clientService.add(clientDto);
     }
 
-    @PutMapping("{id}")
-    public void edit(@PathVariable Long id, @RequestBody ClientDto clientDto) {
-        clientDto.setId(id);
-        clientService.edit(clientDto);
+    @PutMapping
+    public void update(@RequestBody ClientDto clientDto) {
+        clientService.update(clientDto);
     }
 
     @GetMapping("/profile/{id}")
