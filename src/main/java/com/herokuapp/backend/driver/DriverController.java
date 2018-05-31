@@ -1,9 +1,6 @@
 package com.herokuapp.backend.driver;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/driver")
@@ -18,5 +15,10 @@ public class DriverController {
     @GetMapping("/profile/{id}")
     public DriverDto getById(@PathVariable Long id) {
         return driverService.getById(id);
+    }
+
+    @PutMapping
+    public void update(@RequestBody DriverDto driverDto) {
+        driverService.update(driverDto);
     }
 }
