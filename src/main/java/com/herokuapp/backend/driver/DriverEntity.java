@@ -3,6 +3,7 @@ package com.herokuapp.backend.driver;
 import com.herokuapp.backend.corporation.CorporationEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "driver")
@@ -13,9 +14,11 @@ public class DriverEntity {
     private Long id;
 
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     @Column(name = "surname")
+    @NotEmpty
     private String surname;
 
     @Column(name = "email", unique = true)
