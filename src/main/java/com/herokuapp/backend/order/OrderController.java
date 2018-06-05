@@ -40,8 +40,13 @@ public class OrderController {
     }
 
     @GetMapping("open/corporation/{corporationId}")
-    public List<OrderDto> openByCorporationId(@PathVariable Long corporationId){
+    public List<OrderDto> openByCorporationId(@PathVariable Long corporationId) {
         return orderService.findAllOpenByCorporation(corporationId);
+    }
+
+    @GetMapping("hasopen/client/{clientId}")
+    public Boolean hasOpenByClientId(@PathVariable Long clientId){
+        return orderService.hasOpenByClientId(clientId);
     }
 
     @GetMapping("history/client/{clientId}")
@@ -55,7 +60,7 @@ public class OrderController {
     }
 
     @GetMapping("history/corporation/{corporationId}")
-    public List<OrderDto> corporationHistory(@PathVariable Long corporationId){
+    public List<OrderDto> corporationHistory(@PathVariable Long corporationId) {
         return orderService.findCorporationHistory(corporationId);
     }
 

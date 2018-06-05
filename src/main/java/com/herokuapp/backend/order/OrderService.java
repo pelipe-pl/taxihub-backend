@@ -55,7 +55,7 @@ public class OrderService {
     }
 
     List<OrderDto> findAllOpen() {
-        return orderRepository.findAllByStatusEquals(OrderStatus.OPEN)
+        return orderRepository.findAllByStatusEquals(OPEN)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -69,11 +69,18 @@ public class OrderService {
     }
 
     OrderDto getOpenByClient(Long clientId) {
-        return toDto(orderRepository.getFirstByClientIdAndStatus(clientId, OrderStatus.OPEN));
+        return toDto(orderRepository.getFirstByClientIdAndStatus(clientId, OPEN));
     }
 
     OrderDto getOpenByDriver(Long driverId) {
-        return toDto(orderRepository.getFirstByDriverIdAndStatus(driverId, OrderStatus.OPEN));
+        return toDto(orderRepository.getFirstByDriverIdAndStatus(driverId, OPEN));
+    }
+
+    Boolean hasOpenByClientId(Long clientId) {
+        if (clientId != null && clientService.existsById(clientId))
+            return orderRepository.existsByClient_IdAndStatus(clientId, OPEN)
+                    || orderRepository.existsByClient_IdAndStatus(clientId, TAKEN);
+        else throw new IllegalArgumentException("There is no orders for client with this Id or it has not been provided");
     }
 
     void add(OrderDto orderDto) {
