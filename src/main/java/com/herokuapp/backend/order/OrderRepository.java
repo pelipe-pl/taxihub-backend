@@ -22,4 +22,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
     OrderEntity getFirstByClientIdAndStatus(Long clientId, OrderStatus status);
 
     OrderEntity getFirstByDriverIdAndStatus(Long driverId, OrderStatus status);
+
+    Boolean existsByClient_IdAndStatus(Long clientId, OrderStatus status);
 }
