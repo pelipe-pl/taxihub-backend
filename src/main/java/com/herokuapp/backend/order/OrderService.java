@@ -80,17 +80,20 @@ public class OrderService {
         if (clientId != null && clientService.existsById(clientId))
             return orderRepository.existsByClient_IdAndStatus(clientId, OPEN)
                     || orderRepository.existsByClient_IdAndStatus(clientId, TAKEN);
-        else throw new IllegalArgumentException("There is no orders for client with this Id or it has not been provided");
+        else
+            throw new IllegalArgumentException("There is no orders for client with this Id or it has not been provided");
     }
 
     void add(OrderDto orderDto) {
-        orderRepository.save(new OrderEntity(
-                clientService.getById(orderDto.getClientId()),
-                orderDto.getFromLatitude(),
-                orderDto.getFromLongitude(),
-                orderDto.getToLatitude(),
-                orderDto.getToLongitude()
-        ));
+        if (hasOpenByClientId(orderDto.getClientId())) {
+            orderRepository.save(new OrderEntity(
+                    clientService.getById(orderDto.getClientId()),
+                    orderDto.getFromLatitude(),
+                    orderDto.getFromLongitude(),
+                    orderDto.getToLatitude(),
+                    orderDto.getToLongitude()
+            ));
+        } else throw new IllegalArgumentException("User with this id already has an order with open or taken status");
     }
 
     void setCanceled(Long id) {
