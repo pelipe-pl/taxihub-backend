@@ -15,4 +15,6 @@ public class ClientServiceFacade {
     public ClientEntity getById(Long id) {
         return clientRepository.getById(id);
     }
+
+    public Boolean existsById(Long id){ return  clientRepository.existsById(id);}
 }
