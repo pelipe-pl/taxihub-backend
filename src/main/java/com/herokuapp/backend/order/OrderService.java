@@ -7,6 +7,7 @@ import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -22,9 +23,9 @@ public class OrderService {
     private final DriverServiceFacade driverService;
     private final EmailService emailService;
 
-    public OrderService(OrderRepository orderRepository, ClientServiceFacade clientService1, DriverServiceFacade driverService, EmailService emailService) {
+    public OrderService(OrderRepository orderRepository, ClientServiceFacade clientService, DriverServiceFacade driverService, EmailService emailService) {
         this.orderRepository = orderRepository;
-        this.clientService = clientService1;
+        this.clientService = clientService;
         this.driverService = driverService;
         this.emailService = emailService;
     }
@@ -69,7 +70,9 @@ public class OrderService {
     }
 
     OrderDto getOpenByClient(Long clientId) {
-        return toDto(orderRepository.getFirstByClientIdAndStatus(clientId, OPEN));
+        if (hasOpenByClientId(clientId))
+            return toDto(orderRepository.getByClient_IdAndStatusIn(clientId, Arrays.asList(OPEN, TAKEN)));
+        else throw new IllegalArgumentException("The client with this Id has no open orders");
     }
 
     OrderDto getOpenByDriver(Long driverId) {
@@ -78,10 +81,9 @@ public class OrderService {
 
     Boolean hasOpenByClientId(Long clientId) {
         if (clientId != null && clientService.existsById(clientId))
-            return orderRepository.existsByClient_IdAndStatus(clientId, OPEN)
-                    || orderRepository.existsByClient_IdAndStatus(clientId, TAKEN);
+            return orderRepository.existsByClient_IdAndStatusIn(clientId, Arrays.asList(OPEN, TAKEN));
         else
-            throw new IllegalArgumentException("There is no orders for client with this Id or it has not been provided");
+            throw new IllegalArgumentException("There is no client with this Id or it has not been provided");
     }
 
     void add(OrderDto orderDto) {
@@ -93,7 +95,7 @@ public class OrderService {
                     orderDto.getToLatitude(),
                     orderDto.getToLongitude()
             ));
-        } else throw new IllegalArgumentException("User with this id already has an order with open or taken status");
+        } else throw new IllegalArgumentException("The client with this Id already has an order with open or taken status");
     }
 
     void setCanceled(Long id) {
