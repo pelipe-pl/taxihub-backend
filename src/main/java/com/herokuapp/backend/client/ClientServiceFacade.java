@@ -16,5 +16,11 @@ public class ClientServiceFacade {
         return clientRepository.getById(id);
     }
 
-    public Boolean existsById(Long id){ return  clientRepository.existsById(id);}
+    public Boolean existsById(Long id) {
+        return clientRepository.existsById(id);
+    }
+
+    public Long getIdByEmail(String email) {
+        return clientRepository.findByEmail(email).getId();
+    }
 }

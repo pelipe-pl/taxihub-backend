@@ -22,6 +22,8 @@ public class DriverServiceFacade {
         return driverRepository.existsByEmail(email);
     }
 
+    public Long getIdByEmail(String email) { return  driverRepository.findByEmail(email).getId();}
+
     public List<DriverDto> findByCorporation(Long corporationId) {
         return driverRepository.findAllByCorporation_Id(corporationId)
                 .stream()

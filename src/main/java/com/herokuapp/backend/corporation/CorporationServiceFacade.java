@@ -13,4 +13,8 @@ public class CorporationServiceFacade {
     public CorporationEntity getById(Long id) {
         return corpRepository.getById(id);
     }
+
+    public Long getByEmail(String email) {
+        return corpRepository.findByEmail(email).getId();
+    }
 }
