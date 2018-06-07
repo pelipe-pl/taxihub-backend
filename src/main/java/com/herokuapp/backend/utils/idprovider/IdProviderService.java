@@ -4,6 +4,7 @@ import com.herokuapp.backend.auth.Role;
 import com.herokuapp.backend.client.ClientServiceFacade;
 import com.herokuapp.backend.corporation.CorporationServiceFacade;
 import com.herokuapp.backend.driver.DriverServiceFacade;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,10 +20,10 @@ public class IdProviderService {
         this.driverServiceFacade = driverServiceFacade;
     }
 
-    Long getIdByEmailAndRole(String email, Role role) {
-        if (role == Role.CORPORATION) return corporationServiceFacade.getByEmail(email);
-        if (role == Role.CLIENT) return clientServiceFacade.getIdByEmail(email);
-        if (role == Role.DRIVER) return driverServiceFacade.getIdByEmail(email);
+    Long getIdByEmailAndRole(String email, String role) throws NotFoundException {
+        if (role.toUpperCase().equals(Role.CORPORATION.toString())) return corporationServiceFacade.getByEmail(email);
+        if (role.toUpperCase().equals(Role.CLIENT.toString())) return clientServiceFacade.getIdByEmail(email);
+        if (role.toUpperCase().equals(Role.DRIVER.toString())) return driverServiceFacade.getIdByEmail(email);
         else throw new IllegalArgumentException("Provided Role is unknown.");
     }
 }

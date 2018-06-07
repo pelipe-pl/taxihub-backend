@@ -9,12 +9,12 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 class IdRequest {
 
     private String email;
-    private Role role;
+    private String role;
 
     public IdRequest() {
     }
 
-    public IdRequest(String email, Role role) {
+    public IdRequest(String email, String role) {
         this.email = email;
         this.role = role;
     }
@@ -27,11 +27,11 @@ class IdRequest {
         this.email = email;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }
