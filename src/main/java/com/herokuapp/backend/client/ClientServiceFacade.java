@@ -1,6 +1,7 @@
 package com.herokuapp.backend.client;
 
 
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,5 +17,12 @@ public class ClientServiceFacade {
         return clientRepository.getById(id);
     }
 
-    public Boolean existsById(Long id){ return  clientRepository.existsById(id);}
+    public Boolean existsById(Long id) {
+        return clientRepository.existsById(id);
+    }
+
+    public Long getIdByEmail(String email) throws NotFoundException {
+        if(clientRepository.existsByEmail(email)) return clientRepository.findByEmail(email).getId();
+        else throw new NotFoundException("There is no client with this e-mail.");
+    }
 }
