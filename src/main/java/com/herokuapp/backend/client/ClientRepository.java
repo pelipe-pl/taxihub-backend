@@ -12,4 +12,5 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Integer> {
     Boolean existsByEmail(String email);
 
     Boolean existsById(Long id);
+
 }
