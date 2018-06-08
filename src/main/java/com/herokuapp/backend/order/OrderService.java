@@ -87,7 +87,7 @@ public class OrderService {
     }
 
     void add(OrderDto orderDto) {
-        if (hasOpenByClientId(orderDto.getClientId())) {
+        if (!hasOpenByClientId(orderDto.getClientId())) {
             orderRepository.save(new OrderEntity(
                     clientService.getById(orderDto.getClientId()),
                     orderDto.getFromLatitude(),
