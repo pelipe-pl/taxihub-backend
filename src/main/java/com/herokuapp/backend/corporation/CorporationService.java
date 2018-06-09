@@ -1,6 +1,8 @@
 package com.herokuapp.backend.corporation;
 
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
+import com.herokuapp.backend.car.CarEntity;
+import com.herokuapp.backend.car.CarServiceFacade;
 import com.herokuapp.backend.driver.DriverDto;
 import com.herokuapp.backend.driver.DriverEntity;
 import com.herokuapp.backend.driver.DriverServiceFacade;
@@ -24,13 +26,15 @@ public class CorporationService {
     private final EmailService emailService;
     private final FirebaseRegistrationService firebaseRegistrationService;
     private final DriverServiceFacade driverService;
+    private final CarServiceFacade carService;
     private Environment environment;
 
-    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, Environment environment) {
+    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, CarServiceFacade carService, Environment environment) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
         this.firebaseRegistrationService = firebaseRegistrationService;
         this.driverService = driverService;
+        this.carService = carService;
         this.environment = environment;
     }
 
@@ -41,11 +45,29 @@ public class CorporationService {
     public DriverDto createDriver(DriverDto driver) {
         if (!driverService.existByEmail(driver.getEmail())
                 && corpRepository.existsById(driver.getCorporationId())) {
+
             final DriverEntity entity = new DriverEntity();
+
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
             entity.setEmail(driver.getEmail());
             entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
+
+            if(driver.getCar()!=null){
+                if(driver.getCar().getMake()!=null &&
+                        driver.getCar().getModel()!=null &&
+                        driver.getCar().getColor()!=null &&
+                        driver.getCar().getPlates()!=null){
+
+                    final CarEntity carEntity = new CarEntity();
+                    carEntity.setMake(driver.getCar().getMake());
+                    carEntity.setModel(driver.getCar().getModel());
+                    carEntity.setColor(driver.getCar().getColor());
+                    carEntity.setPlates(driver.getCar().getPlates());
+                    carService.save(carEntity);
+                    entity.setCar(carEntity);
+                }
+            }
             entity.setToken(RandomStringUtils.randomAlphabetic(20));
             sendConfirmationEmail(driver.getEmail(), entity.getToken());
             driverService.save(entity);
