@@ -21,7 +21,7 @@ import static com.herokuapp.backend.config.Keys.FRONT_URL;
 @Service
 public class CorporationService {
 
-    public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click: \n";
+    private static final String CONFIRMATION_CONTENT = "To confirm your email address, please click: \n";
     private final CorporationRepository corpRepository;
     private final EmailService emailService;
     private final FirebaseRegistrationService firebaseRegistrationService;
@@ -43,39 +43,34 @@ public class CorporationService {
     }
 
     public DriverDto createDriver(DriverDto driver) {
-        if (!driverService.existByEmail(driver.getEmail())
-                && corpRepository.existsById(driver.getCorporationId())) {
-
+        if (driverService.existByEmail(driver.getEmail())) {
+            throw new IllegalArgumentException("The driver with this e-mail already exists.");
+        }
+        if (!corpRepository.existsById(driver.getCorporationId())) {
+            throw new IllegalArgumentException("The corporation with this Id does not exist.");
+        } else {
             final DriverEntity entity = new DriverEntity();
-
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
             entity.setEmail(driver.getEmail());
             entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
 
-            if(driver.getCar()!=null){
-                if(driver.getCar().getMake()!=null &&
-                        driver.getCar().getModel()!=null &&
-                        driver.getCar().getColor()!=null &&
-                        driver.getCar().getPlates()!=null){
-
-                    final CarEntity carEntity = new CarEntity();
-                    carEntity.setMake(driver.getCar().getMake());
-                    carEntity.setModel(driver.getCar().getModel());
-                    carEntity.setColor(driver.getCar().getColor());
-                    carEntity.setPlates(driver.getCar().getPlates());
-                    carService.save(carEntity);
-                    entity.setCar(carEntity);
-                }
+            if (driver.getCar() != null) {
+                CarEntity carEntity = new CarEntity();
+                if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());
+                if (driver.getCar().getModel() != null) carEntity.setModel(driver.getCar().getModel());
+                if (driver.getCar().getColor() != null) carEntity.setColor(driver.getCar().getColor());
+                if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates());
+                carEntity.setDriver(entity);
+                driverService.save(entity);
+                carService.save(carEntity);
+                entity.setCar(carEntity);
             }
             entity.setToken(RandomStringUtils.randomAlphabetic(20));
             sendConfirmationEmail(driver.getEmail(), entity.getToken());
             driverService.save(entity);
             return driver;
         }
-        if (!corpRepository.existsById(driver.getCorporationId()))
-            throw new IllegalArgumentException("There is no corporation with this Id.");
-        else throw new IllegalArgumentException("The driver with this e-mail already exists.");
     }
 
     private void sendConfirmationEmail(String address, String token) {

@@ -19,6 +19,12 @@ public class CarServiceFacade {
         }
     }
 
+    public CarEntity getByDriverId(Long id){ return carRepository.getByDriver_Id(id);}
+
+    public void update(CarEntity carEntity) {
+        carRepository.save(carEntity);
+    }
+
     public CarDto toDto(CarEntity carEntity) {
         return new CarDto(
                 carEntity.getId(),

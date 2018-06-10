@@ -1,5 +1,6 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.car.CarEntity;
 import com.herokuapp.backend.car.CarServiceFacade;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,14 @@ public class DriverService {
                 DriverEntity driverEntity = driverRepository.getById(driverDto.getId());
                 driverEntity.setName(driverDto.getName());
                 driverEntity.setSurname(driverDto.getSurname());
+                if (driverDto.getCar() != null) {
+                    CarEntity carEntity = carService.getByDriverId(driverDto.getId());
+                    carEntity.setMake(driverDto.getCar().getMake());
+                    carEntity.setModel(driverDto.getCar().getModel());
+                    carEntity.setColor(driverDto.getCar().getColor());
+                    carEntity.setPlates(driverDto.getCar().getPlates());
+                    carService.update(carEntity);
+                }
                 driverRepository.save(driverEntity);
             }
         } else throw new IllegalArgumentException("There is no driver with this id or id is was not provided");
@@ -45,8 +54,6 @@ public class DriverService {
         if (driverEntity.getCar() != null) {
             driverDto.setCar(carService.toDto(driverEntity.getCar()));
         }
-
         return driverDto;
     }
-
 }

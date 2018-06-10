@@ -1,5 +1,7 @@
 package com.herokuapp.backend.car;
 
+import com.herokuapp.backend.driver.DriverEntity;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -19,6 +21,10 @@ public class CarEntity {
 
     @Column(unique = true)
     private String plates;
+
+    @OneToOne
+    @JoinColumn(name = "driver_id")
+    private DriverEntity driver;
 
     public CarEntity() {
     }
@@ -66,6 +72,14 @@ public class CarEntity {
         this.plates = plates;
     }
 
+    public DriverEntity getDriver() {
+        return driver;
+    }
+
+    public void setDriver(DriverEntity driver) {
+        this.driver = driver;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,16 +92,5 @@ public class CarEntity {
     public int hashCode() {
 
         return Objects.hash(Id);
-    }
-
-    @Override
-    public String toString() {
-        return "CarEntity{" +
-                "Id=" + Id +
-                ", make='" + make + '\'' +
-                ", model='" + model + '\'' +
-                ", color='" + color + '\'' +
-                ", plates='" + plates + '\'' +
-                '}';
     }
 }

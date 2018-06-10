@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface CarRepository extends JpaRepository<CarEntity, Long> {
 
     Boolean existsByPlates(String plates);
+
+    CarEntity getByDriver_Id(Long id);
 }
