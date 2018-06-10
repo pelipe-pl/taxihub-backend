@@ -1,5 +1,6 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.car.CarServiceFacade;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -8,14 +9,16 @@ import java.util.NoSuchElementException;
 public class DriverService {
 
     private final DriverRepository driverRepository;
+    private final CarServiceFacade carService;
 
-    public DriverService(DriverRepository driverRepository) {
+    public DriverService(DriverRepository driverRepository, CarServiceFacade carService) {
         this.driverRepository = driverRepository;
+        this.carService = carService;
     }
 
     public DriverDto getById(Long id) {
         if (driverRepository.existsById(id)) {
-            return new DriverDto(driverRepository.getById(id));
+            return toDto(driverRepository.getById(id));
         } else throw new NoSuchElementException("There is no driver with this id");
     }
 
@@ -31,4 +34,19 @@ public class DriverService {
             }
         } else throw new IllegalArgumentException("There is no driver with this id or id is was not provided");
     }
+
+    private DriverDto toDto(DriverEntity driverEntity) {
+        DriverDto driverDto = new DriverDto();
+        driverDto.setId(driverEntity.getId());
+        driverDto.setName(driverEntity.getSurname());
+        driverDto.setSurname(driverEntity.getSurname());
+        driverDto.setEmail(driverEntity.getEmail());
+        driverDto.setCorporationId(driverEntity.getCorporation().getId());
+        if (driverEntity.getCar() != null) {
+            driverDto.setCar(carService.toDto(driverEntity.getCar()));
+        }
+
+        return driverDto;
+    }
+
 }

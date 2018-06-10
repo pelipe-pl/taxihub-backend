@@ -12,6 +12,20 @@ public class CarServiceFacade {
     }
 
     public void save(CarEntity carEntity) {
-        if (carEntity != null) carRepository.save(carEntity);
+        if (carEntity != null) {
+            if (!carRepository.existsByPlates(carEntity.getPlates())) {
+                carRepository.save(carEntity);
+            } else throw new IllegalArgumentException("The car with this plates number already exists.");
+        }
+    }
+
+    public CarDto toDto(CarEntity carEntity) {
+        return new CarDto(
+                carEntity.getId(),
+                carEntity.getMake(),
+                carEntity.getModel(),
+                carEntity.getColor(),
+                carEntity.getPlates()
+        );
     }
 }
