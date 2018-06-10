@@ -38,7 +38,7 @@ public class DriverService {
     private DriverDto toDto(DriverEntity driverEntity) {
         DriverDto driverDto = new DriverDto();
         driverDto.setId(driverEntity.getId());
-        driverDto.setName(driverEntity.getSurname());
+        driverDto.setName(driverEntity.getName());
         driverDto.setSurname(driverEntity.getSurname());
         driverDto.setEmail(driverEntity.getEmail());
         driverDto.setCorporationId(driverEntity.getCorporation().getId());
