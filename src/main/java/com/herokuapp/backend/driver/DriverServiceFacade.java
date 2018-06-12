@@ -1,18 +1,23 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.auth.DriverConfirm;
+import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
 public class DriverServiceFacade {
 
     private final DriverRepository driverRepository;
+    private final FirebaseRegistrationService firebaseRegistrationService;
 
-    public DriverServiceFacade(DriverRepository driverRepository) {
+    public DriverServiceFacade(DriverRepository driverRepository, FirebaseRegistrationService firebaseRegistrationService) {
         this.driverRepository = driverRepository;
+        this.firebaseRegistrationService = firebaseRegistrationService;
     }
 
     public DriverEntity getById(Long id) {
@@ -38,5 +43,14 @@ public class DriverServiceFacade {
 
     public void save(DriverEntity driverEntity) {
         driverRepository.save(driverEntity);
+    }
+
+    public Boolean confirmAndSetPass(DriverConfirm driverConfirm) throws ExecutionException, InterruptedException {
+        if (driverRepository.existsByToken(driverConfirm.getToken())) {
+            firebaseRegistrationService.register(
+                    driverRepository.getByToken(driverConfirm.getToken()).getEmail(),
+                    driverConfirm.getPassword());
+            return true;
+        } else return false;
     }
 }

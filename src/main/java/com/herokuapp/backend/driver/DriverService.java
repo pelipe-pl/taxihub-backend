@@ -1,8 +1,11 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.auth.DriverConfirm;
+import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class DriverService {
