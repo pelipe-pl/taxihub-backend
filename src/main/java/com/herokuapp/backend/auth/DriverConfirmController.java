@@ -1,6 +1,7 @@
 package com.herokuapp.backend.auth;
 
 import com.herokuapp.backend.driver.DriverService;
+import com.herokuapp.backend.driver.DriverServiceFacade;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,9 +11,9 @@ import java.util.concurrent.ExecutionException;
 @RestController
 public class DriverConfirmController {
 
-    private final DriverService driverService;
+    private final DriverServiceFacade driverService;
 
-    public DriverConfirmController(DriverService driverService) {
+    public DriverConfirmController(DriverServiceFacade driverService) {
         this.driverService = driverService;
     }
 
