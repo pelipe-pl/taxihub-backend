@@ -1,16 +1,21 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.auth.DriverConfirm;
+import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class DriverService {
 
     private final DriverRepository driverRepository;
+    private final FirebaseRegistrationService firebaseRegistrationService;
 
-    public DriverService(DriverRepository driverRepository) {
+    public DriverService(DriverRepository driverRepository, FirebaseRegistrationService firebaseRegistrationService) {
         this.driverRepository = driverRepository;
+        this.firebaseRegistrationService = firebaseRegistrationService;
     }
 
     public DriverDto getById(Long id) {
@@ -30,5 +35,14 @@ public class DriverService {
                 driverRepository.save(driverEntity);
             }
         } else throw new IllegalArgumentException("There is no driver with this id or id is was not provided");
+    }
+
+    public Boolean confirmAndSetPass(DriverConfirm driverConfirm) throws ExecutionException, InterruptedException {
+        if (driverRepository.existsByToken(driverConfirm.getToken())) {
+            firebaseRegistrationService.register(
+                    driverRepository.getByToken(driverConfirm.getToken()).getEmail(),
+                    driverConfirm.getPassword());
+            return true;
+        } else return false;
     }
 }
