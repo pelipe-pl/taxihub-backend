@@ -1,9 +1,12 @@
 package com.herokuapp.backend.corporation;
 
 import com.herokuapp.backend.driver.DriverDto;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
@@ -31,9 +34,11 @@ public class CorporationController {
         return service.getById(id);
     }
 
-    @GetMapping("/name/{id}")
-    public String getName(@PathVariable Long id) {
-        return service.getName(id);
+    //TODO change response to JSON
+
+    @GetMapping(value = "/name/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> getName(@PathVariable Long id) {
+        return Collections.singletonMap("name", service.getName(id));
     }
 
     @PutMapping
