@@ -34,8 +34,6 @@ public class CorporationController {
         return service.getById(id);
     }
 
-    //TODO change response to JSON
-
     @GetMapping(value = "/name/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> getName(@PathVariable Long id) {
         return Collections.singletonMap("name", service.getName(id));
