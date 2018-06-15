@@ -1,10 +1,16 @@
 package com.herokuapp.backend.driver;
 
+<<<<<<< HEAD
 import com.herokuapp.backend.car.CarEntity;
 import com.herokuapp.backend.car.CarServiceFacade;
+=======
+import com.herokuapp.backend.auth.DriverConfirm;
+import com.herokuapp.backend.auth.FirebaseRegistrationService;
+>>>>>>> dev
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class DriverService {
