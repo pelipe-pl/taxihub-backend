@@ -56,19 +56,26 @@ public class CorporationService {
             entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
 
             if (driver.getCar() != null) {
-                CarEntity carEntity = new CarEntity();
-                if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());
-                if (driver.getCar().getModel() != null) carEntity.setModel(driver.getCar().getModel());
-                if (driver.getCar().getColor() != null) carEntity.setColor(driver.getCar().getColor());
-                if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates());
-                carEntity.setDriver(entity);
-                driverService.save(entity);
-                carService.save(carEntity);
-                entity.setCar(carEntity);
+
+                if (driver.getCar().getPlates() != null || !carService.existsByPlates(driver.getCar().getPlates())) {
+
+                    CarEntity carEntity = new CarEntity();
+                    if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());
+                    if (driver.getCar().getModel() != null) carEntity.setModel(driver.getCar().getModel());
+                    if (driver.getCar().getColor() != null) carEntity.setColor(driver.getCar().getColor());
+                    if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates());
+
+                    carEntity.setDriver(entity);
+                    driverService.save(entity);
+                    carService.save(carEntity);
+                    entity.setCar(carEntity);
+                }
+                else throw new IllegalArgumentException("The car with this plates number already exists.");
             }
+
             entity.setToken(RandomStringUtils.randomAlphabetic(20));
-            sendConfirmationEmail(driver.getEmail(), entity.getToken());
             driverService.save(entity);
+            sendConfirmationEmail(driver.getEmail(), entity.getToken());
             return driver;
         }
     }

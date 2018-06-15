@@ -25,6 +25,8 @@ public class CarServiceFacade {
         carRepository.save(carEntity);
     }
 
+    public Boolean existsByPlates(String plates) {return carRepository.existsByPlates(plates);}
+
     public CarDto toDto(CarEntity carEntity) {
         return new CarDto(
                 carEntity.getId(),
