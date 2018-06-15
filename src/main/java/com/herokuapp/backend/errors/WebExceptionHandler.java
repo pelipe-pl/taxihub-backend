@@ -1,7 +1,11 @@
 package com.herokuapp.backend.errors;
 
+import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -10,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -40,12 +45,10 @@ public class WebExceptionHandler {
         return Collections.singletonList(new Error(ERROR_403_FORBIDEN));
     }
 
-
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
     public List<Error> handleNoSuchElement(NoSuchElementException ex) {
         return Collections.singletonList(new Error(ERROR_404_NOT_FOUND));
-
     }
 
     @ResponseStatus(NOT_FOUND)
@@ -53,7 +56,6 @@ public class WebExceptionHandler {
     public List<Error> handleNoHandlerFound() {
         return Collections.singletonList(new Error(ERROR_404_INVALID_URL));
     }
-
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(BindException.class)
@@ -69,7 +71,6 @@ public class WebExceptionHandler {
         return toErrorList(ex.getBindingResult());
     }
 
-
     @ResponseStatus(METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public List<Error> handleRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
@@ -84,7 +85,6 @@ public class WebExceptionHandler {
         return Collections.singletonList(new Error(ERROR_406_NOT_ACCEPTABLE));
     }
 
-
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public List<Error> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
@@ -92,14 +92,16 @@ public class WebExceptionHandler {
         return Collections.singletonList(new Error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH));
     }
 
-
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public List<Error> handleInternalServerError(Exception ex) {
         log.error(ERROR_500_INTERNAL_SERVER_ERROR, ex);
-        return Collections.singletonList(new Error(ERROR_500_INTERNAL_SERVER_ERROR));
+        if (ex instanceof IllegalArgumentException ||
+                ex instanceof NotFoundException ||
+                ex instanceof NoSuchElementException)
+            return Collections.singletonList(new Error(ex.getMessage()));
+        else return Collections.singletonList(new Error(ERROR_500_INTERNAL_SERVER_ERROR));
     }
-
 
     private List<Error> toErrorList(BindingResult bindingResult) {
         return bindingResult.getAllErrors().stream().map(e -> new Error(e.getDefaultMessage())).collect(Collectors.toList());
