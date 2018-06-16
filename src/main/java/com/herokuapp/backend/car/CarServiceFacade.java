@@ -13,7 +13,7 @@ public class CarServiceFacade {
 
     public void save(CarEntity carEntity) {
         if (carEntity != null) {
-            if (!carRepository.existsByPlates(carEntity.getPlates())) {
+            if (!existsByPlates(carEntity.getPlates().toUpperCase())) {
                 carRepository.save(carEntity);
             } else throw new IllegalArgumentException("The car with this plates number already exists.");
         }
@@ -25,7 +25,7 @@ public class CarServiceFacade {
         carRepository.save(carEntity);
     }
 
-    public Boolean existsByPlates(String plates) {return carRepository.existsByPlates(plates);}
+    public Boolean existsByPlates(String plates) {return carRepository.existsByPlates(plates.toUpperCase());}
 
     public CarDto toDto(CarEntity carEntity) {
         return new CarDto(

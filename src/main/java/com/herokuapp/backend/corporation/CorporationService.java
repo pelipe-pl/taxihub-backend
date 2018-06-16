@@ -63,7 +63,7 @@ public class CorporationService {
                     if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());
                     if (driver.getCar().getModel() != null) carEntity.setModel(driver.getCar().getModel());
                     if (driver.getCar().getColor() != null) carEntity.setColor(driver.getCar().getColor());
-                    if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates());
+                    if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates().toUpperCase());
 
                     carEntity.setDriver(entity);
                     driverService.save(entity);
