@@ -57,7 +57,7 @@ public class CorporationService {
 
             if (driver.getCar() != null) {
 
-                if (driver.getCar().getPlates() != null || !carService.existsByPlates(driver.getCar().getPlates())) {
+                if (driver.getCar().getPlates() != null || !carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {
 
                     CarEntity carEntity = new CarEntity();
                     if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());

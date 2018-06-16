@@ -36,7 +36,7 @@ public class DriverService {
                     carEntity.setMake(driverDto.getCar().getMake());
                     carEntity.setModel(driverDto.getCar().getModel());
                     carEntity.setColor(driverDto.getCar().getColor());
-                    carEntity.setPlates(driverDto.getCar().getPlates());
+                    carEntity.setPlates(driverDto.getCar().getPlates().toUpperCase());
                     carService.update(carEntity);
                 }
                 driverRepository.save(driverEntity);
