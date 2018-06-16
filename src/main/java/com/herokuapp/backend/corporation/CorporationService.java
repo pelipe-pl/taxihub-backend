@@ -1,6 +1,8 @@
 package com.herokuapp.backend.corporation;
 
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
+import com.herokuapp.backend.car.CarEntity;
+import com.herokuapp.backend.car.CarServiceFacade;
 import com.herokuapp.backend.driver.DriverDto;
 import com.herokuapp.backend.driver.DriverEntity;
 import com.herokuapp.backend.driver.DriverServiceFacade;
@@ -19,18 +21,20 @@ import static com.herokuapp.backend.config.Keys.FRONT_URL;
 @Service
 public class CorporationService {
 
-    public static final String CONFIRMATION_CONTENT = "To confirm your email address, please click: \n";
+    private static final String CONFIRMATION_CONTENT = "To confirm your email address, please click: \n";
     private final CorporationRepository corpRepository;
     private final EmailService emailService;
     private final FirebaseRegistrationService firebaseRegistrationService;
     private final DriverServiceFacade driverService;
+    private final CarServiceFacade carService;
     private Environment environment;
 
-    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, Environment environment) {
+    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, CarServiceFacade carService, Environment environment) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
         this.firebaseRegistrationService = firebaseRegistrationService;
         this.driverService = driverService;
+        this.carService = carService;
         this.environment = environment;
     }
 
@@ -39,21 +43,41 @@ public class CorporationService {
     }
 
     public DriverDto createDriver(DriverDto driver) {
-        if (!driverService.existByEmail(driver.getEmail())
-                && corpRepository.existsById(driver.getCorporationId())) {
+        if (driverService.existByEmail(driver.getEmail())) {
+            throw new IllegalArgumentException("The driver with this e-mail already exists.");
+        }
+        if (!corpRepository.existsById(driver.getCorporationId())) {
+            throw new IllegalArgumentException("The corporation with this Id does not exist.");
+        } else {
             final DriverEntity entity = new DriverEntity();
             entity.setName(driver.getName());
             entity.setSurname(driver.getSurname());
             entity.setEmail(driver.getEmail());
             entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
+
+            if (driver.getCar() != null) {
+
+                if (driver.getCar().getPlates() != null || !carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {
+
+                    CarEntity carEntity = new CarEntity();
+                    if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());
+                    if (driver.getCar().getModel() != null) carEntity.setModel(driver.getCar().getModel());
+                    if (driver.getCar().getColor() != null) carEntity.setColor(driver.getCar().getColor());
+                    if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates().toUpperCase());
+
+                    carEntity.setDriver(entity);
+                    driverService.save(entity);
+                    carService.save(carEntity);
+                    entity.setCar(carEntity);
+                }
+                else throw new IllegalArgumentException("The car with this plates number already exists.");
+            }
+
             entity.setToken(RandomStringUtils.randomAlphabetic(20));
-            sendConfirmationEmail(driver.getEmail(), entity.getToken());
             driverService.save(entity);
+            sendConfirmationEmail(driver.getEmail(), entity.getToken());
             return driver;
         }
-        if (!corpRepository.existsById(driver.getCorporationId()))
-            throw new IllegalArgumentException("There is no corporation with this Id.");
-        else throw new IllegalArgumentException("The driver with this e-mail already exists.");
     }
 
     private void sendConfirmationEmail(String address, String token) {
