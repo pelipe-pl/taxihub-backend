@@ -2,7 +2,6 @@ package com.herokuapp.backend.driver;
 
 import com.herokuapp.backend.auth.DriverConfirm;
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
-import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,10 +27,10 @@ public class DriverServiceFacade {
         return driverRepository.existsByEmail(email);
     }
 
-    public Long getIdByEmail(String email) throws NotFoundException {
+    public Long getIdByEmail(String email) {
         if (existByEmail(email)) {
             return driverRepository.findByEmail(email).getId();
-        } else throw new NotFoundException("There is no Driver with this e-mail");
+        } else throw new IllegalArgumentException("There is no Driver with this e-mail");
     }
 
     public List<DriverDto> findByCorporation(Long corporationId) {

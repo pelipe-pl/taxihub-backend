@@ -1,6 +1,8 @@
 package com.herokuapp.backend.corporation;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "corporation")
@@ -10,9 +12,11 @@ public class CorporationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     @Column(name = "name")
     private String name;
 
+    @Email
     @Column(name = "email", unique = true)
     private String email;
 

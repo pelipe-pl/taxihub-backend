@@ -13,7 +13,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
@@ -42,41 +41,41 @@ public class CorporationService {
         return driverService.findByCorporation(corporationId);
     }
 
-    public DriverDto createDriver(DriverDto driver) {
+    public void createDriver(DriverDto driver) {
+
         if (driverService.existByEmail(driver.getEmail())) {
             throw new IllegalArgumentException("The driver with this e-mail already exists.");
         }
         if (!corpRepository.existsById(driver.getCorporationId())) {
             throw new IllegalArgumentException("The corporation with this Id does not exist.");
-        } else {
-            final DriverEntity entity = new DriverEntity();
-            entity.setName(driver.getName());
-            entity.setSurname(driver.getSurname());
-            entity.setEmail(driver.getEmail());
-            entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
-
-            if (driver.getCar() != null) {
-
-                if (driver.getCar().getPlates() != null || !carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {
-
-                    CarEntity carEntity = new CarEntity();
-                    if (driver.getCar().getMake() != null) carEntity.setMake(driver.getCar().getMake());
-                    if (driver.getCar().getModel() != null) carEntity.setModel(driver.getCar().getModel());
-                    if (driver.getCar().getColor() != null) carEntity.setColor(driver.getCar().getColor());
-                    if (driver.getCar().getPlates() != null) carEntity.setPlates(driver.getCar().getPlates().toUpperCase());
-
-                    carEntity.setDriver(entity);
-                    driverService.save(entity);
-                    carService.save(carEntity);
-                    entity.setCar(carEntity);
-                }
-                else throw new IllegalArgumentException("The car with this plates number already exists.");
+        }
+        if (driver.getCar() != null) {
+            if (carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {
+                System.out.println("STEP 4");
+                throw new IllegalArgumentException("The plates number already exists or not provided.");
             }
+        }
+        DriverEntity entity = new DriverEntity();
+        entity.setName(driver.getName());
+        entity.setSurname(driver.getSurname());
+        entity.setEmail(driver.getEmail());
+        entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
+        entity.setToken(RandomStringUtils.randomAlphabetic(20));
+        driverService.save(entity);
+        sendConfirmationEmail(driver.getEmail(), entity.getToken());
 
-            entity.setToken(RandomStringUtils.randomAlphabetic(20));
+        if (driver.getCar() != null) {
+
+            CarEntity carEntity = new CarEntity();
+            carEntity.setMake(driver.getCar().getMake());
+            carEntity.setModel(driver.getCar().getModel());
+            carEntity.setColor(driver.getCar().getColor());
+            carEntity.setPlates(driver.getCar().getPlates().toUpperCase());
+            carEntity.setDriver(entity);
+
+            carService.save(carEntity);
+            entity.setCar(carEntity);
             driverService.save(entity);
-            sendConfirmationEmail(driver.getEmail(), entity.getToken());
-            return driver;
         }
     }
 
@@ -86,7 +85,8 @@ public class CorporationService {
         emailService.send(email);
     }
 
-    public CorporationDto createCorporation(CorporationDto corporation) throws ExecutionException, InterruptedException {
+    public CorporationDto createCorporation(CorporationDto corporation) throws
+            ExecutionException, InterruptedException {
         if (!corpRepository.existsByEmail(corporation.getEmail())) {
             final CorporationEntity entity = new CorporationEntity();
             entity.setName(corporation.getName());
@@ -112,13 +112,13 @@ public class CorporationService {
     public CorporationDto getById(Long id) {
         if (corpRepository.existsById(id)) {
             return toDto(corpRepository.getById(id));
-        } else throw new NoSuchElementException("There is no company with this id");
+        } else throw new IllegalArgumentException("There is no company with this id");
     }
 
     public String getName(Long id) {
         if (corpRepository.existsById(id)) {
             return corpRepository.getById(id).getName();
-        } else throw new NoSuchElementException("There is no company with this id");
+        } else throw new IllegalArgumentException("There is no company with this id");
     }
 
     private CorporationDto toDto(CorporationEntity corporationEntity) {

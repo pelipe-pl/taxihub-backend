@@ -3,7 +3,6 @@ package com.herokuapp.backend.client;
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -27,7 +26,7 @@ public class ClientService {
     public ClientDto getById(Long id) {
         if (clientRepository.existsById(id)) {
             return toDto(clientRepository.getById(id));
-        } else throw new NoSuchElementException("There is no client with this id");
+        } else throw new IllegalArgumentException("There is no client with this id");
     }
 
     public void update(ClientDto clientDto) {

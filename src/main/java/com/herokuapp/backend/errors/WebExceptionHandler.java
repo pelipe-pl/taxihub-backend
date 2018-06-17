@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.herokuapp.backend.errors.ErrorCodes.*;
@@ -88,19 +91,35 @@ public class WebExceptionHandler {
         return Collections.singletonList(new Error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH));
     }
 
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public List<Error> handleConstrainViolationException(ConstraintViolationException ex) {
+        log.error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH, ex);
+        return toErrorList(ex.getConstraintViolations());
+    }
+
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public List<Error> handleIllegalArgumentException(Exception ex) {
+        log.error(ERROR_400_METHOD_ARGUMENT_TYPE_MISMATCH, ex);
+        return Collections.singletonList(new Error(ex.getMessage()));
+    }
+
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public List<Error> handleInternalServerError(Exception ex) {
         log.error(ERROR_500_INTERNAL_SERVER_ERROR, ex);
-        if (ex instanceof IllegalArgumentException ||
-                ex instanceof NotFoundException ||
-                ex instanceof NoSuchElementException)
-            return Collections.singletonList(new Error(ex.getMessage()));
-        else return Collections.singletonList(new Error(ERROR_500_INTERNAL_SERVER_ERROR));
+        return Collections.singletonList(new Error(ERROR_500_INTERNAL_SERVER_ERROR));
     }
 
     private List<Error> toErrorList(BindingResult bindingResult) {
         return bindingResult.getAllErrors().stream().map(e -> new Error(e.getDefaultMessage())).collect(Collectors.toList());
+    }
+
+    private List<Error> toErrorList(Set<ConstraintViolation<?>> constraintViolationSet) {
+        return constraintViolationSet.stream()
+                .map(e -> new Error(e.getPropertyPath() + " " + e.getMessage()))
+                .collect(Collectors.toList());
     }
 
 }
