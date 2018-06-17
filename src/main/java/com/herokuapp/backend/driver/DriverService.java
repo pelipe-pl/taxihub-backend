@@ -1,10 +1,9 @@
 package com.herokuapp.backend.driver;
 
-import com.herokuapp.backend.car.CarEntity;
-import com.herokuapp.backend.car.CarServiceFacade;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
+import com.herokuapp.backend.car.CarEntity;
+import com.herokuapp.backend.car.CarServiceFacade;
 
 @Service
 public class DriverService {
@@ -19,8 +18,9 @@ public class DriverService {
 
     public DriverDto getById(Long id) {
         if (driverRepository.existsById(id)) {
-            return toDto(driverRepository.getById(id));
-        } else throw new NoSuchElementException("There is no driver with this id");
+            return new DriverDto(driverRepository.getById(id));
+        } else throw new IllegalArgumentException("There is no driver with this id");
+
     }
 
     public void update(DriverDto driverDto) {

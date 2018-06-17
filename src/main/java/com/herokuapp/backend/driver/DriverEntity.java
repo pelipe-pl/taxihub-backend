@@ -4,7 +4,9 @@ import com.herokuapp.backend.car.CarEntity;
 import com.herokuapp.backend.corporation.CorporationEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "driver")
@@ -22,9 +24,12 @@ public class DriverEntity {
     @NotEmpty
     private String surname;
 
+    @Email
+    @NotNull
     @Column(name = "email", unique = true)
     private String email;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corporation_id")
     private CorporationEntity corporation;

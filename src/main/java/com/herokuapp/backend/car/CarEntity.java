@@ -3,6 +3,7 @@ package com.herokuapp.backend.car;
 import com.herokuapp.backend.driver.DriverEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
@@ -13,12 +14,16 @@ public class CarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @NotEmpty
     private String make;
 
+    @NotEmpty
     private String model;
 
+    @NotEmpty
     private String color;
 
+    @NotEmpty
     @Column(unique = true)
     private String plates;
 
