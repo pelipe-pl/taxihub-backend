@@ -21,8 +21,8 @@ public class ClientServiceFacade {
         return clientRepository.existsById(id);
     }
 
-    public Long getIdByEmail(String email) throws NotFoundException {
+    public Long getIdByEmail(String email) {
         if(clientRepository.existsByEmail(email)) return clientRepository.findByEmail(email).getId();
-        else throw new NotFoundException("There is no client with this e-mail.");
+        else throw new IllegalArgumentException("There is no client with this e-mail.");
     }
 }

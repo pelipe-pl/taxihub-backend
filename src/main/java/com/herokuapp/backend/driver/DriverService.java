@@ -1,11 +1,6 @@
 package com.herokuapp.backend.driver;
 
-import com.herokuapp.backend.auth.DriverConfirm;
-import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class DriverService {
@@ -19,7 +14,7 @@ public class DriverService {
     public DriverDto getById(Long id) {
         if (driverRepository.existsById(id)) {
             return new DriverDto(driverRepository.getById(id));
-        } else throw new NoSuchElementException("There is no driver with this id");
+        } else throw new IllegalArgumentException("There is no driver with this id");
     }
 
     public void update(DriverDto driverDto) {

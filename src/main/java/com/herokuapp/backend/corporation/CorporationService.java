@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 import static com.herokuapp.backend.config.Keys.FRONT_URL;
@@ -88,13 +87,13 @@ public class CorporationService {
     public CorporationDto getById(Long id) {
         if (corpRepository.existsById(id)) {
             return toDto(corpRepository.getById(id));
-        } else throw new NoSuchElementException("There is no company with this id");
+        } else throw new IllegalArgumentException("There is no company with this id");
     }
 
     public String getName(Long id) {
         if (corpRepository.existsById(id)) {
             return corpRepository.getById(id).getName();
-        } else throw new NoSuchElementException("There is no company with this id");
+        } else throw new IllegalArgumentException("There is no company with this id");
     }
 
     private CorporationDto toDto(CorporationEntity corporationEntity) {
