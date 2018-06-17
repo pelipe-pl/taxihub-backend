@@ -1,5 +1,6 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.car.CarEntity;
 import com.herokuapp.backend.corporation.CorporationEntity;
 
 import javax.persistence.*;
@@ -27,6 +28,10 @@ public class DriverEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "corporation_id")
     private CorporationEntity corporation;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
+    private CarEntity car;
 
     @Column(name = "token")
     private String token;
@@ -74,4 +79,8 @@ public class DriverEntity {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public CarEntity getCar() {return car; }
+
+    public void setCar(CarEntity car) {this.car = car; }
 }
