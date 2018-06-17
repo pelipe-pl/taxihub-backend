@@ -20,8 +20,8 @@ public class CorporationController {
     }
 
     @PostMapping("/driver")
-    public DriverDto saveDriver(@RequestBody DriverDto driver) {
-        return service.createDriver(driver);
+    public void saveDriver(@RequestBody DriverDto driver) {
+        service.createDriver(driver);
     }
 
     @PostMapping

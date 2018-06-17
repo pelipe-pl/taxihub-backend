@@ -4,6 +4,7 @@ import com.herokuapp.backend.client.ClientEntity;
 import com.herokuapp.backend.driver.DriverEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +18,7 @@ public class OrderEntity {
     @JoinColumn(name = "driver_id")
     private DriverEntity driver;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private ClientEntity client;
@@ -24,9 +26,16 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.OPEN;
 
+    @NotNull
     private double fromLatitude;
+
+    @NotNull
     private double fromLongitude;
+
+    @NotNull
     private double toLatitude;
+
+    @NotNull
     private double toLongitude;
 
     private LocalDateTime openTime = LocalDateTime.now();
