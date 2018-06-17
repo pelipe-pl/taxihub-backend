@@ -44,22 +44,17 @@ public class CorporationService {
     public void createDriver(DriverDto driver) {
 
         if (driverService.existByEmail(driver.getEmail())) {
-            System.out.println("STEP 1");
             throw new IllegalArgumentException("The driver with this e-mail already exists.");
         }
         if (!corpRepository.existsById(driver.getCorporationId())) {
-            System.out.println("STEP 2");
             throw new IllegalArgumentException("The corporation with this Id does not exist.");
         }
         if (driver.getCar() != null) {
-            System.out.println("STEP 3");
             if (carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {
                 System.out.println("STEP 4");
                 throw new IllegalArgumentException("The plates number already exists or not provided.");
             }
         }
-        System.out.println("STEP 5");
-
         DriverEntity entity = new DriverEntity();
         entity.setName(driver.getName());
         entity.setSurname(driver.getSurname());
@@ -70,8 +65,6 @@ public class CorporationService {
         sendConfirmationEmail(driver.getEmail(), entity.getToken());
 
         if (driver.getCar() != null) {
-
-            System.out.println("STEP 6");
 
             CarEntity carEntity = new CarEntity();
             carEntity.setMake(driver.getCar().getMake());
@@ -84,7 +77,6 @@ public class CorporationService {
             entity.setCar(carEntity);
             driverService.save(entity);
         }
-        System.out.println("STEP 7");
     }
 
     private void sendConfirmationEmail(String address, String token) {
