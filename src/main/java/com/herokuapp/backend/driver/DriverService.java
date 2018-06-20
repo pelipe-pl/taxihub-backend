@@ -1,5 +1,6 @@
 package com.herokuapp.backend.driver;
 
+import com.herokuapp.backend.car.CarDto;
 import org.springframework.stereotype.Service;
 
 import com.herokuapp.backend.car.CarEntity;
@@ -37,7 +38,7 @@ public class DriverService {
                     carEntity.setModel(driverDto.getCar().getModel());
                     carEntity.setColor(driverDto.getCar().getColor());
                     carEntity.setPlates(driverDto.getCar().getPlates().toUpperCase());
-                    carService.update(carEntity);
+                    carService.save(carEntity);
                 }
                 driverRepository.save(driverEntity);
             }
