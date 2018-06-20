@@ -38,26 +38,11 @@ public class DriverService {
                     carEntity.setModel(driverDto.getCar().getModel());
                     carEntity.setColor(driverDto.getCar().getColor());
                     carEntity.setPlates(driverDto.getCar().getPlates().toUpperCase());
-                    carService.update(carEntity);
+                    carService.save(carEntity);
                 }
                 driverRepository.save(driverEntity);
             }
         } else throw new IllegalArgumentException("There is no driver with this id or id is was not provided");
-    }
-
-//TODO check the case when duplicated plates are from same driver
-    public void carUpdate(CarDto carDto, Long driverId) {
-        if (carService.existsByPlates(carDto.getPlates()))
-            throw new IllegalArgumentException("The car with this plates number already exists.");
-        if (!driverRepository.existsById(driverId))
-            throw new IllegalArgumentException("The driver with this id does not exist.");
-        else {
-            CarEntity carEntity = carService.getByDriverId(driverId);
-            carEntity.setMake(carDto.getMake());
-            carEntity.setModel(carDto.getModel());
-            carEntity.setPlates(carDto.getPlates());
-            carService.save(carEntity);
-        }
     }
 
     private DriverDto toDto(DriverEntity driverEntity) {

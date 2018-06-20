@@ -1,6 +1,7 @@
 package com.herokuapp.backend.driver;
 
 import com.herokuapp.backend.car.CarDto;
+import com.herokuapp.backend.car.CarServiceFacade;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -8,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 public class DriverController {
 
     private final DriverService driverService;
+    private final CarServiceFacade carService;
 
-    public DriverController(DriverService driverService) {
+    public DriverController(DriverService driverService, CarServiceFacade carService) {
         this.driverService = driverService;
+        this.carService = carService;
     }
 
     @GetMapping("/profile/{id}")
@@ -25,6 +28,6 @@ public class DriverController {
 
     @PostMapping("{driverId}/car")
     public void carUpdate(@RequestBody CarDto carDto, @PathVariable Long driverId){
-        driverService.carUpdate(carDto, driverId);
+        carService.update(carDto, driverId);
     }
 }

@@ -27,6 +27,10 @@ public class DriverServiceFacade {
         return driverRepository.existsByEmail(email);
     }
 
+    public Boolean existsById(Long id) {
+        return driverRepository.existsById(id);
+    }
+
     public Long getIdByEmail(String email) {
         if (existByEmail(email)) {
             return driverRepository.findByEmail(email).getId();
