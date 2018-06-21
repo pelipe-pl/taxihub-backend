@@ -10,5 +10,7 @@ public interface CarRepository extends JpaRepository<CarEntity, Long> {
 
     Boolean existsByPlatesAndDriverIdNot(String plates, Long driverId);
 
+    Boolean existsByDriver_Id(Long driverId);
+
     CarEntity getByDriver_Id(Long id);
 }
