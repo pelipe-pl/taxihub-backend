@@ -3,6 +3,8 @@ package com.herokuapp.backend.driver;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.herokuapp.backend.car.CarDto;
 
+import java.util.Objects;
+
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonInclude(NON_NULL)
@@ -23,6 +25,14 @@ public class DriverDto {
         this.surname = d.getSurname();
         this.email = d.getEmail();
         this.corporationId = d.getCorporation().getId();
+        if (d.getCar() != null) {
+            CarDto car = new CarDto();
+            car.setMake(d.getCar().getMake());
+            car.setModel(d.getCar().getModel());
+            car.setColor(d.getCar().getColor());
+            car.setPlates(d.getCar().getPlates());
+            this.car = car;
+        }
     }
 
     public DriverDto(Long id, String name, String surname, String email, Long corporationId, CarDto car) {
@@ -80,5 +90,19 @@ public class DriverDto {
 
     public void setCar(CarDto car) {
         this.car = car;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DriverDto driverDto = (DriverDto) o;
+        return Objects.equals(id, driverDto.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }
