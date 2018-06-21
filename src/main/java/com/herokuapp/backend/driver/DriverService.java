@@ -1,6 +1,5 @@
 package com.herokuapp.backend.driver;
 
-import com.herokuapp.backend.car.CarDto;
 import org.springframework.stereotype.Service;
 
 import com.herokuapp.backend.car.CarEntity;
