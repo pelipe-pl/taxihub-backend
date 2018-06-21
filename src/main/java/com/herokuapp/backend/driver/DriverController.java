@@ -30,4 +30,9 @@ public class DriverController {
     public void carUpdate(@RequestBody CarDto carDto, @PathVariable Long driverId){
         carService.update(carDto, driverId);
     }
+
+    @GetMapping("{driverId}/car")
+    public CarDto getCar(@PathVariable Long driverId){
+        return carService.getDtoByDriverId(driverId);
+    }
 }
