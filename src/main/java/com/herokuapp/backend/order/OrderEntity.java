@@ -6,6 +6,7 @@ import com.herokuapp.backend.driver.DriverEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ordertable")
@@ -33,10 +34,16 @@ public class OrderEntity {
     private double fromLongitude;
 
     @NotNull
+    private String fromAddress;
+
+    @NotNull
     private double toLatitude;
 
     @NotNull
     private double toLongitude;
+
+    @NotNull
+    private String toAddress;
 
     private LocalDateTime openTime = LocalDateTime.now();
     private LocalDateTime startTime;
@@ -53,6 +60,21 @@ public class OrderEntity {
         this.fromLongitude = fromLongitude;
         this.toLatitude = toLatitude;
         this.toLongitude = toLongitude;
+        this.openTime = openTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public OrderEntity(DriverEntity driver, @NotNull ClientEntity client, OrderStatus status, @NotNull double fromLatitude, @NotNull double fromLongitude, String fromAddress, @NotNull double toLatitude, @NotNull double toLongitude, String toAddress, LocalDateTime openTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.driver = driver;
+        this.client = client;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.fromAddress = fromAddress;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.toAddress = toAddress;
         this.openTime = openTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -150,6 +172,26 @@ public class OrderEntity {
         this.endTime = endTime;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
+
     @Override
     public String toString() {
         return "OrderEntity{" +
@@ -159,11 +201,27 @@ public class OrderEntity {
                 ", status=" + status +
                 ", fromLatitude=" + fromLatitude +
                 ", fromLongitude=" + fromLongitude +
+                ", fromAddress='" + fromAddress + '\'' +
                 ", toLatitude=" + toLatitude +
                 ", toLongitude=" + toLongitude +
+                ", toAddress='" + toAddress + '\'' +
                 ", openTime=" + openTime +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderEntity that = (OrderEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }
