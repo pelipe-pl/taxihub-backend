@@ -87,14 +87,17 @@ public class OrderService {
 
     void add(OrderDto orderDto) {
         if (!hasOpenByClientId(orderDto.getClientId())) {
-            orderRepository.save(new OrderEntity(
-                    clientService.getById(orderDto.getClientId()),
-                    orderDto.getFromLatitude(),
-                    orderDto.getFromLongitude(),
-                    orderDto.getToLatitude(),
-                    orderDto.getToLongitude()
-            ));
-        } else throw new IllegalArgumentException("The client with this Id already has an order with open or taken status");
+            OrderEntity orderEntity = new OrderEntity();
+            orderEntity.setClient(clientService.getById(orderDto.getClientId()));
+            orderEntity.setFromLatitude(orderDto.getFromLatitude());
+            orderEntity.setFromLongitude(orderDto.getFromLatitude());
+            orderEntity.setFromAddress(orderDto.getFromAddress());
+            orderEntity.setToLatitude(orderDto.getToLatitude());
+            orderEntity.setToLongitude(orderDto.getToLongitude());
+            orderEntity.setToAddress(orderDto.getToAddress());
+            orderRepository.save(orderEntity);
+        } else
+            throw new IllegalArgumentException("The client with this Id already has an order with open or taken status");
     }
 
     void setCanceled(Long id) {
@@ -135,8 +138,10 @@ public class OrderService {
                     orderEntity.getStatus(),
                     orderEntity.getFromLatitude(),
                     orderEntity.getFromLongitude(),
+                    orderEntity.getFromAddress(),
                     orderEntity.getToLatitude(),
                     orderEntity.getToLongitude(),
+                    orderEntity.getToAddress(),
                     orderEntity.getOpenTime(),
                     orderEntity.getStartTime(),
                     orderEntity.getEndTime());
@@ -147,8 +152,10 @@ public class OrderService {
                     orderEntity.getStatus(),
                     orderEntity.getFromLatitude(),
                     orderEntity.getFromLongitude(),
+                    orderEntity.getFromAddress(),
                     orderEntity.getToLatitude(),
                     orderEntity.getToLongitude(),
+                    orderEntity.getToAddress(),
                     orderEntity.getOpenTime(),
                     orderEntity.getStartTime(),
                     orderEntity.getEndTime());
