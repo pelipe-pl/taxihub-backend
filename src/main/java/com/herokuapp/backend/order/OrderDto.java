@@ -15,13 +15,16 @@ public class OrderDto {
     private OrderStatus status;
     private double fromLatitude;
     private double fromLongitude;
+    private String fromAddress;
     private double toLatitude;
     private double toLongitude;
+    private String toAddress;
     private LocalDateTime openTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    public OrderDto() {}
+    public OrderDto() {
+    }
 
     public OrderDto(Long id, Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
@@ -70,6 +73,37 @@ public class OrderDto {
         this.fromLongitude = fromLongitude;
         this.toLatitude = toLatitude;
         this.toLongitude = toLongitude;
+        this.openTime = openTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public OrderDto(Long id, Long driverId, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, String fromAddress, double toLatitude, double toLongitude, String toAddress, LocalDateTime openTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.driverId = driverId;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.fromAddress = fromAddress;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.toAddress = toAddress;
+        this.openTime = openTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public OrderDto(Long id, Long clientId, OrderStatus status, double fromLatitude, double fromLongitude, String fromAddress, double toLatitude, double toLongitude, String toAddress, LocalDateTime openTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.clientId = clientId;
+        this.status = status;
+        this.fromLatitude = fromLatitude;
+        this.fromLongitude = fromLongitude;
+        this.fromAddress = fromAddress;
+        this.toLatitude = toLatitude;
+        this.toLongitude = toLongitude;
+        this.toAddress = toAddress;
         this.openTime = openTime;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -162,6 +196,22 @@ public class OrderDto {
 
     public void setOpenTime(LocalDateTime openTime) {
         this.openTime = openTime;
+    }
+
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 
     @Override
