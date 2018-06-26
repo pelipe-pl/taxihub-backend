@@ -90,7 +90,7 @@ public class OrderService {
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setClient(clientService.getById(orderDto.getClientId()));
             orderEntity.setFromLatitude(orderDto.getFromLatitude());
-            orderEntity.setFromLongitude(orderDto.getFromLatitude());
+            orderEntity.setFromLongitude(orderDto.getFromLongitude());
             orderEntity.setFromAddress(orderDto.getFromAddress());
             orderEntity.setToLatitude(orderDto.getToLatitude());
             orderEntity.setToLongitude(orderDto.getToLongitude());
