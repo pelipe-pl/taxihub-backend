@@ -109,10 +109,19 @@ public class OrderService {
 
     void setTaken(Long id, Long driverId) {
         OrderEntity orderEntity = orderRepository.getById(id);
-        orderEntity.setStartTime(LocalDateTime.now());
-        driverService.getById(driverId);
-        setStatus(orderEntity, TAKEN);
-        orderRepository.save(orderEntity);
+        OrderStatus status = orderEntity.getStatus();
+        if (status == TAKEN) throw new IllegalArgumentException("This order is already TAKEN.");
+        if (status == CLOSED) throw new IllegalArgumentException("This order is CLOSED.");
+        if (status == CANCELED) throw new IllegalArgumentException("This order has been CANCELED.");
+        if (!driverService.existsById(driverId)) throw new IllegalArgumentException("There is no driver with this Id");
+        if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) > 2)
+            throw new IllegalArgumentException("This driver has maximum TAKEN orders.");
+        else {
+            orderEntity.setStartTime(LocalDateTime.now());
+            orderEntity.setDriver(driverService.getById(driverId));
+            setStatus(orderEntity, TAKEN);
+            orderRepository.save(orderEntity);
+        }
     }
 
     void setClosed(Long id) {

@@ -24,4 +24,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
     OrderEntity getFirstByDriverIdAndStatus(Long driverId, OrderStatus status);
 
     Boolean existsByClient_IdAndStatusIn(Long clientId, List<OrderStatus> status);
+
+    Integer countAllByDriver_IdAndStatus(Long driverId, OrderStatus status);
 }
