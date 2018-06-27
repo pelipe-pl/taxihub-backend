@@ -97,49 +97,65 @@ public class OrderService {
             orderEntity.setToAddress(orderDto.getToAddress());
             orderRepository.save(orderEntity);
         } else
-            throw new IllegalArgumentException("The client with this Id already has an order with open or taken status");
+            throw new IllegalArgumentException("The client with this Id already has an order with open or taken status.");
     }
 
-    void setCanceled(Long id) {
+    void setCanceledByClient(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
-        orderEntity.setEndTime(LocalDateTime.now());
-        setStatus(orderEntity, CANCELED);
-        orderRepository.save(orderEntity);
+        OrderStatus status = orderEntity.getStatus();
+        if (status == CANCELED)
+            throw new IllegalArgumentException("This order is already CANCELED");
+        if (status == TAKEN)
+            throw new IllegalArgumentException("You cannot CANCEL this order. It is already TAKEN by the driver");
+        if (status == CLOSED)
+            throw new IllegalArgumentException("You cannot CANCEL this order. It is already CLOSED.");
+        else {
+            orderEntity.setEndTime(LocalDateTime.now());
+            setStatusAndSave(orderEntity, CANCELED);
+        }
     }
+
 
     void setTaken(Long id, Long driverId) {
         OrderEntity orderEntity = orderRepository.getById(id);
         OrderStatus status = orderEntity.getStatus();
-        if (status == TAKEN) throw new IllegalArgumentException("This order is already TAKEN.");
-        if (status == CLOSED) throw new IllegalArgumentException("This order is CLOSED.");
-        if (status == CANCELED) throw new IllegalArgumentException("This order has been CANCELED.");
-        if (!driverService.existsById(driverId)) throw new IllegalArgumentException("There is no driver with this Id");
+        if (status == TAKEN)
+            throw new IllegalArgumentException("This order is already TAKEN.");
+        if (status == CLOSED)
+            throw new IllegalArgumentException("This order is already CLOSED.");
+        if (status == CANCELED)
+            throw new IllegalArgumentException("This order is already CANCELED.");
+        if (!driverService.existsById(driverId))
+            throw new IllegalArgumentException("There is no driver with this Id.");
         if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) > 2)
             throw new IllegalArgumentException("This driver has maximum TAKEN orders.");
         else {
             orderEntity.setStartTime(LocalDateTime.now());
             orderEntity.setDriver(driverService.getById(driverId));
-            setStatus(orderEntity, TAKEN);
-            orderRepository.save(orderEntity);
+            setStatusAndSave(orderEntity, TAKEN);
         }
     }
 
     void setClosed(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
-        orderEntity.setEndTime(LocalDateTime.now());
-        setStatus(orderEntity, CLOSED);
-        orderRepository.save(orderEntity);
-        closeOrder(orderEntity);
+        OrderStatus status = orderEntity.getStatus();
+        if (status == OPEN) throw new IllegalArgumentException("The order with OPEN status cannot be closed.");
+        if (status == CLOSED) throw new IllegalArgumentException("This order is already CLOSED.");
+        if (status == CANCELED) throw new IllegalArgumentException("This order has been already CANCELED.");
+        else {
+            orderEntity.setEndTime(LocalDateTime.now());
+            setStatusAndSave(orderEntity, CLOSED);
+            sendCloseOrderEmail(orderEntity);
+        }
     }
 
-    private void setStatus(OrderEntity orderEntity, OrderStatus status) {
+    private void setStatusAndSave(OrderEntity orderEntity, OrderStatus status) {
         orderEntity.setStatus(status);
+        orderRepository.save(orderEntity);
     }
 
     private OrderDto toDto(OrderEntity orderEntity) {
-
         if (orderEntity.getDriver() != null) {
-
             return new OrderDto(
                     orderEntity.getId(),
                     orderEntity.getDriver().getId(),
@@ -170,7 +186,7 @@ public class OrderService {
                     orderEntity.getEndTime());
     }
 
-    private void closeOrder(OrderEntity order) {
+    private void sendCloseOrderEmail(OrderEntity order) {
         StringBuilder content = new StringBuilder();
         content.append("Hello, thank you for the ride! Your trip is finished! See you next time! :)")
                 .append("Your ride started at: ")
