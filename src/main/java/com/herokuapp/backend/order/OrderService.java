@@ -100,7 +100,7 @@ public class OrderService {
             throw new IllegalArgumentException("The client with this Id already has an order with open or taken status.");
     }
 
-    void setCanceledByClient(Long id) {
+    void setCanceled(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
         OrderStatus status = orderEntity.getStatus();
         if (status == CANCELED)

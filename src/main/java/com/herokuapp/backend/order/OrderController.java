@@ -71,7 +71,7 @@ public class OrderController {
 
     @PostMapping("{id}/canceled")
     public void setCanceled(@PathVariable Long id) {
-        orderService.setCanceledByClient(id);
+        orderService.setCanceled(id);
     }
 
     @PostMapping("{id}/closed")
