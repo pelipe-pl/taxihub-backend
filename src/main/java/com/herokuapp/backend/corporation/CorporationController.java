@@ -24,6 +24,11 @@ public class CorporationController {
         service.createDriver(driver);
     }
 
+    @PostMapping("/driver/{driverId}/sendtoken")
+    public void resendDriversToken(@PathVariable Long driverId) {
+        service.resendDriversToken(driverId);
+    }
+
     @PostMapping
     public CorporationDto saveCorpo(@RequestBody CorporationDto corporation) throws ExecutionException, InterruptedException {
         return service.createCorporation(corporation);

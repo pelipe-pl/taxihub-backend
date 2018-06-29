@@ -1,6 +1,5 @@
 package com.herokuapp.backend.auth;
 
-import com.herokuapp.backend.driver.DriverService;
 import com.herokuapp.backend.driver.DriverServiceFacade;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
