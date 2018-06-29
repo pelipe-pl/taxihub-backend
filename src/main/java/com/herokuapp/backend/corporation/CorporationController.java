@@ -24,7 +24,7 @@ public class CorporationController {
         service.createDriver(driver);
     }
 
-    @PostMapping("/driver/{driverId}/sendtoken")
+    @GetMapping("/driver/{driverId}/sendtoken")
     public void resendDriversToken(@PathVariable Long driverId) {
         service.resendDriversToken(driverId);
     }
