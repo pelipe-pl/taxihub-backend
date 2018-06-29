@@ -38,8 +38,11 @@ public class DriverEntity {
     @JoinColumn(name = "car_id")
     private CarEntity car;
 
+    @NotNull
     @Column(name = "token")
     private String token;
+
+    private Boolean passwordSet;
 
     public Long getId() {
         return id;
@@ -85,7 +88,19 @@ public class DriverEntity {
         this.token = token;
     }
 
-    public CarEntity getCar() {return car; }
+    public CarEntity getCar() {
+        return car;
+    }
 
-    public void setCar(CarEntity car) {this.car = car; }
+    public void setCar(CarEntity car) {
+        this.car = car;
+    }
+
+    public Boolean getPasswordSet() {
+        return passwordSet;
+    }
+
+    public void setPasswordSet(Boolean passwordSet) {
+        this.passwordSet = passwordSet;
+    }
 }
