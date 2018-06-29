@@ -60,6 +60,7 @@ public class CorporationService {
         entity.setSurname(driver.getSurname());
         entity.setEmail(driver.getEmail());
         entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
+        entity.setPasswordSet(false);
         entity.setToken(RandomStringUtils.randomAlphabetic(20));
         driverService.save(entity);
         sendConfirmationEmail(driver.getEmail(), entity.getToken());
@@ -79,13 +80,24 @@ public class CorporationService {
         }
     }
 
+    void resendDriversToken(Long driverId) {
+        if (driverId == null || !driverService.existsById(driverId))
+            throw new IllegalArgumentException("The driver not provided or not found.");
+        if (driverService.getById(driverId).getPasswordSet())
+            throw new IllegalArgumentException("This driver already set the password.");
+        else {
+            DriverEntity driver = driverService.getById(driverId);
+            sendConfirmationEmail(driver.getEmail(), driver.getToken());
+        }
+    }
+
     private void sendConfirmationEmail(String address, String token) {
         String content = CONFIRMATION_CONTENT + "<a href='" + environment.getRequiredProperty(FRONT_URL) + token + "'>here</a>";
         Email email = new Email(address, "Registration Confirmation", content);
         emailService.send(email);
     }
 
-    public CorporationDto createCorporation(CorporationDto corporation) throws
+    CorporationDto createCorporation(CorporationDto corporation) throws
             ExecutionException, InterruptedException {
         if (!corpRepository.existsByEmail(corporation.getEmail())) {
             final CorporationEntity entity = new CorporationEntity();
