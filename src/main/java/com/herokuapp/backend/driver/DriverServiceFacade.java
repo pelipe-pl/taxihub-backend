@@ -50,9 +50,10 @@ public class DriverServiceFacade {
 
     public Boolean confirmAndSetPass(DriverConfirm driverConfirm) throws ExecutionException, InterruptedException {
         if (driverRepository.existsByToken(driverConfirm.getToken())) {
-            firebaseRegistrationService.register(
-                    driverRepository.getByToken(driverConfirm.getToken()).getEmail(),
-                    driverConfirm.getPassword());
+            DriverEntity driverEntity = driverRepository.getByToken(driverConfirm.getToken());
+            firebaseRegistrationService.register(driverEntity.getEmail(), driverConfirm.getPassword());
+            driverEntity.setPasswordSet(true);
+            driverRepository.save(driverEntity);
             return true;
         } else return false;
     }
