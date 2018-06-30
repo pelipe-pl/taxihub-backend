@@ -1,6 +1,7 @@
 package com.herokuapp.backend.client;
 
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
+import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
@@ -10,16 +11,20 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final FirebaseRegistrationService firebaseRegistrationService;
+    private final EmailService emailService;
 
-    public ClientService(ClientRepository clientRepository, FirebaseRegistrationService firebaseRegistrationService) {
+    public ClientService(ClientRepository clientRepository, FirebaseRegistrationService firebaseRegistrationService, EmailService emailService) {
         this.clientRepository = clientRepository;
         this.firebaseRegistrationService = firebaseRegistrationService;
+        this.emailService = emailService;
     }
 
     public void add(ClientDto clientDto) throws ExecutionException, InterruptedException {
         if (!clientRepository.existsByEmail(clientDto.getEmail())) {
-            clientRepository.save(toEntity(clientDto));
+            ClientEntity clientEntity = toEntity(clientDto);
+            clientRepository.save(clientEntity);
             firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
+            emailService.sendWelcomeEmail(clientEntity);
         } else throw new IllegalArgumentException("Client with this e-mail already exists");
     }
 

@@ -2,6 +2,7 @@ package com.herokuapp.backend.driver;
 
 import com.herokuapp.backend.auth.DriverConfirm;
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
+import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,12 @@ public class DriverServiceFacade {
 
     private final DriverRepository driverRepository;
     private final FirebaseRegistrationService firebaseRegistrationService;
+    private final EmailService emailService;
 
-    public DriverServiceFacade(DriverRepository driverRepository, FirebaseRegistrationService firebaseRegistrationService) {
+    public DriverServiceFacade(DriverRepository driverRepository, FirebaseRegistrationService firebaseRegistrationService, EmailService emailService) {
         this.driverRepository = driverRepository;
         this.firebaseRegistrationService = firebaseRegistrationService;
+        this.emailService = emailService;
     }
 
     public DriverEntity getById(Long id) {
@@ -54,6 +57,7 @@ public class DriverServiceFacade {
             firebaseRegistrationService.register(driverEntity.getEmail(), driverConfirm.getPassword());
             driverEntity.setPasswordSet(true);
             driverRepository.save(driverEntity);
+            emailService.sendWelcomeEmail(driverEntity);
             return true;
         } else return false;
     }

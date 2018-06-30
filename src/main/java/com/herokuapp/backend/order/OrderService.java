@@ -115,7 +115,6 @@ public class OrderService {
         }
     }
 
-
     void setTaken(Long id, Long driverId) {
         OrderEntity orderEntity = orderRepository.getById(id);
         OrderStatus status = orderEntity.getStatus();
@@ -145,7 +144,7 @@ public class OrderService {
         else {
             orderEntity.setEndTime(LocalDateTime.now());
             setStatusAndSave(orderEntity, CLOSED);
-            sendCloseOrderEmail(orderEntity);
+            emailService.sendCloseOrderEmail(orderEntity);
         }
     }
 
@@ -184,19 +183,5 @@ public class OrderService {
                     orderEntity.getOpenTime(),
                     orderEntity.getStartTime(),
                     orderEntity.getEndTime());
-    }
-
-    private void sendCloseOrderEmail(OrderEntity order) {
-        StringBuilder content = new StringBuilder();
-        content.append("Hello, thank you for the ride! Your trip is finished! See you next time! :)")
-                .append("Your ride started at: ")
-                .append(order.getStartTime())
-                .append(" and finished at: ")
-                .append(order.getEndTime());
-        Email email = new Email();
-        email.setTo(order.getClient().getEmail());
-        email.setSubject("Thank you");
-        email.setContent(content.toString());
-        emailService.send(email);
     }
 }
