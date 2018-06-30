@@ -54,11 +54,15 @@ public class DriverServiceFacade {
     public Boolean confirmAndSetPass(DriverConfirm driverConfirm) throws ExecutionException, InterruptedException {
         if (driverRepository.existsByToken(driverConfirm.getToken())) {
             DriverEntity driverEntity = driverRepository.getByToken(driverConfirm.getToken());
-            firebaseRegistrationService.register(driverEntity.getEmail(), driverConfirm.getPassword());
-            driverEntity.setPasswordSet(true);
-            driverRepository.save(driverEntity);
-            emailService.sendWelcomeEmail(driverEntity);
-            return true;
+            if (driverEntity.getPasswordSet())
+                throw new IllegalArgumentException("You have already set your password.");
+            else {
+                firebaseRegistrationService.register(driverEntity.getEmail(), driverConfirm.getPassword());
+                driverEntity.setPasswordSet(true);
+                driverRepository.save(driverEntity);
+                emailService.sendWelcomeEmail(driverEntity);
+                return true;
+            }
         } else return false;
     }
 }
