@@ -62,6 +62,7 @@ public class CorporationService {
         entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
         entity.setPasswordSet(false);
         entity.setToken(RandomStringUtils.randomAlphabetic(20));
+        entity.setSuspended(false);
         driverService.save(entity);
         sendConfirmationEmail(driver.getEmail(), entity.getToken());
 
@@ -78,6 +79,15 @@ public class CorporationService {
             entity.setCar(carEntity);
             driverService.save(entity);
         }
+    }
+
+    public void changeDriverStatus(DriverDto driver) {
+        if (driverService.existsById(driver.getId())) {
+            DriverEntity entity = driverService.getById(driver.getId());
+            entity.setSuspended(driver.getSuspended());
+            driverService.save(entity);
+        }
+        throw new IllegalArgumentException("You can not enable/suspend a non-existing driver.");
     }
 
     void resendDriversToken(Long driverId) {
@@ -118,7 +128,7 @@ public class CorporationService {
                 entity.setName(corporationDto.getName());
                 corpRepository.save(entity);
             }
-        } else throw new IllegalArgumentException("There is now corporation with this id");
+        } else throw new IllegalArgumentException("There is no corporation with this id");
     }
 
     public CorporationDto getById(Long id) {

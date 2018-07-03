@@ -15,6 +15,7 @@ public class DriverDto {
     private String email;
     private Long corporationId;
     private CarDto car;
+    private boolean suspended;
 
     public DriverDto() {
     }
@@ -33,7 +34,9 @@ public class DriverDto {
             car.setPlates(d.getCar().getPlates());
             this.car = car;
         }
+        this.suspended = d.getSuspended();
     }
+
 
     public DriverDto(Long id, String name, String surname, String email, Long corporationId, CarDto car) {
         this.id = id;
@@ -90,6 +93,14 @@ public class DriverDto {
 
     public void setCar(CarDto car) {
         this.car = car;
+    }
+
+    public boolean getSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
     }
 
     @Override

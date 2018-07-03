@@ -53,4 +53,10 @@ public class CorporationController {
     public List<DriverDto> findDrivers(@PathVariable Long id) {
         return service.findDrivers(id);
     }
+
+
+    @PutMapping("/status")
+    public void changeDriverStatus(@RequestBody DriverDto driver) {
+        service.changeDriverStatus(driver);
+    }
 }
