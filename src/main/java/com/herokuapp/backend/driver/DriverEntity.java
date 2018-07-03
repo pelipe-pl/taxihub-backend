@@ -43,9 +43,8 @@ public class DriverEntity {
     private String token;
 
     @NotNull
-    @Column(name = "status")
-    private boolean suspended;
-
+    @Column(name = "suspended")
+    private Boolean suspended;
 
     private Boolean passwordSet;
 

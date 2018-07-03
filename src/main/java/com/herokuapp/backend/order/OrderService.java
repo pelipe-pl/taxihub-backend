@@ -115,7 +115,6 @@ public class OrderService {
         }
     }
 
-
     void setTaken(Long id, Long driverId) {
         OrderEntity orderEntity = orderRepository.getById(id);
         OrderStatus status = orderEntity.getStatus();
@@ -130,7 +129,7 @@ public class OrderService {
         if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) > 2)
             throw new IllegalArgumentException("This driver has maximum TAKEN orders.");
         if (driverService.getById(driverId).getSuspended()) {
-            throw new IllegalArgumentException("This driver is suspended and can not pickup an order.");
+            throw new IllegalArgumentException("This driver is suspended and can not take an order.");
         } else {
             orderEntity.setStartTime(LocalDateTime.now());
             orderEntity.setDriver(driverService.getById(driverId));
@@ -147,7 +146,7 @@ public class OrderService {
         else {
             orderEntity.setEndTime(LocalDateTime.now());
             setStatusAndSave(orderEntity, CLOSED);
-            sendCloseOrderEmail(orderEntity);
+            emailService.sendCloseOrderEmail(orderEntity);
         }
     }
 
@@ -186,19 +185,5 @@ public class OrderService {
                     orderEntity.getOpenTime(),
                     orderEntity.getStartTime(),
                     orderEntity.getEndTime());
-    }
-
-    private void sendCloseOrderEmail(OrderEntity order) {
-        StringBuilder content = new StringBuilder();
-        content.append("Hello, thank you for the ride! Your trip is finished! See you next time! :)")
-                .append("Your ride started at: ")
-                .append(order.getStartTime())
-                .append(" and finished at: ")
-                .append(order.getEndTime());
-        Email email = new Email();
-        email.setTo(order.getClient().getEmail());
-        email.setSubject("Thank you");
-        email.setContent(content.toString());
-        emailService.send(email);
     }
 }

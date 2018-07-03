@@ -55,8 +55,13 @@ public class CorporationController {
     }
 
 
-    @PutMapping("/status")
-    public void changeDriverStatus(@RequestBody DriverDto driver) {
-        service.changeDriverStatus(driver);
+    @PutMapping("/driver/{driverId}/enable")
+    public void enableDriver(@PathVariable Long driverId) {
+        service.changeDriverStatus(driverId, false);
+    }
+
+    @PutMapping("/driver/{driverId}/suspend")
+    public void suspendDriver(@PathVariable Long driverId) {
+        service.changeDriverStatus(driverId, true);
     }
 }

@@ -15,7 +15,7 @@ public class DriverDto {
     private String email;
     private Long corporationId;
     private CarDto car;
-    private boolean suspended;
+    private Boolean suspended;
 
     public DriverDto() {
     }
@@ -99,7 +99,7 @@ public class DriverDto {
         return suspended;
     }
 
-    public void setSuspended(boolean suspended) {
+    public void setSuspended(Boolean suspended) {
         this.suspended = suspended;
     }
 
