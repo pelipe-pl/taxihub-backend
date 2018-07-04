@@ -1,6 +1,6 @@
 package com.herokuapp.backend.car;
 
-import com.herokuapp.backend.driver.DriverEntity;
+import  com.herokuapp.backend.driver.DriverEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

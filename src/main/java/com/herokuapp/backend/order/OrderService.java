@@ -134,7 +134,9 @@ public class OrderService {
             throw new IllegalArgumentException("There is no driver with this Id.");
         if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) > 2)
             throw new IllegalArgumentException("This driver has maximum TAKEN orders.");
-        else {
+        if (driverService.getById(driverId).getSuspended()) {
+            throw new IllegalArgumentException("This driver is suspended and can not take an order.");
+        } else {
             orderEntity.setStartTime(LocalDateTime.now());
             orderEntity.setDriver(driverService.getById(driverId));
             setStatusAndSave(orderEntity, TAKEN);
