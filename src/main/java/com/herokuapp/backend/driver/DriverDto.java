@@ -33,6 +33,7 @@ public class DriverDto {
             car.setPlates(d.getCar().getPlates());
             this.car = car;
         }
+
     }
 
     public DriverDto(Long id, String name, String surname, String email, Long corporationId, CarDto car) {
