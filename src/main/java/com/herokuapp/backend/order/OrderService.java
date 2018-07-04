@@ -78,6 +78,12 @@ public class OrderService {
         return toDto(orderRepository.getFirstByDriverIdAndStatus(driverId, OPEN));
     }
 
+    List<OrderDto> getTakenByDriver(Long driverId) {
+        return orderRepository.findAllByDriverIdAndStatusIn(driverId, Collections.singletonList(TAKEN))
+                .stream().map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     Boolean hasOpenByClientId(Long clientId) {
         if (clientId != null && clientService.existsById(clientId))
             return orderRepository.existsByClient_IdAndStatusIn(clientId, Arrays.asList(OPEN, TAKEN));
