@@ -20,8 +20,8 @@ public class DriverService {
         if (driverRepository.existsById(id)) {
             return new DriverDto(driverRepository.getById(id));
         } else throw new IllegalArgumentException("There is no driver with this id");
-
     }
+
 
     public void update(DriverDto driverDto) {
         if (driverDto.getId() != null && driverRepository.existsById(driverDto.getId())) {
@@ -54,6 +54,7 @@ public class DriverService {
         if (driverEntity.getCar() != null) {
             driverDto.setCar(carService.toDto(driverEntity.getCar()));
         }
+        driverDto.setSuspended(driverEntity.getSuspended());
         return driverDto;
     }
 }

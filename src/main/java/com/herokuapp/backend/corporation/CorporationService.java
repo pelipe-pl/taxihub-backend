@@ -81,7 +81,6 @@ public class CorporationService {
         }
         if (driver.getCar() != null) {
             if (carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {
-                System.out.println("STEP 4");
                 throw new IllegalArgumentException("The plates number already exists or not provided.");
             }
         }
@@ -92,6 +91,7 @@ public class CorporationService {
         entity.setCorporation(corpRepository.getById(driver.getCorporationId()));
         entity.setPasswordSet(false);
         entity.setToken(RandomStringUtils.randomAlphabetic(20));
+        entity.setSuspended(false);
         driverService.save(entity);
         emailService.sendDriverConfirmationEmail(driver.getEmail(), entity.getToken());
 
@@ -104,6 +104,19 @@ public class CorporationService {
             carEntity.setDriver(entity);
             carService.save(carEntity);
             entity.setCar(carEntity);
+            driverService.save(entity);
+        }
+    }
+
+    public void changeDriverStatus(Long driverId, Boolean suspended) {
+
+        DriverEntity entity = driverService.getById(driverId);
+        if (entity == null)
+            throw new IllegalArgumentException("You can not enable/suspend a non-existing driver.");
+        if (entity.getSuspended() == suspended)
+            throw new IllegalArgumentException("The drivers' suspended status is already " + suspended);
+        else {
+            entity.setSuspended(suspended);
             driverService.save(entity);
         }
     }

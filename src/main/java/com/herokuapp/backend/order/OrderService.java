@@ -2,7 +2,6 @@ package com.herokuapp.backend.order;
 
 import com.herokuapp.backend.client.ClientServiceFacade;
 import com.herokuapp.backend.driver.DriverServiceFacade;
-import com.herokuapp.backend.email.Email;
 import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +77,12 @@ public class OrderService {
         return toDto(orderRepository.getFirstByDriverIdAndStatus(driverId, OPEN));
     }
 
+    List<OrderDto> getTakenByDriver(Long driverId) {
+        return orderRepository.findAllByDriverIdAndStatusIn(driverId, Collections.singletonList(TAKEN))
+                .stream().map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     Boolean hasOpenByClientId(Long clientId) {
         if (clientId != null && clientService.existsById(clientId))
             return orderRepository.existsByClient_IdAndStatusIn(clientId, Arrays.asList(OPEN, TAKEN));
@@ -126,9 +131,11 @@ public class OrderService {
             throw new IllegalArgumentException("This order is already CANCELED.");
         if (!driverService.existsById(driverId))
             throw new IllegalArgumentException("There is no driver with this Id.");
-        if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) > 2)
+        if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) >= 2)
             throw new IllegalArgumentException("This driver has maximum TAKEN orders.");
-        else {
+        if (driverService.getById(driverId).getSuspended()) {
+            throw new IllegalArgumentException("This driver is suspended and can not take an order.");
+        } else {
             orderEntity.setStartTime(LocalDateTime.now());
             orderEntity.setDriver(driverService.getById(driverId));
             setStatusAndSave(orderEntity, TAKEN);

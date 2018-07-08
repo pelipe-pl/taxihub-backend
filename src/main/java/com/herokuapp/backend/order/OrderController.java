@@ -78,4 +78,9 @@ public class OrderController {
     public void setClosed(@PathVariable Long id) {
         orderService.setClosed(id);
     }
+
+    @GetMapping("taken/driver/{driverId}")
+    public List <OrderDto> takenByDriverId(@PathVariable Long driverId) {
+        return orderService.getTakenByDriver(driverId);
+    }
 }
