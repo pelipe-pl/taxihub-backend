@@ -2,5 +2,5 @@ package com.herokuapp.backend.order;
 
 public enum OrderStatus {
 
-    OPEN, TAKEN, CLOSED, CANCELED,
+    OPEN, TAKEN, CLOSED, CANCELLED,
 }

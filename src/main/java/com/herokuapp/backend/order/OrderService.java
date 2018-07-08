@@ -33,21 +33,21 @@ public class OrderService {
     }
 
     List<OrderDto> findClientHistory(Long clientId) {
-        return orderRepository.findAllByClientIdAndStatusIn(clientId, Arrays.asList(CANCELED, CLOSED))
+        return orderRepository.findAllByClientIdAndStatusIn(clientId, Arrays.asList(CANCELLED, CLOSED))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     List<OrderDto> findDriverHistory(Long driverId) {
-        return orderRepository.findAllByDriverIdAndStatusIn(driverId, Arrays.asList(CANCELED, CLOSED))
+        return orderRepository.findAllByDriverIdAndStatusIn(driverId, Arrays.asList(CANCELLED, CLOSED))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     List<OrderDto> findCorporationHistory(Long corporationId) {
-        return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Arrays.asList(CANCELED, CLOSED))
+        return orderRepository.findAllByDriver_CorporationIdAndStatusIn(corporationId, Arrays.asList(CANCELLED, CLOSED))
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -105,18 +105,18 @@ public class OrderService {
             throw new IllegalArgumentException("The client with this Id already has an order with open or taken status.");
     }
 
-    void setCanceled(Long id) {
+    void setCancelled(Long id) {
         OrderEntity orderEntity = orderRepository.getById(id);
         OrderStatus status = orderEntity.getStatus();
-        if (status == CANCELED)
-            throw new IllegalArgumentException("This order is already CANCELED");
+        if (status == CANCELLED)
+            throw new IllegalArgumentException("This order is already CANCELLED");
         if (status == TAKEN)
             throw new IllegalArgumentException("You cannot CANCEL this order. It is already TAKEN by the driver");
         if (status == CLOSED)
             throw new IllegalArgumentException("You cannot CANCEL this order. It is already CLOSED.");
         else {
             orderEntity.setEndTime(LocalDateTime.now());
-            setStatusAndSave(orderEntity, CANCELED);
+            setStatusAndSave(orderEntity, CANCELLED);
         }
     }
 
@@ -127,8 +127,8 @@ public class OrderService {
             throw new IllegalArgumentException("This order is already TAKEN.");
         if (status == CLOSED)
             throw new IllegalArgumentException("This order is already CLOSED.");
-        if (status == CANCELED)
-            throw new IllegalArgumentException("This order is already CANCELED.");
+        if (status == CANCELLED)
+            throw new IllegalArgumentException("This order is already CANCELLED.");
         if (!driverService.existsById(driverId))
             throw new IllegalArgumentException("There is no driver with this Id.");
         if (orderRepository.countAllByDriver_IdAndStatus(driverId, TAKEN) >= 2)
@@ -147,7 +147,7 @@ public class OrderService {
         OrderStatus status = orderEntity.getStatus();
         if (status == OPEN) throw new IllegalArgumentException("The order with OPEN status cannot be closed.");
         if (status == CLOSED) throw new IllegalArgumentException("This order is already CLOSED.");
-        if (status == CANCELED) throw new IllegalArgumentException("This order has been already CANCELED.");
+        if (status == CANCELLED) throw new IllegalArgumentException("This order has been already CANCELLED.");
         else {
             orderEntity.setEndTime(LocalDateTime.now());
             setStatusAndSave(orderEntity, CLOSED);
