@@ -69,9 +69,9 @@ public class OrderController {
         orderService.setTaken(id, driverId);
     }
 
-    @PostMapping("{id}/canceled")
-    public void setCanceled(@PathVariable Long id) {
-        orderService.setCanceled(id);
+    @PostMapping("{id}/cancelled")
+    public void setCancelled(@PathVariable Long id) {
+        orderService.setCancelled(id);
     }
 
     @PostMapping("{id}/closed")
