@@ -11,7 +11,7 @@ public class AuthController {
 
     @GetMapping("denied")
     public void forbiddenError() {
-       throw new AccessDeniedException(ERROR_403_FORBIDEN);
+        throw new AccessDeniedException(ERROR_403_FORBIDEN);
     }
 
 }

@@ -36,14 +36,13 @@ public class CorporationService {
 
     CorporationDto createCorporation(CorporationDto corporation) throws
             ExecutionException, InterruptedException {
-        if (!userRegistrationChecker.emailExists(corporation.getEmail())) {
-            final CorporationEntity entity = new CorporationEntity();
-            entity.setName(corporation.getName());
-            entity.setEmail(corporation.getEmail());
-            corpRepository.save(entity);
-            firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
-            emailService.sendWelcomeEmail(entity);
-        }
+        userRegistrationChecker.validateEmail(corporation.getEmail());
+        final CorporationEntity entity = new CorporationEntity();
+        entity.setName(corporation.getName());
+        entity.setEmail(corporation.getEmail());
+        corpRepository.save(entity);
+        firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
+        emailService.sendWelcomeEmail(entity);
         return corporation;
     }
 
@@ -76,10 +75,9 @@ public class CorporationService {
     }
 
     public void createDriver(DriverDto driver) {
-        if (!userRegistrationChecker.emailExists(driver.getEmail())) {
-            if (!corpRepository.existsById(driver.getCorporationId())) {
-                throw new IllegalArgumentException("The corporation with this Id does not exist.");
-            }
+        userRegistrationChecker.validateEmail(driver.getEmail());
+        if (!corpRepository.existsById(driver.getCorporationId())) {
+            throw new IllegalArgumentException("The corporation with this Id does not exist.");
         }
         if (driver.getCar() != null) {
             if (carService.existsByPlates(driver.getCar().getPlates().toUpperCase())) {

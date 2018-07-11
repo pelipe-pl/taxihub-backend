@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserRegistrationChecker {
-
     private final ClientRepository clientRepository;
     private final CorporationRepository corpRepository;
     private final DriverRepository driverRepository;
-
 
     public UserRegistrationChecker(ClientRepository clientRepository, CorporationRepository corpRepository, DriverRepository driverRepository) {
         this.clientRepository = clientRepository;
@@ -19,13 +17,10 @@ public class UserRegistrationChecker {
         this.driverRepository = driverRepository;
     }
 
-
-
-    public boolean emailExists(String email) {
+    public void validateEmail(String email) {
         if (clientRepository.existsByEmail(email)
                 || corpRepository.existsByEmail(email)
                 || driverRepository.existsByEmail(email))
-        { throw new IllegalArgumentException("This e-mail was already used for another registration.");}
-       else  return false;
+            throw new IllegalArgumentException("This e-mail was already used for another registration.");
     }
 }

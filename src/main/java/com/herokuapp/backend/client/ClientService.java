@@ -23,12 +23,11 @@ public class ClientService {
     }
 
     public void add(ClientDto clientDto) throws ExecutionException, InterruptedException {
-        if (!userRegistrationChecker.emailExists(clientDto.getEmail())) {
-            ClientEntity clientEntity = toEntity(clientDto);
-            clientRepository.save(clientEntity);
-            firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
-            emailService.sendWelcomeEmail(clientEntity);
-        }
+        userRegistrationChecker.validateEmail(clientDto.getEmail());
+        ClientEntity clientEntity = toEntity(clientDto);
+        clientRepository.save(clientEntity);
+        firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
+        emailService.sendWelcomeEmail(clientEntity);
     }
 
     public ClientDto getById(Long id) {
