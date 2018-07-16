@@ -25,8 +25,8 @@ public class ClientService {
     public void add(ClientDto clientDto) throws ExecutionException, InterruptedException {
         userRegistrationChecker.validateEmail(clientDto.getEmail());
         ClientEntity clientEntity = toEntity(clientDto);
-        clientRepository.save(clientEntity);
         firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
+        clientRepository.save(clientEntity);
         emailService.sendWelcomeEmail(clientEntity);
     }
 

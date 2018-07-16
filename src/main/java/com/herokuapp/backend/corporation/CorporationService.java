@@ -33,15 +33,14 @@ public class CorporationService {
         this.userRegistrationChecker = userRegistrationChecker;
     }
 
-
     CorporationDto createCorporation(CorporationDto corporation) throws
             ExecutionException, InterruptedException {
         userRegistrationChecker.validateEmail(corporation.getEmail());
         final CorporationEntity entity = new CorporationEntity();
         entity.setName(corporation.getName());
         entity.setEmail(corporation.getEmail());
-        corpRepository.save(entity);
         firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
+        corpRepository.save(entity);
         emailService.sendWelcomeEmail(entity);
         return corporation;
     }
@@ -108,7 +107,7 @@ public class CorporationService {
         }
     }
 
-    public void changeDriverStatus(Long driverId, Boolean suspended) {
+    void changeDriverStatus(Long driverId, Boolean suspended) {
 
         DriverEntity entity = driverService.getById(driverId);
         if (entity == null)
