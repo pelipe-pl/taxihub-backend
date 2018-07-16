@@ -1,9 +1,8 @@
 package com.herokuapp.backend.driver;
 
-import org.springframework.stereotype.Service;
-
 import com.herokuapp.backend.car.CarEntity;
 import com.herokuapp.backend.car.CarServiceFacade;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DriverService {

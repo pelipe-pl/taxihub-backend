@@ -1,6 +1,7 @@
 package com.herokuapp.backend.corporation;
 
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
+import com.herokuapp.backend.auth.UserRegistrationChecker;
 import com.herokuapp.backend.car.CarEntity;
 import com.herokuapp.backend.car.CarServiceFacade;
 import com.herokuapp.backend.driver.DriverDto;
@@ -21,26 +22,28 @@ public class CorporationService {
     private final FirebaseRegistrationService firebaseRegistrationService;
     private final DriverServiceFacade driverService;
     private final CarServiceFacade carService;
+    private final UserRegistrationChecker userRegistrationChecker;
 
-    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, CarServiceFacade carService) {
+    public CorporationService(CorporationRepository corpRepository, EmailService emailService, FirebaseRegistrationService firebaseRegistrationService, DriverServiceFacade driverService, CarServiceFacade carService, UserRegistrationChecker userRegistrationChecker) {
         this.corpRepository = corpRepository;
         this.emailService = emailService;
         this.firebaseRegistrationService = firebaseRegistrationService;
         this.driverService = driverService;
         this.carService = carService;
+        this.userRegistrationChecker = userRegistrationChecker;
     }
+
 
     CorporationDto createCorporation(CorporationDto corporation) throws
             ExecutionException, InterruptedException {
-        if (!corpRepository.existsByEmail(corporation.getEmail())) {
-            final CorporationEntity entity = new CorporationEntity();
-            entity.setName(corporation.getName());
-            entity.setEmail(corporation.getEmail());
-            corpRepository.save(entity);
-            firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
-            emailService.sendWelcomeEmail(entity);
-            return corporation;
-        } else throw new IllegalArgumentException("Corporation with this e-mail already exists.");
+        userRegistrationChecker.validateEmail(corporation.getEmail());
+        final CorporationEntity entity = new CorporationEntity();
+        entity.setName(corporation.getName());
+        entity.setEmail(corporation.getEmail());
+        corpRepository.save(entity);
+        firebaseRegistrationService.register(corporation.getEmail(), corporation.getPassword());
+        emailService.sendWelcomeEmail(entity);
+        return corporation;
     }
 
     public void update(CorporationDto corporationDto) {
@@ -72,10 +75,7 @@ public class CorporationService {
     }
 
     public void createDriver(DriverDto driver) {
-
-        if (driverService.existByEmail(driver.getEmail())) {
-            throw new IllegalArgumentException("The driver with this e-mail already exists.");
-        }
+        userRegistrationChecker.validateEmail(driver.getEmail());
         if (!corpRepository.existsById(driver.getCorporationId())) {
             throw new IllegalArgumentException("The corporation with this Id does not exist.");
         }

@@ -1,8 +1,5 @@
 package com.herokuapp.backend.auth;
 
-import com.herokuapp.backend.client.ClientRepository;
-import com.herokuapp.backend.corporation.CorporationRepository;
-import com.herokuapp.backend.driver.DriverRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

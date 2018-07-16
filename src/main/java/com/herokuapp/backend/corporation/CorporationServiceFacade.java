@@ -15,7 +15,7 @@ public class CorporationServiceFacade {
     }
 
     public Long getByEmail(String email) {
-        if(corpRepository.existsByEmail(email)) return corpRepository.findByEmail(email).getId();
+        if (corpRepository.existsByEmail(email)) return corpRepository.findByEmail(email).getId();
         else throw new IllegalArgumentException("There is no Corporation with this e-mail.");
     }
 }

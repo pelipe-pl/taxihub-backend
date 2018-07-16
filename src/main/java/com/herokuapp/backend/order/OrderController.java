@@ -45,7 +45,7 @@ public class OrderController {
     }
 
     @GetMapping("hasopen/client/{clientId}")
-    public Boolean hasOpenByClientId(@PathVariable Long clientId){
+    public Boolean hasOpenByClientId(@PathVariable Long clientId) {
         return orderService.hasOpenByClientId(clientId);
     }
 
@@ -80,7 +80,7 @@ public class OrderController {
     }
 
     @GetMapping("taken/driver/{driverId}")
-    public List <OrderDto> takenByDriverId(@PathVariable Long driverId) {
+    public List<OrderDto> takenByDriverId(@PathVariable Long driverId) {
         return orderService.getTakenByDriver(driverId);
     }
 }

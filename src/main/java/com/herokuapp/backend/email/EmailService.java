@@ -8,9 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import static com.herokuapp.backend.config.Keys.EMAIL_URL;
-import static com.herokuapp.backend.config.Keys.FRONT_URL;
-import static com.herokuapp.backend.config.Keys.FRONT_URL_HOMEPAGE;
+import static com.herokuapp.backend.config.Keys.*;
 
 @Service
 public class EmailService {
