@@ -1,7 +1,6 @@
 package com.herokuapp.backend.utils.idprovider;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.herokuapp.backend.auth.Role;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 

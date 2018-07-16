@@ -2,7 +2,6 @@ package com.herokuapp.backend;
 
 import com.herokuapp.backend.email.Email;
 import com.herokuapp.backend.email.EmailService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

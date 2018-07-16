@@ -1,6 +1,7 @@
 package com.herokuapp.backend.client;
 
 import com.herokuapp.backend.auth.FirebaseRegistrationService;
+import com.herokuapp.backend.auth.UserRegistrationChecker;
 import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +13,21 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final FirebaseRegistrationService firebaseRegistrationService;
     private final EmailService emailService;
+    private final UserRegistrationChecker userRegistrationChecker;
 
-    public ClientService(ClientRepository clientRepository, FirebaseRegistrationService firebaseRegistrationService, EmailService emailService) {
+    public ClientService(ClientRepository clientRepository, FirebaseRegistrationService firebaseRegistrationService, EmailService emailService, UserRegistrationChecker userRegistrationChecker) {
         this.clientRepository = clientRepository;
         this.firebaseRegistrationService = firebaseRegistrationService;
         this.emailService = emailService;
+        this.userRegistrationChecker = userRegistrationChecker;
     }
 
     public void add(ClientDto clientDto) throws ExecutionException, InterruptedException {
-        if (!clientRepository.existsByEmail(clientDto.getEmail())) {
-            ClientEntity clientEntity = toEntity(clientDto);
-            clientRepository.save(clientEntity);
-            firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
-            emailService.sendWelcomeEmail(clientEntity);
-        } else throw new IllegalArgumentException("Client with this e-mail already exists");
+        userRegistrationChecker.validateEmail(clientDto.getEmail());
+        ClientEntity clientEntity = toEntity(clientDto);
+        firebaseRegistrationService.register(clientDto.getEmail(), clientDto.getPassword());
+        clientRepository.save(clientEntity);
+        emailService.sendWelcomeEmail(clientEntity);
     }
 
     public ClientDto getById(Long id) {

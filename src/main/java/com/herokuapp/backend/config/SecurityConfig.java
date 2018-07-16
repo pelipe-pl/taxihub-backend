@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public FirebaseAuth firebaseAuth() throws IOException{
+    public FirebaseAuth firebaseAuth() throws IOException {
         InputStream credentials = new ByteArrayInputStream(file.getBytes());
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(credentials)).build();
@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return FirebaseAuth.getInstance();
     }
 
-    private AuthFilter authenticationTokenFilterBean() throws Exception{
+    private AuthFilter authenticationTokenFilterBean() throws Exception {
         return new AuthFilter(authenticationManager());
     }
 

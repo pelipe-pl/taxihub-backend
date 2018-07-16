@@ -13,5 +13,4 @@ public class ErrorCodes {
     public final static String ERROR_405_METHOD_NOT_ALLOWED = "The requested resource is valid and exists, but the you have used an unacceptable HTTP method during the request.";
 
 
-
 }

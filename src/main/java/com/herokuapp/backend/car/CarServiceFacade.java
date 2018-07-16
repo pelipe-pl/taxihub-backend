@@ -43,9 +43,9 @@ public class CarServiceFacade {
     }
 
     public CarDto getDtoByDriverId(Long id) {
-        if(!driverService.existsById(id))
+        if (!driverService.existsById(id))
             throw new IllegalArgumentException("There is no driver with this ID.");
-        if(!carRepository.existsByDriver_Id(id))
+        if (!carRepository.existsByDriver_Id(id))
             throw new IllegalArgumentException("This driver does not have a car registered.");
         else return toDto(carRepository.getByDriver_Id(id));
     }
