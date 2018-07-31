@@ -155,6 +155,14 @@ public class OrderService {
         }
     }
 
+    void resign(Long id) {
+        OrderEntity orderEntity = orderRepository.getById(id);
+        if (orderEntity == null) throw new IllegalArgumentException("There is no order with this id.");
+        if (orderEntity.getStatus() != TAKEN) throw new IllegalArgumentException("You cannot resign from this order.");
+        else orderEntity.setStatus(OPEN);
+        orderRepository.save(orderEntity);
+    }
+
     private void setStatusAndSave(OrderEntity orderEntity, OrderStatus status) {
         orderEntity.setStatus(status);
         orderRepository.save(orderEntity);
