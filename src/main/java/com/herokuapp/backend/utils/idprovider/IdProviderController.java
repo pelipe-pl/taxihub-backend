@@ -18,5 +18,4 @@ public class IdProviderController {
     public Long getIdByEmailAndRole(@RequestBody IdRequest idRequest) throws NotFoundException {
         return idProviderService.getIdByEmailAndRole(idRequest.getEmail(), idRequest.getRole().toUpperCase());
     }
-
 }
