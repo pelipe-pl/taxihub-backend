@@ -110,8 +110,6 @@ public class OrderService {
         OrderStatus status = orderEntity.getStatus();
         if (status == CANCELLED)
             throw new IllegalArgumentException("This order is already CANCELLED");
-        if (status == TAKEN)
-            throw new IllegalArgumentException("You cannot CANCEL this order. It is already TAKEN by the driver");
         if (status == CLOSED)
             throw new IllegalArgumentException("You cannot CANCEL this order. It is already CLOSED.");
         else {
