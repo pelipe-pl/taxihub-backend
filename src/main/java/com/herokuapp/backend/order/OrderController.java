@@ -83,4 +83,9 @@ public class OrderController {
     public List<OrderDto> takenByDriverId(@PathVariable Long driverId) {
         return orderService.getTakenByDriver(driverId);
     }
+
+    @PutMapping("{orderId}/resign")
+    public void resign(@PathVariable Long orderId) {
+        orderService.resign(orderId);
+    }
 }
