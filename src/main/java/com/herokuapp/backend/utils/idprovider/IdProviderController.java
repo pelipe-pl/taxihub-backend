@@ -1,7 +1,7 @@
 package com.herokuapp.backend.utils.idprovider;
 
 import javassist.NotFoundException;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +14,7 @@ public class IdProviderController {
         this.idProviderService = idProviderService;
     }
 
-    @GetMapping("id")
+    @PostMapping("id")
     public Long getIdByEmailAndRole(@RequestBody IdRequest idRequest) throws NotFoundException {
         return idProviderService.getIdByEmailAndRole(idRequest.getEmail(), idRequest.getRole().toUpperCase());
     }
