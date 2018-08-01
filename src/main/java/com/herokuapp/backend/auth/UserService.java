@@ -45,9 +45,21 @@ public class UserService {
     }
 
     void resetPassword(String token, String newPassword, String newPasswordConfirm) throws ExecutionException, InterruptedException {
+        if (!newPassword.equals(newPasswordConfirm))
+            throw new IllegalArgumentException("Provided passwords do not match.");
+        if (getEmailByToken(token) != null) {
+            String email = getEmailByToken(token);
+            firebaseRegistrationService.resetPassword(email, newPassword);
+        } else throw new IllegalArgumentException("The token does not match.");
+    }
 
-        //TODO write all the checking
-
-        firebaseRegistrationService.resetPassword(token, newPassword);
+    private String getEmailByToken(String token) {
+        if (driverService.getEmailByPasswordResetToken(token) != null)
+            return driverService.getEmailByPasswordResetToken(token);
+        if (corporationService.getEmailByPasswordResetToken(token) != null)
+            return corporationService.getEmailByPasswordResetToken(token);
+        if (clientService.getEmailByPasswordResetToken(token) != null)
+            return clientService.getEmailByPasswordResetToken(token);
+        else return null;
     }
 }

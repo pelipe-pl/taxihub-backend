@@ -73,6 +73,9 @@ public class DriverServiceFacade {
             driverRepository.save(entity);
         } else
             throw new IllegalArgumentException("This user is not active yet");
+    }
 
+    public String getEmailByPasswordResetToken(String token) {
+        return driverRepository.getByPasswordResetToken(token).getEmail();
     }
 }

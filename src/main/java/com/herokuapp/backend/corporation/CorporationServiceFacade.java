@@ -23,9 +23,13 @@ public class CorporationServiceFacade {
         return corpRepository.existsByEmail(email);
     }
 
-    public void setPasswordResetToken(String email, String token){
+    public void setPasswordResetToken(String email, String token) {
         CorporationEntity entity = corpRepository.findByEmail(email);
         entity.setPasswordResetToken(token);
         corpRepository.save(entity);
+    }
+
+    public String getEmailByPasswordResetToken(String token) {
+        return corpRepository.getByPasswordResetToken(token).getEmail();
     }
 }

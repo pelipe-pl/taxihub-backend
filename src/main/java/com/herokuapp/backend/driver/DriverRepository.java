@@ -22,4 +22,6 @@ public interface DriverRepository extends JpaRepository<DriverEntity, Integer> {
     Boolean existsByToken(String token);
 
     DriverEntity getByToken(String token);
+
+    DriverEntity getByPasswordResetToken(String token);
 }

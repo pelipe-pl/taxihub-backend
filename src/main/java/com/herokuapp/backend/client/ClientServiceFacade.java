@@ -38,4 +38,8 @@ public class ClientServiceFacade {
         clientEntity.setPasswordResetToken(token);
         clientRepository.save(clientEntity);
     }
+
+    public String getEmailByPasswordResetToken(String token) {
+        return clientRepository.getByPasswordResetToken(token).getEmail();
+    }
 }
