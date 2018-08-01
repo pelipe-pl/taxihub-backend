@@ -20,8 +20,22 @@ public class ClientServiceFacade {
         return clientRepository.existsById(id);
     }
 
+    public Boolean existsByEmail(String email) {
+        return clientRepository.existsByEmail(email.toLowerCase());
+    }
+
     public Long getIdByEmail(String email) {
         if (clientRepository.existsByEmail(email)) return clientRepository.findByEmail(email).getId();
         else throw new IllegalArgumentException("There is no client with this e-mail.");
+    }
+
+    public ClientEntity getByEmail(String email) {
+        return clientRepository.findByEmail(email);
+    }
+
+    public void setPasswordResetToken(String email, String token) {
+        ClientEntity clientEntity = clientRepository.findByEmail(email);
+        clientEntity.setPasswordResetToken(token);
+        clientRepository.save(clientEntity);
     }
 }

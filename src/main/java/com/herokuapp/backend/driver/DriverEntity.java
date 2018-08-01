@@ -46,6 +46,9 @@ public class DriverEntity {
     @Column(name = "suspended")
     private Boolean suspended;
 
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
     private Boolean passwordSet;
 
     public Long getId() {
@@ -108,11 +111,19 @@ public class DriverEntity {
         this.passwordSet = passwordSet;
     }
 
-    public boolean getSuspended() {
+    public Boolean getSuspended() {
         return suspended;
     }
 
-    public void setSuspended(boolean suspended) {
+    public void setSuspended(Boolean suspended) {
         this.suspended = suspended;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
     }
 }

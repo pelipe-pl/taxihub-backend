@@ -18,4 +18,14 @@ public class CorporationServiceFacade {
         if (corpRepository.existsByEmail(email)) return corpRepository.findByEmail(email).getId();
         else throw new IllegalArgumentException("There is no Corporation with this e-mail.");
     }
+
+    public Boolean existsByEmail(String email) {
+        return corpRepository.existsByEmail(email);
+    }
+
+    public void setPasswordResetToken(String email, String token){
+        CorporationEntity entity = corpRepository.findByEmail(email);
+        entity.setPasswordResetToken(token);
+        corpRepository.save(entity);
+    }
 }

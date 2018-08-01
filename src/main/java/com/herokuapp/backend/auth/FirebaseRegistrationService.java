@@ -15,4 +15,10 @@ public class FirebaseRegistrationService {
                 .setPassword(password);
         FirebaseAuth.getInstance().createUserAsync(request).get();
     }
+
+    public void resetPassword(String email, String newPassword) throws ExecutionException, InterruptedException {
+        String uid = FirebaseAuth.getInstance().getUserByEmailAsync(email).get().getUid();
+        UserRecord.UpdateRequest request = new UserRecord.UpdateRequest(uid).setPassword(newPassword);
+        FirebaseAuth.getInstance().updateUserAsync(request).get();
+    }
 }

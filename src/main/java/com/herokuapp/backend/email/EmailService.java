@@ -13,6 +13,7 @@ import static com.herokuapp.backend.config.Keys.*;
 @Service
 public class EmailService {
     private static final String CONFIRMATION_CONTENT = "To confirm your email address, please click: \n";
+    private static final String PASSWORD_RESET_CONTENT = "To reset your password, please click: \n";
     private RestTemplate restTemplate = new RestTemplate();
     private Environment environment;
 
@@ -67,6 +68,12 @@ public class EmailService {
                 " and finished at: " +
                 order.getEndTime();
         email.setContent(content);
+        send(email);
+    }
+
+    public void sendPasswordResetEmail(String address, String token){
+        String content = PASSWORD_RESET_CONTENT + "<a href='" + environment.getRequiredProperty(FRONT_PASSWORD_RESET_URL) + token + "'>here</a>";
+        Email email = new Email(address, "TaxiHub Password Recovery", content);
         send(email);
     }
 }
