@@ -41,8 +41,6 @@ public class UserService {
             String token = RandomStringUtils.randomAlphabetic(20);
             driverService.setPasswordResetToken(email, token);
             emailService.sendPasswordResetEmail(email, token);
-        } else {
-            throw new IllegalArgumentException("Could not find user with this e-mail.");
         }
     }
 
