@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -27,12 +26,54 @@ public class UserController {
     }
 
     @PostMapping(value = "/password/reset")
-    public void sendPasswordResetToken(@RequestBody String email){
-        userService.sendPasswordResetToken(email);
+    public void sendPasswordResetToken(@RequestBody Email email) {
+        userService.sendPasswordResetToken(email.getAddress());
     }
 
     @PutMapping(value = "/password/reset")
-    public void resetPassword(@RequestBody List<String> data) throws ExecutionException, InterruptedException {
-        userService.resetPassword(data.get(0), data.get(1), data.get(2));
+    public void resetPassword(@RequestBody PasswordResetData data) throws ExecutionException, InterruptedException {
+        userService.resetPassword(data.getToken(), data.getNewPassword(), data.getNewPasswordConfirm());
+    }
+
+    private static class Email {
+        private String address;
+
+        private String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+    }
+
+    private static class PasswordResetData {
+        private String token;
+        private String newPassword;
+        private String newPasswordConfirm;
+
+        private String getToken() {
+            return token;
+        }
+
+        private String getNewPassword() {
+            return newPassword;
+        }
+
+        private String getNewPasswordConfirm() {
+            return newPasswordConfirm;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public void setNewPassword(String newPassword) {
+            this.newPassword = newPassword;
+        }
+
+        public void setNewPasswordConfirm(String newPasswordConfirm) {
+            this.newPasswordConfirm = newPasswordConfirm;
+        }
     }
 }
