@@ -50,6 +50,7 @@ public class UserService {
         if (getEmailByToken(token) != null) {
             String email = getEmailByToken(token);
             firebaseRegistrationService.resetPassword(email, newPassword);
+            emailService.sendPasswordResetConfirmationEmail(email);
         } else throw new IllegalArgumentException("The token does not match.");
     }
 
