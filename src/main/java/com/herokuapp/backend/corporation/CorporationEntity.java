@@ -22,6 +22,9 @@ public class CorporationEntity {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
     public CorporationEntity() {
     }
 
@@ -47,5 +50,13 @@ public class CorporationEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
     }
 }

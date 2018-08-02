@@ -65,4 +65,17 @@ public class DriverServiceFacade {
             }
         } else return false;
     }
+
+    public void setPasswordResetToken(String email, String token) {
+        DriverEntity entity = driverRepository.findByEmail(email);
+        if (entity.getPasswordSet()) {
+            entity.setPasswordResetToken(token);
+            driverRepository.save(entity);
+        } else
+            throw new IllegalArgumentException("This user is not active yet");
+    }
+
+    public String getEmailByPasswordResetToken(String token) {
+        return driverRepository.getByPasswordResetToken(token).getEmail();
+    }
 }
