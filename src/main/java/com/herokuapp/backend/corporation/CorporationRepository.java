@@ -12,4 +12,6 @@ public interface CorporationRepository extends JpaRepository<CorporationEntity, 
     Boolean existsByEmail(String email);
 
     Boolean existsById(Long id);
+
+    CorporationEntity getByPasswordResetToken(String token);
 }

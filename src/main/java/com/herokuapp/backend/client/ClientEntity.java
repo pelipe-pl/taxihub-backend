@@ -24,6 +24,9 @@ public class ClientEntity {
     @NotBlank
     private String surname;
 
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
     public ClientEntity() {
     }
 
@@ -64,5 +67,13 @@ public class ClientEntity {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
     }
 }
