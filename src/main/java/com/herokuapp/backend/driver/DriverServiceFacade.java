@@ -26,7 +26,7 @@ public class DriverServiceFacade {
         return driverRepository.getById(id);
     }
 
-    public boolean existByEmail(String email) {
+    public Boolean existByEmail(String email) {
         return driverRepository.existsByEmail(email);
     }
 
@@ -76,6 +76,9 @@ public class DriverServiceFacade {
     }
 
     public String getEmailByPasswordResetToken(String token) {
-        return driverRepository.getByPasswordResetToken(token).getEmail();
+        DriverEntity entity = driverRepository.getByPasswordResetToken(token);
+        if (entity != null) {
+            return entity.getEmail();
+        } else return null;
     }
 }

@@ -40,6 +40,9 @@ public class ClientServiceFacade {
     }
 
     public String getEmailByPasswordResetToken(String token) {
-        return clientRepository.getByPasswordResetToken(token).getEmail();
+        ClientEntity entity = clientRepository.getByPasswordResetToken(token);
+        if (entity != null) {
+            return entity.getEmail();
+        } else return null;
     }
 }
