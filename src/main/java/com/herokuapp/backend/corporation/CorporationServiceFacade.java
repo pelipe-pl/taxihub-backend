@@ -30,6 +30,9 @@ public class CorporationServiceFacade {
     }
 
     public String getEmailByPasswordResetToken(String token) {
-        return corpRepository.getByPasswordResetToken(token).getEmail();
+        CorporationEntity entity = corpRepository.getByPasswordResetToken(token);
+        if (entity != null) {
+            return entity.getEmail();
+        } else return null;
     }
 }
