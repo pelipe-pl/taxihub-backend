@@ -13,6 +13,8 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Integer> {
 
     Boolean existsById(Long id);
 
+    Boolean existsByPasswordResetToken(String passwordResetToken);
+
     ClientEntity getByPasswordResetToken(String passwordResetToken);
 
 }

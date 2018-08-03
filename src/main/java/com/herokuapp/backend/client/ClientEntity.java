@@ -27,6 +27,9 @@ public class ClientEntity {
     @Column(name = "password_reset_token")
     private String passwordResetToken;
 
+    @Column(name = "password_reset_token_active")
+    private Boolean passwordResetTokenActive;
+
     public ClientEntity() {
     }
 
@@ -75,5 +78,13 @@ public class ClientEntity {
 
     public void setPasswordResetToken(String passwordResetToken) {
         this.passwordResetToken = passwordResetToken;
+    }
+
+    public Boolean getPasswordResetTokenActive() {
+        return passwordResetTokenActive;
+    }
+
+    public void setPasswordResetTokenActive(Boolean passwordResetTokenActive) {
+        this.passwordResetTokenActive = passwordResetTokenActive;
     }
 }

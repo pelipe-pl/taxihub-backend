@@ -46,13 +46,14 @@ public class UserService {
     }
 
     void resetPassword(String token, String newPassword, String newPasswordConfirm) throws ExecutionException, InterruptedException {
+        String email = getEmailByToken(token);
         if (!newPassword.equals(newPasswordConfirm))
             throw new IllegalArgumentException("Provided passwords do not match.");
-        else if (getEmailByToken(token) != null) {
-            String email = getEmailByToken(token);
+        else if (email != null && passwordResetTokenActive(token)) {
             firebaseRegistrationService.resetPassword(email, newPassword);
+            deactivatePasswordResetToken(token);
             emailService.sendPasswordResetConfirmationEmail(email);
-        } else throw new IllegalArgumentException("The token does not match.");
+        } else throw new IllegalArgumentException("The token is not valid or no longer active.");
     }
 
     private String getEmailByToken(String token) {
@@ -63,7 +64,19 @@ public class UserService {
         else if (clientService.getEmailByPasswordResetToken(token) != null)
             return clientService.getEmailByPasswordResetToken(token);
         else {
-            throw new IllegalArgumentException("The provides reset token is not valid.");
+            throw new IllegalArgumentException("The provided reset token is not valid.");
         }
+    }
+
+    private void deactivatePasswordResetToken(String token) {
+        clientService.deactivatePasswordResetToken(token);
+        corporationService.deactivatePasswordResetToken(token);
+        driverService.deactivatePasswordResetToken(token);
+    }
+
+    private Boolean passwordResetTokenActive(String token) {
+        if (clientService.passwordResetTokenActive(token)) return true;
+        else if (corporationService.passwordResetTokenActive(token)) return true;
+        else return driverService.passwordResetTokenActive(token);
     }
 }

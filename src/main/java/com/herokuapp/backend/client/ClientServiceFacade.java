@@ -36,6 +36,7 @@ public class ClientServiceFacade {
     public void setPasswordResetToken(String email, String token) {
         ClientEntity clientEntity = clientRepository.findByEmail(email);
         clientEntity.setPasswordResetToken(token);
+        clientEntity.setPasswordResetTokenActive(true);
         clientRepository.save(clientEntity);
     }
 
@@ -44,5 +45,19 @@ public class ClientServiceFacade {
         if (entity != null) {
             return entity.getEmail();
         } else return null;
+    }
+
+    public void deactivatePasswordResetToken(String token) {
+        ClientEntity entity = clientRepository.getByPasswordResetToken(token);
+        if (entity != null) {
+            entity.setPasswordResetTokenActive(false);
+            clientRepository.save(entity);
+        }
+    }
+
+    public Boolean passwordResetTokenActive(String token) {
+        ClientEntity entity = clientRepository.getByPasswordResetToken(token);
+        if (entity == null) return false;
+        else return entity.getPasswordResetTokenActive();
     }
 }
