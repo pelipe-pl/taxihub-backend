@@ -25,6 +25,9 @@ public class CorporationEntity {
     @Column(name = "password_reset_token")
     private String passwordResetToken;
 
+    @Column(name = "password_reset_token_active")
+    private Boolean passwordResetTokenActive;
+
     public CorporationEntity() {
     }
 
@@ -58,5 +61,13 @@ public class CorporationEntity {
 
     public void setPasswordResetToken(String passwordResetToken) {
         this.passwordResetToken = passwordResetToken;
+    }
+
+    public Boolean getPasswordResetTokenActive() {
+        return passwordResetTokenActive;
+    }
+
+    public void setPasswordResetTokenActive(Boolean passwordResetTokenActive) {
+        this.passwordResetTokenActive = passwordResetTokenActive;
     }
 }
