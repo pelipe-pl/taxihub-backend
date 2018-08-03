@@ -70,6 +70,7 @@ public class DriverServiceFacade {
         DriverEntity entity = driverRepository.findByEmail(email);
         if (entity.getPasswordSet()) {
             entity.setPasswordResetToken(token);
+            entity.setPasswordResetTokenActive(true);
             driverRepository.save(entity);
         } else
             throw new IllegalArgumentException("This user is not active yet");
@@ -80,5 +81,19 @@ public class DriverServiceFacade {
         if (entity != null) {
             return entity.getEmail();
         } else return null;
+    }
+
+    public void deactivatePasswordResetToken(String token) {
+        DriverEntity entity = driverRepository.getByPasswordResetToken(token);
+        if (entity != null) {
+            entity.setPasswordResetTokenActive(false);
+            driverRepository.save(entity);
+        }
+    }
+
+    public Boolean passwordResetTokenActive(String token) {
+        DriverEntity entity = driverRepository.getByPasswordResetToken(token);
+        if (entity == null) return false;
+        else return entity.getPasswordResetTokenActive();
     }
 }
