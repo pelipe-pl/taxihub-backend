@@ -58,10 +58,12 @@ public class UserService {
     private String getEmailByToken(String token) {
         if (driverService.getEmailByPasswordResetToken(token) != null)
             return driverService.getEmailByPasswordResetToken(token);
-        if (corporationService.getEmailByPasswordResetToken(token) != null)
+        else if (corporationService.getEmailByPasswordResetToken(token) != null)
             return corporationService.getEmailByPasswordResetToken(token);
-        if (clientService.getEmailByPasswordResetToken(token) != null)
+        else if (clientService.getEmailByPasswordResetToken(token) != null)
             return clientService.getEmailByPasswordResetToken(token);
-        else return null;
+        else {
+            throw new IllegalArgumentException("The provides reset token is not valid.");
+        }
     }
 }
