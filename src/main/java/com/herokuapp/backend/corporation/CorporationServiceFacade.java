@@ -2,6 +2,8 @@ package com.herokuapp.backend.corporation;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CorporationServiceFacade {
     private final CorporationRepository corpRepository;
@@ -27,6 +29,7 @@ public class CorporationServiceFacade {
         CorporationEntity entity = corpRepository.findByEmail(email);
         entity.setPasswordResetToken(token);
         entity.setPasswordResetTokenActive(true);
+        entity.setPasswordResetTokenValidity(LocalDateTime.now().plusHours(24));
         corpRepository.save(entity);
     }
 
@@ -47,7 +50,10 @@ public class CorporationServiceFacade {
 
     public Boolean passwordResetTokenActive(String token) {
         CorporationEntity entity = corpRepository.getByPasswordResetToken(token);
-        if (entity == null) return false;
-        else return entity.getPasswordResetTokenActive();
+        if (entity == null
+                || entity.getPasswordResetToken() == null
+                || entity.getPasswordResetTokenValidity() == null) return false;
+        else return entity.getPasswordResetTokenActive()
+                && LocalDateTime.now().isBefore(entity.getPasswordResetTokenValidity());
     }
 }
