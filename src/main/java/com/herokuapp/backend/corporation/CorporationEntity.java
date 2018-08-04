@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "corporation")
@@ -27,6 +28,9 @@ public class CorporationEntity {
 
     @Column(name = "password_reset_token_active")
     private Boolean passwordResetTokenActive;
+
+    @Column(name = "password_reset_token_validity")
+    private LocalDateTime passwordResetTokenValidity;
 
     public CorporationEntity() {
     }
@@ -69,5 +73,13 @@ public class CorporationEntity {
 
     public void setPasswordResetTokenActive(Boolean passwordResetTokenActive) {
         this.passwordResetTokenActive = passwordResetTokenActive;
+    }
+
+    public LocalDateTime getPasswordResetTokenValidity() {
+        return passwordResetTokenValidity;
+    }
+
+    public void setPasswordResetTokenValidity(LocalDateTime passwordResetTokenValidity) {
+        this.passwordResetTokenValidity = passwordResetTokenValidity;
     }
 }
