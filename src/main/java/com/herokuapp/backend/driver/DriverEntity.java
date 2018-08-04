@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "driver")
@@ -51,6 +52,9 @@ public class DriverEntity {
 
     @Column(name = "password_reset_token_active")
     private Boolean passwordResetTokenActive;
+
+    @Column(name = "password_reset_token_validity")
+    private LocalDateTime passwordResetTokenValidity;
 
     private Boolean passwordSet;
 
@@ -136,5 +140,13 @@ public class DriverEntity {
 
     public void setPasswordResetTokenActive(Boolean passwordResetTokenActive) {
         this.passwordResetTokenActive = passwordResetTokenActive;
+    }
+
+    public LocalDateTime getPasswordResetTokenValidity() {
+        return passwordResetTokenValidity;
+    }
+
+    public void setPasswordResetTokenValidity(LocalDateTime passwordResetTokenValidity) {
+        this.passwordResetTokenValidity = passwordResetTokenValidity;
     }
 }

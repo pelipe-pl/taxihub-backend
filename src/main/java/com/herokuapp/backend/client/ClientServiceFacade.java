@@ -3,6 +3,8 @@ package com.herokuapp.backend.client;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ClientServiceFacade {
 
@@ -37,6 +39,7 @@ public class ClientServiceFacade {
         ClientEntity clientEntity = clientRepository.findByEmail(email);
         clientEntity.setPasswordResetToken(token);
         clientEntity.setPasswordResetTokenActive(true);
+        clientEntity.setPasswordResetTokenValidity(LocalDateTime.now().plusHours(24));
         clientRepository.save(clientEntity);
     }
 
@@ -57,7 +60,10 @@ public class ClientServiceFacade {
 
     public Boolean passwordResetTokenActive(String token) {
         ClientEntity entity = clientRepository.getByPasswordResetToken(token);
-        if (entity == null) return false;
-        else return entity.getPasswordResetTokenActive();
+        if (entity == null
+                || entity.getPasswordResetToken() == null
+                || entity.getPasswordResetTokenValidity() == null) return false;
+        else return entity.getPasswordResetTokenActive()
+                && LocalDateTime.now().isBefore(entity.getPasswordResetTokenValidity());
     }
 }

@@ -5,6 +5,7 @@ import com.herokuapp.backend.auth.FirebaseRegistrationService;
 import com.herokuapp.backend.email.EmailService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -71,6 +72,7 @@ public class DriverServiceFacade {
         if (entity.getPasswordSet()) {
             entity.setPasswordResetToken(token);
             entity.setPasswordResetTokenActive(true);
+            entity.setPasswordResetTokenValidity(LocalDateTime.now().plusHours(24));
             driverRepository.save(entity);
         } else
             throw new IllegalArgumentException("This user is not active yet");
@@ -93,7 +95,10 @@ public class DriverServiceFacade {
 
     public Boolean passwordResetTokenActive(String token) {
         DriverEntity entity = driverRepository.getByPasswordResetToken(token);
-        if (entity == null) return false;
-        else return entity.getPasswordResetTokenActive();
+        if (entity == null
+                || entity.getPasswordResetToken() == null
+                || entity.getPasswordResetTokenValidity() == null) return false;
+        else return entity.getPasswordResetTokenActive()
+                && LocalDateTime.now().isBefore(entity.getPasswordResetTokenValidity());
     }
 }
